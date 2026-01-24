@@ -32,6 +32,65 @@ This repository follows the [Monorepo] strategy, and is comprised of design, doc
 
 ---
 
+## 🧱 Project Structure
+
+The project structure will evolve over time. However, this section provides an example of how the project will be generally structured.
+
+```text
+
+offgrid
+├── apps                                  # Web applications
+│   ├── shop                              # Customer facing shopping e-commerce website (Next.js)
+│   │   └── Dockerfile                    # Docker container image for shop app
+│   └── portal                            # Staff portal website (React) to manage backoffice
+│       └── Dockerfile                    # Docker container image for portal app
+│
+├── apis                                  # .NET domain APIs
+│   ├── shared                            # .NET shared libraries used by API's
+│   └── shop-api
+│   │   ├── compose.yaml                  # Shop API compose file
+│   │   └── Dockerfile                    # Docker container image for API
+│   ├── portal-api
+│   │   ├── compose.yaml                  # Shop API compose file
+│   │   └── Dockerfile                    # Docker container image for API
+│   ├── compose.yaml                      # Docker Compose file to manage API's (using include directive for multi-compose-file support)
+│   └── ...                               # other API's
+│
+├── infra
+│   └── local                             # Local development infrastructure
+│       ├── compose.yaml                  # Main compose file (using include directive for multi-compose-file support)
+│       │
+│       ├── postgres/                     # Postgres docker config
+│       │   └── compose.postgres.yaml     # Custom Postgres compose file
+│       │
+│       ├── mongo                         # Mongo docker config
+│       │   └── compose.mongo.yaml        # Custom Mongo compose file
+│       │
+│       ├── keycloak                      # Keycloak docker config
+│       │   └── compose.keycloak.yaml     # Custom Keycloak compose file
+│       │
+│       ├── typesense                     # Typesense docker config
+│       │   └── compose.typesense.yaml    # Custom Typesense compose file
+│       │
+│       ├── rabbitmq                      # RabbitMQ docker config
+│       │   └── compose.rabbitmq.yaml     # Custom RabbitMQ compose file
+│       │
+│       └── .env.example                  # Example environment variables for local services
+│
+├── docs
+│   ├── decision-register                 # A simple wiki to capture key project decisions
+│   ├── designs                           # Collection of design diagrams
+│   ├── git                               # Collection of git standards and practices for this repo
+│   └── org                               # Organizational description and design
+│
+├── .github                               # Workflows, etc.
+├── .gitignore
+└── README.md
+
+```
+
+---
+
 [.NET 10]: https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/overview
 [C# 14]: https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14
 [Next.js]: https://nextjs.org
