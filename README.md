@@ -199,17 +199,21 @@ Checking installed tools...
 
 - [Git Commit Convention](./docs/standards/git/git-commit-convention.md)
   
-  Specifies the standard convention for writing Git commit messages
+  Specifies the standard convention for writing Git commit messages.
+
+- [Git Setup Guide](./docs/standards/git/git-setup.md)
+  
+  Provides details on the approach and standards relating to git setup and use.
 
 ---
 
-## Versioning
+## 🏷️ Versioning
 
 I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/drminnaar/offgrid/tags).
 
 ---
 
-## Authors
+## ✍🏼 Authors
 
 * **Douglas Minnaar** - *Sole and primary maintainer* - [drminnaar](https://github.com/drminnaar)
 
