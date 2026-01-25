@@ -194,6 +194,17 @@ Checking installed tools...
 ```
 
 ---
+## Versioning
+
+I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/drminnaar/offgrid/tags).
+
+---
+
+## Authors
+
+* **Douglas Minnaar** - *Sole and primary maintainer* - [drminnaar](https://github.com/drminnaar)
+
+---
 
 [.NET 10]: https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/overview
 [C# 14]: https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14
