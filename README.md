@@ -1,4 +1,4 @@
-![](https://github.com/user-attachments/assets/5e3722c9-0cfb-4ecf-a2cf-e0a551465f70)
+![](./docs/images/offgrid-cover.png)
 
 # Offgrid
 
@@ -91,11 +91,82 @@ offgrid
 
 ---
 
+## 🤖 Technology Stack
+
+![](./docs/images/tech-stack.png)
+
+<br />
+
+Below is a table that summarises the technology stack that has been chosen to implement and manage the various applications and API's.
+
+<br />
+
+
+| Category                 | Technology       | Badge                                                                                                                                                                      | Description                                                                               |
+| ------------------------ | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Languages**            | C#               | [![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=flat-square&logo=c-sharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)                        | Primary backend language for robust, type-safe enterprise applications                    |
+|                          | TypeScript       | [![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)                  | Typed superset of JavaScript used for frontend, Node.js backend, and tooling              |
+|                          | Bash             | [![Bash](https://img.shields.io/badge/Bash-4EAA25?style=flat-square&logo=gnu-bash&logoColor=white)](https://www.gnu.org/software/bash/)                                    | Shell scripting for automation, CI/CD scripts, and local dev workflows                    |
+| **Backend & Frameworks** | .NET 10          | [![.NET](https://img.shields.io/badge/.NET_10-5C2D91?style=flat-square&logo=.net&logoColor=white)](https://dotnet.microsoft.com/)                                          | Modern cross-platform framework for high-performance APIs, services & microservices       |
+|                          | Node.js          | [![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)                                              | JavaScript runtime for server-side logic, real-time features & lightweight APIs           |
+|                          | Next.js          | [![Next.js](https://img.shields.io/badge/Next-black?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)                                                  | React framework with SSR, SSG, API routes & full-stack capabilities                       |
+|                          | React            | [![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev/)                                                    | Component-based UI library powering interactive frontends                                 |
+| **Identity & Auth**      | Keycloak         | [![Keycloak](https://img.shields.io/badge/Keycloak-4d1c47?style=flat-square&logo=keycloak&logoColor=white)](https://www.keycloak.org/)                                     | Open-source identity & access management (OIDC/OAuth2/SAML, SSO, user federation)         |
+| **Databases & Search**   | PostgreSQL       | [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)                             | Powerful, standards-compliant relational SQL database with strong ACID guarantees         |
+|                          | MongoDB          | [![MongoDB](https://img.shields.io/badge/MongoDB-%2347A248.svg?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)                                  | Flexible document-oriented NoSQL database for schemaless or semi-structured data          |
+|                          | Typesense        | [![Typesense](https://img.shields.io/badge/Typesense-F50A4C?style=flat-square&logoColor=white)](https://typesense.org/)                                                    | Fast, typo-tolerant, open-source search engine (Algolia alternative)                      |
+| **Messaging**            | RabbitMQ         | [![RabbitMQ](https://img.shields.io/badge/RabbitMQ-FF6600?style=flat-square&logo=rabbitmq&logoColor=white)](https://www.rabbitmq.com/)                                     | Reliable message broker for queues, pub/sub, task distribution & microservices decoupling |
+| **Migrations**           | Flyway (Red Hat) | [![Flyway](https://img.shields.io/badge/Flyway-CC2233?style=flat-square&logoColor=white)](https://flywaydb.org/)                                                           | Version-controlled SQL-based database migrations (schema evolution tool)                  |
+| **DevOps & Infra**       | Docker / Compose | [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)                                      | Containerization & multi-container local orchestration for consistent environments        |
+|                          | Terraform        | [![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=flat-square&logo=terraform&logoColor=white)](https://www.terraform.io/)                           | Infrastructure as Code for provisioning & managing cloud resources declaratively          |
+|                          | GitHub Actions   | [![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=flat-square&logo=githubactions&logoColor=white)](https://github.com/features/actions) | CI/CD pipelines, automation workflows & deployment orchestration directly in GitHub       |
+| **Tools**                | Git              | [![Git](https://img.shields.io/badge/git-%23F05033.svg?style=flat-square&logo=git&logoColor=white)](https://git-scm.com/)                                                  | Distributed version control system for source code management                             |
+|                          | VS Code          | [![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=flat-square&logo=visual-studio-code&logoColor=white)](https://code.visualstudio.com/)                      | Lightweight, extensible code editor with excellent support for this entire stack          |
+
+<br />
+
+The following diagram provides a very high level overview of where various technology stack choices are used:
+
+<br />
+
+![](./docs/images/tech-stack-overview.png)
+
+<br />
+
+- Next.js and Typescript are used to build the public facing shopping website
+- React and Typescript are used to build the internal facing staff portal that manages the backoffice
+- C# 14 .NET 10 is used to build API's and Background Services (Workers/Producers/Consumers)
+- RabbitMQ is used as a message bus
+- Keycloak provide authentication and authorization to the web applications and API's
+- MongoDB is used for the product catalog
+- Typesense is used for searching products
+- Postgresql is used for data requiring ACID (Atomicity, Consistency, Isolation, Durability) compliance
+- Redgate Flyway is used to manage and version database migrations
+- Docker and Docker Compose are used to manage and host infrastructure services, applications, and API's
+- Bash script are used to provide utility scripts to help manage and automate tasks
+
+---
+
 [.NET 10]: https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/overview
 [C# 14]: https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14
+[.NET Introduction]: https://learn.microsoft.com/en-us/dotnet/core/introduction
+[C# Documentation]: https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp
+[C#]: https://learn.microsoft.com/en-us/dotnet/csharp
+[.NET SDK (Software Development Kit)]: https://learn.microsoft.com/en-us/dotnet/core/sdk
 [Next.js]: https://nextjs.org
 [React]: https://react.dev/
 [Docker Desktop]: https://www.docker.com/products/docker-desktop
+[Docker]: https://www.docker.com
 [Docker Compose]: https://docs.docker.com/compose
 [GitHub Actions]: https://github.com/features/actions
 [Monorepo]: https://grokipedia.com/page/Monorepo
+[Node.js]: https://nodejs.org/en
+[TypeScript]: https://www.typescriptlang.org/
+[Bash]: https://grokipedia.com/page/Bash_(Unix_shell)
+[RabbitMQ]: https://www.rabbitmq.com/
+[PostgreSQL]: https://www.postgresql.org/
+[Typesense]: https://typesense.org/
+[MongoDB]: https://www.mongodb.com/
+[Keycloak]: https://www.keycloak.org/
+[GitHub Actions]: https://github.com/features/actions
+[Redgate Flyway]: https://www.red-gate.com/products/flyway/
