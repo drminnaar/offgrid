@@ -194,6 +194,15 @@ Checking installed tools...
 ```
 
 ---
+
+## 🏛️ Standards
+
+- [Git Commit Convention](./docs/standards/git/git-commit-convention.md)
+  
+  Specifies the standard convention for writing Git commit messages
+
+---
+
 ## Versioning
 
 I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/drminnaar/offgrid/tags).
