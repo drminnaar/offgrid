@@ -85,9 +85,9 @@ fi
 
 # Check Terraform CLI
 check_command "terraform"
-if [ "${required_tools[terraform]}" = "Installed" ]; then
+if [ "${optional_tools[terraform]}" = "Installed" ]; then
     terraform_version=$(terraform --version 2>/dev/null | awk '/Terraform/ {print $2}' | sed 's/^v//')
-    required_tools["terraform"]="Installed (Version: $terraform_version)"
+    optional_tools["terraform"]="Installed (Version: $terraform_version)"
 fi
 
 # Check Git
@@ -99,16 +99,16 @@ fi
 
 # Check Azure CLI
 check_command "az"
-if [ "${required_tools[az]}" = "Installed" ]; then
+if [ "${optional_tools[az]}" = "Installed" ]; then
     az_version=$(az --version | awk '/azure-cli/ {print $2}' 2>/dev/null)
-    required_tools["az"]="Installed (Version: $az_version)"
+    optional_tools["az"]="Installed (Version: $az_version)"
 fi
 
-# Check Azure CLI
+# Check AWS CLI
 check_command "aws"
-if [ "${required_tools[aws]}" = "Installed" ]; then
+if [ "${optional_tools[aws]}" = "Installed" ]; then
     aws_version=$(aws --version 2>/dev/null)
-    required_tools["aws"]="Installed (Version: $aws_version)"
+    optional_tools["aws"]="Installed (Version: $aws_version)"
 fi
 
 # Check Vim
