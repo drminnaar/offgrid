@@ -147,6 +147,54 @@ The following diagram provides a very high level overview of where various techn
 
 ---
 
+## 📋 Prerequisites
+
+The following software will be required to be installed on your device in order to open and run the applications and API's:
+
+- Node.js 24
+- .NET 10
+- Git
+- Windows Subsystem for Linux (WSL) to use shell scripts. Alternatively, if on Windows, Git Bash.
+- Docker Desktop
+
+<br />
+
+📜 NOTE: Run the following script from your terminal to get a "Tool Installation Report". 
+
+- [./scripts/prereq-check.sh](./scripts/prereq-check.sh)
+
+The script checks against a list of required and optional tools to verify the installation status of each tool.
+
+```text
+➜ chmod +x ./prereq-check.sh
+➜ ./prereq-check.sh
+
+Checking installed tools...
+
+=========================== Tool Installation Report ===========================    
+
+ Required Tools:
+  ✔️  node: Installed (Version: 24.12.0)
+  ✔️  git: Installed (Version: 2.51.2.windows.1)
+  ✔️  docker: Installed (Version: Docker version 29.1.3, build f52814d)
+  ✔️  npm: Installed (Version: 11.6.4)
+  ✔️  dotnet: Installed (Version: 10.0.102)
+
+
+ Optional Tools:
+  ✔️  az: Installed
+  ✔️  terraform: Installed
+  ✔️  aws: Installed (Version: 2.32.30)
+  ✔️  vim: Installed (Version: 9.1)
+  ✔️  jq: Installed (Version: jq-1.8.1)
+  ✔️  gh: Installed (Version: 2.83.2)
+  ✔️  yq: Installed (Version: yq (https://github.com/mikefarah/yq/) version v4.48.1)
+
+================================================================================
+```
+
+---
+
 [.NET 10]: https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/overview
 [C# 14]: https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14
 [.NET Introduction]: https://learn.microsoft.com/en-us/dotnet/core/introduction
