@@ -32,6 +32,21 @@ This repository follows the [Monorepo] strategy, and is comprised of design, doc
 
 ---
 
+## 🏦 Organizational Design
+
+As mentioned above, this project is intended as a demonstration project to illustrate many different ideas and concepts and evolve it over time. Therefore, for interest sakes, an organizational design has also been provided for _Offgrid_. The implementation of the various applications and services will take influence from the design but not follow it strictly.
+
+The design documentation is available as follows:
+
+- [Offgrid Organizational Design](./docs/design/org-design.md)
+- [Offgrid Strategic Design](./docs/design/strategic-design.md)
+
+An accompanying guide on Domain Driven Design (DDD) is also provided as part of design documentation:
+
+- [Domain Driven Design Guide](./docs/design/domain-driven-design-guide.md)
+
+---
+
 ## 🧱 Project Structure
 
 The project structure will evolve over time. However, this section provides an example of how the project will be generally structured.
