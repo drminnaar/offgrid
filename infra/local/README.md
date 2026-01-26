@@ -18,6 +18,7 @@ infra
     ├── postgres             # postgres service config
     ├── scripts              # collection of bash scripts to manage stack and connect to services
     │    ├── compose.sh      # manage the stack (up, down, exec, ps, logs)
+    │    ├── flyway.sh       # manage the flyway migrations (migrate, info, validate etc)
     │    ├── psql.sh         # open a psql session for the local Postgres
     │    ├── psql-test.sh    # test postgres connectivity
     │    ├── .env            # local environment settings (must be created based on `.env.example` file)
@@ -30,6 +31,10 @@ infra
 > &nbsp;  
 > Postgres:
 > - `compose.postgres.yaml` — Defines postgres compose service for local development.
+>
+> Flyway:
+> - `compose.flyway.yaml` — Define Flyway compose service to manage Flyway databse migrations.
+> - `migrations/*.pgsl` - Migrations folder that contains all database migration definitions
 
 ---
 
@@ -129,6 +134,14 @@ infra
   ```bash
 
   ./infra/local/scripts/psql-test.sh
+
+  ```
+
+- Use Flyway CLI:
+
+  ```bash
+
+  ./infra/local/scripts/flyway.sh info
 
   ```
 

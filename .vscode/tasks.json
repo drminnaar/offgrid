@@ -153,7 +153,40 @@
         "id": "database",
         "color": "terminal.ansiCyan"
       }
-    }
+    },
+    // ------------------------------------------------------------------------
+    // Flyway Tasks
+    // ------------------------------------------------------------------------
+    {
+      "label": "bash: flyway",
+      "type": "shell",
+      "problemMatcher": [],
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "./infra/local/scripts/flyway.sh ${input:flywayCommand}"
+        ]
+      },
+      "linux": {
+        "command": "${workspaceFolder}/infra/local/scripts/flyway.sh",
+        "args": [
+          "${input:flywayCommand}"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "icon": {
+        "id": "database",
+        "color": "terminal.ansiMagenta"
+      }
+    },
   ],
   "inputs": [
     {
@@ -161,6 +194,12 @@
       "type": "promptString",
       "description": "Service name (leave empty for all services)",
       "default": ""
+    },
+    {
+      "id": "flywayCommand",
+      "type": "promptString",
+      "description": "Flyway command (clean, migrate, info, validate, repair, version)",
+      "default": "info"
     }
   ]
 }

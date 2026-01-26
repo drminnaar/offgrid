@@ -1,0 +1,25 @@
+networks:
+  default:
+    name: offgrid
+    external: true
+
+services:
+  flyway:
+    profiles: ["flyway"]
+    container_name: flyway
+    image: flyway/flyway:11.20.2-alpine
+    entrypoint: /bin/sh
+    command: -c "flyway info"
+    environment:
+      - FLYWAY_URL=jdbc:postgresql://postgres/${OG_POSTGRES_DB}
+      - FLYWAY_LOCATIONS=filesystem:/flyway/sql
+      - FLYWAY_SQL_MIGRATION_SUFFIXES=.sql,.pgsql
+      - FLYWAY_USER=${OG_POSTGRES_USER}
+      - FLYWAY_PASSWORD=${OG_POSTGRES_PASSWORD}
+      - FLYWAY_DEFAULT_SCHEMA=migrations
+      - FLYWAY_CONNECT_RETRIES=10
+      - FLYWAY_CLEAN_DISABLED=false
+    volumes:
+      - ./migrations:/flyway/sql
+    networks:
+      - default
