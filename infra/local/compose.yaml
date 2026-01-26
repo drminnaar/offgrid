@@ -1,0 +1,8 @@
+name: offgrid-stack
+
+networks:
+  default:
+    name: offgrid
+
+include:
+  - ./postgres/compose.postgres.yaml

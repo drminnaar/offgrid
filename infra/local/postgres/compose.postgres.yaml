@@ -1,0 +1,49 @@
+volumes:
+  postgresql_data:
+    driver: local
+    name: offgrid_postgresql_data
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: offgrid_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${OG_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${OG_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${OG_POSTGRES_DB}
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/local/bin/pg_isready -U ${OG_POSTGRES_USER}"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 90s
+
+  # OPTIONAL: pgAdmin Service is a web-based GUI for managing PostgreSQL databases.
+  # To enable pgAdmin, uncomment the following lines and ensure you have set
+  # OG_PGADMIN_DEFAULT_EMAIL and OG_PGADMIN_DEFAULT_PASSWORD in your environment variables.
+  # pgadmin:
+  #   container_name: offgrid_pgadmin
+  #   image: dpage/pgadmin4
+  #   restart: unless-stopped
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=${OG_PGADMIN_DEFAULT_EMAIL}
+  #     - PGADMIN_DEFAULT_PASSWORD=${OG_PGADMIN_DEFAULT_PASSWORD}
+  #   ports:
+  #     - 8080:80
+  #   networks:
+  #     - default
+  #   healthcheck:
+  #     test: ["CMD", "wget", "-O", "-", "http://localhost:80/misc/ping"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5

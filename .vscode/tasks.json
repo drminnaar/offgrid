@@ -1,0 +1,166 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // ------------------------------------------------------------------------
+    // Stack Management Tasks - up, down, ps, logs
+    // ------------------------------------------------------------------------
+    {
+      "label": "bash: compose up",
+      "type": "shell",
+      "problemMatcher": [],
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "./infra/local/scripts/compose.sh up"
+        ]
+      },
+      "linux": {
+        "command": "${workspaceFolder}/infra/local/scripts/compose.sh",
+        "args": [
+          "up"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "icon": {
+        "id": "terminal-bash",
+        "color": "terminal.ansiMagenta"
+      }
+    },
+    {
+      "label": "bash: compose down",
+      "type": "shell",
+      "problemMatcher": [],
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "./infra/local/scripts/compose.sh down"
+        ]
+      },
+      "linux": {
+        "command": "${workspaceFolder}/infra/local/scripts/compose.sh",
+        "args": [
+          "down"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "icon": {
+        "id": "terminal-bash",
+        "color": "terminal.ansiMagenta"
+      }
+    },
+    {
+      "label": "bash: compose ps",
+      "type": "shell",
+      "problemMatcher": [],
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "./infra/local/scripts/compose.sh ps"
+        ]
+      },
+      "linux": {
+        "command": "${workspaceFolder}/infra/local/scripts/compose.sh",
+        "args": [
+          "ps"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "icon": {
+        "id": "server-process",
+        "color": "terminal.ansiMagenta"
+      }
+    },
+    {
+      "label": "bash: compose logs",
+      "type": "shell",
+      "problemMatcher": [],
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "./infra/local/scripts/compose.sh logs ${input:serviceName}"
+        ]
+      },
+      "linux": {
+        "command": "${workspaceFolder}/infra/local/scripts/compose.sh",
+        "args": [
+          "logs",
+          "${input:serviceName}"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "icon": {
+        "id": "file-text",
+        "color": "terminal.ansiMagenta"
+      }
+    },
+    // ------------------------------------------------------------------------
+    // Postgres Tasks
+    // ------------------------------------------------------------------------
+    {
+      "label": "bash: psql",
+      "type": "shell",
+      "command": "${workspaceFolder}/infra/local/scripts/psql.sh",
+      "windows": {
+        "options": {
+          "shell": {
+            "executable": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "args": []
+          }
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "icon": {
+        "id": "database",
+        "color": "terminal.ansiCyan"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "serviceName",
+      "type": "promptString",
+      "description": "Service name (leave empty for all services)",
+      "default": ""
+    }
+  ]
+}
