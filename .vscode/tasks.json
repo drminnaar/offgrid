@@ -187,6 +187,42 @@
         "color": "terminal.ansiMagenta"
       }
     },
+    // ------------------------------------------------------------------------
+    // .NET Tasks
+    // ------------------------------------------------------------------------
+    {
+      "label": "dotnet: run shop-api",
+      "type": "shell",
+      "problemMatcher": "$msCompile",
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "dotnet run --project ./shop/shop-api/src/ShopApi/ShopApi.csproj"
+        ]
+      },
+      "linux": {
+        "command": "dotnet",
+        "args": [
+          "run",
+          "--project",
+          "${workspaceFolder}/shop/shop-api/src/ShopApi/ShopApi.csproj"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "icon": {
+        "id": "play",
+        "color": "terminal.ansiGreen"
+      }
+    }
   ],
   "inputs": [
     {

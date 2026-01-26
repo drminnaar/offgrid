@@ -1,0 +1,6 @@
+@base_url={{$dotenv SHOP_API_BASE_URL}}
+
+GET {{base_url}}/
+Accept: application/json
+
+###
