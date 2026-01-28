@@ -1,14 +1,16 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Offgrid.ShopApi.DependencyInjection;
+using Offgrid.ShopApi.Endpoints.Customers;
+using Offgrid.ShopApi.Endpoints.Root;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandlers();
+builder.Services.AddCommonServices();
+builder.Services.AddDbContext(builder.Configuration, builder.Environment);
+builder.Services.AddCustomerServices();
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
-app.MapGet("/", () =>
-{
-    return TypedResults.Ok("Shop API is running ...");
-});
-
+app.UseExceptionHandler();
+app.MapRootEndpoint();
+app.MapCustomerEndpoints();
 app.Run();

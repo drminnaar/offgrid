@@ -1,0 +1,87 @@
+@base_url={{$dotenv SHOP_API_BASE_URL}}
+
+
+### Upsert Customer - Invalid data with empty body
+POST {{base_url}}/customers
+Accept: application/json
+Content-Type: application/json
+
+
+### Upsert Customer - Invalid data with missing fields
+POST {{base_url}}/customers
+Accept: application/json
+Content-Type: application/json
+
+{}
+
+
+### Upsert Customer - Invalid data with empty strings
+POST {{base_url}}/customers
+Accept: application/json
+Content-Type: application/json
+
+{
+  "keycloakUserId": "",
+  "fullName": "",
+  "email": ""
+}
+
+
+### Upsert Customer - Invalid data with values that violate data annotation validations
+POST {{base_url}}/customers
+Accept: application/json
+Content-Type: application/json
+
+{
+  "keycloakUserId": "x",
+  "fullName": "x",
+  "email": "x"
+}
+
+
+### Upsert Customer - Invalid data with missing last name (in fullname)
+POST {{base_url}}/customers
+Accept: application/json
+Content-Type: application/json
+
+{
+  "keycloakUserId": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "fullName": "Jonny",
+  "email": "john.doe@example.com"
+}
+
+
+### Upsert Customer - Invalid data with inconsistent case
+POST {{base_url}}/customers
+Accept: application/json
+Content-Type: application/json
+
+{
+  "keycloakUserId": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "fullName": "joHn doE",
+  "email": "joHN.doE@examPLe.com"
+}
+
+
+### Upsert Customer - Invalid data with extra spaces
+POST {{base_url}}/customers
+Accept: application/json
+Content-Type: application/json
+
+{
+  "keycloakUserId": "   d290f1ee-6c54-4b01-90e6-d701748f0851   ",
+  "fullName": "      John    Doe     Doe    ",
+  "email": "    john.doe@example.com"
+}
+
+
+### Upsert Customer - Valid Data
+POST {{base_url}}/customers
+Accept: application/json
+Content-Type: application/json
+
+{
+  "keycloakUserId": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "fullName": "John Doe",
+  "email": "john.doe@example.com"
+}
