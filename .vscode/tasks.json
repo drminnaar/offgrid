@@ -222,6 +222,43 @@
         "id": "play",
         "color": "terminal.ansiGreen"
       }
+    },
+    // ------------------------------------------------------------------------
+    // .Shop App
+    // ------------------------------------------------------------------------
+    {
+      "label": "shop-app: npm run dev",
+      "type": "shell",
+      "problemMatcher": "$msCompile",
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "npm run dev --prefix ./shop/shop-app"
+        ]
+      },
+      "linux": {
+        "command": "npm",
+        "args": [
+          "run",
+          "dev",
+          "--prefix",
+          "${workspaceFolder}/shop/shop-app"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "icon": {
+        "id": "play",
+        "color": "terminal.ansiCyan"
+      }
     }
   ],
   "inputs": [
