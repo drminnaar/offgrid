@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { APP_DESCRIPTION, APP_NAME } from './env-constants';
+import { RootAppProvider } from '@/components/providers';
+import { AppBar } from '@/components/ui/layout';
 
 export const metadata: Metadata = {
   title: APP_NAME,
@@ -21,7 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning={true}>
-      <body>{children}</body>
+      <body>
+        <RootAppProvider>
+          <AppBar />
+          <main>{children}</main>
+        </RootAppProvider>
+      </body>
     </html>
   );
 }
