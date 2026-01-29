@@ -1,0 +1,50 @@
+{
+	"folders": [
+		{
+			"path": "apps/shop/docs",
+			"name": "shop-docs"
+		},
+		{
+			"path": "apps/shop/shop-api",
+			"name": "shop-api"
+		},
+		{
+			"path": "apps/shop/shop-app",
+			"name": "shop-app"
+		},
+		{
+			"path": "infra/local",
+			"name": "infra"
+		},
+		{
+			"path": "docs",
+			"name": "proj-docs"
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+			"activityBar.activeBackground": "#637afe",
+			"activityBar.background": "#637afe",
+			"activityBar.foreground": "#15202b",
+			"activityBar.inactiveForeground": "#15202b99",
+			"activityBarBadge.background": "#9e0118",
+			"activityBarBadge.foreground": "#e7e7e7",
+			"commandCenter.border": "#e7e7e799",
+			"sash.hoverBorder": "#637afe",
+			"statusBar.background": "#304ffe",
+			"statusBar.foreground": "#e7e7e7",
+			"statusBarItem.hoverBackground": "#637afe",
+			"statusBarItem.remoteBackground": "#304ffe",
+			"statusBarItem.remoteForeground": "#e7e7e7",
+			"titleBar.activeBackground": "#304ffe",
+			"titleBar.activeForeground": "#e7e7e7",
+			"titleBar.inactiveBackground": "#304ffe99",
+			"titleBar.inactiveForeground": "#e7e7e799",
+			"tab.activeBorderTop": "#00CA8E",
+			"tab.activeBackground": "#015c11"
+		},
+		"peacock.color": "#304FFE",
+		"rest-formatter.header.indent": 0,
+		"rest-formatter.body.json.indent": 0
+	}
+}
