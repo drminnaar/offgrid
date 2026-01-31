@@ -15,6 +15,7 @@ import { usePathname } from 'next/navigation';
 
 // app components
 import { AppBarBrand } from './app-bar-brand';
+import { AppBarUserMenu } from './app-bar-user-menu';
 
 const menuItems = [
   { name: 'Home', href: '/' },
@@ -36,7 +37,7 @@ export const AppBar = () => {
           <AppBarBrand />
         </NavbarContent>
         <NavbarContent justify='end'>
-          <div>{/* Placeholder for right-aligned content */}</div>
+          <AppBarUserMenu />
         </NavbarContent>
       </Navbar>
 
@@ -74,7 +75,7 @@ export const AppBar = () => {
         </NavbarContent>
         <NavbarContent justify='end'>
           <div className='sm:hidden'>
-            {/* Placeholder for right-aligned content on mobile */}
+            <AppBarUserMenu />
           </div>
         </NavbarContent>
 
