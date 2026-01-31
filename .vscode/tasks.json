@@ -125,6 +125,37 @@
         "color": "terminal.ansiMagenta"
       }
     },
+    {
+      "label": "bash: compose up-recreate",
+      "type": "shell",
+      "problemMatcher": [],
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "./infra/local/scripts/compose.sh recreate ${input:serviceName}"
+        ]
+      },
+      "linux": {
+        "command": "${workspaceFolder}/infra/local/scripts/compose.sh",
+        "args": [
+          "recreate",
+          "${input:serviceName}"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "icon": {
+        "id": "file-text",
+        "color": "terminal.ansiMagenta"
+      }
+    },
     // ------------------------------------------------------------------------
     // Postgres Tasks
     // ------------------------------------------------------------------------

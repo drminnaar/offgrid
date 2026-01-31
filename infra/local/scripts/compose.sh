@@ -26,6 +26,7 @@ if [ $# -eq 0 ]; then
     echo "  logs    - View logs (docker compose logs [-f] [service])"
     echo "  ps      - List containers (docker compose ps)"
     echo "  exec    - Execute command in container (docker compose exec <service> <cmd>)"
+    echo "  recreate - Recreate services (docker compose up --detach --force-recreate)"
     echo -e "\n"
     exit 1
 fi
@@ -35,7 +36,7 @@ command="$1"
 shift
 
 # Define valid commands
-valid_commands=("up" "down" "logs" "ps" "exec")
+valid_commands=("up" "down" "logs" "ps" "exec" "recreate")
 
 # Check if the command is valid
 is_valid=0
@@ -71,6 +72,9 @@ case "$command" in
         ;;
     "exec")
         docker compose --file "$COMPOSE_FILE" --env-file "$DIR/.env" exec "$@"
+        ;;
+    "recreate")
+        docker compose --file "$COMPOSE_FILE" --env-file "$DIR/.env" up --detach --force-recreate "$@"
         ;;
 esac
 
