@@ -1,4 +1,4 @@
-import { isValidUrl } from '../utils/url-validation';
+import { isValidUrl } from '../utils/url-utils';
 
 export const environmentSettingName = {
   shopApiUrl: 'SHOP_API_BASE_URL',
