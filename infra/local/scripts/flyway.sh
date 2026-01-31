@@ -4,7 +4,7 @@
 set -eu
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-COMPOSE_FILE="$DIR/../flyway/compose.flyway.yaml"
+COMPOSE_FILE="$DIR/../flyway/compose.yaml"
 
 source "$DIR/.env"
 
