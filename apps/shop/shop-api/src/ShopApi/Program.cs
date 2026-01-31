@@ -12,7 +12,7 @@ builder.Services.AddExceptionHandlers();
 
 // configure API security
 builder.Services.AddCorsUsingConfig(builder.Configuration);
-builder.Services.AddKeycloakAuthentication(builder.Configuration);
+builder.Services.AddKeycloakAuthentication(builder.Configuration, builder.Environment);
 builder.Services.AddAuthorization();
 
 // configure module services
