@@ -4,6 +4,7 @@ import React from 'react';
 import { HeroUIProvider } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import { ThemeProvider } from 'next-themes';
+import { SessionProvider } from 'next-auth/react';
 
 export const RootAppProvider = ({
   children,
@@ -19,7 +20,7 @@ export const RootAppProvider = ({
       enableSystem={false}
     >
       <HeroUIProvider navigate={router.push} className='flex flex-col h-full'>
-        {children}
+        <SessionProvider>{children}</SessionProvider>
       </HeroUIProvider>
     </ThemeProvider>
   );

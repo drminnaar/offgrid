@@ -1,4 +1,5 @@
 @client_id={{$dotenv OG_KC_CLIENT_ID}}
+@client_secret={{$dotenv OG_KC_CLIENT_SECRET}}
 
 # Select the user to authenticate as a Standard Customer, Silver Customer, or Gold Customer:
 @username={{$dotenv OG_KC_CUSTOMER_STANDARD_USERNAME}}
@@ -22,6 +23,7 @@ grant_type=password
 &password={{password}}
 &username={{username}}
 &client_id={{client_id}}
+&client_secret={{client_secret}}
 
 
 ###

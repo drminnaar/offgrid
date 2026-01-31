@@ -128,6 +128,71 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ---
 
+## Keycloak Auth Setup
+
+- Step 1 - Install packages
+  
+  ```bash
+  npm install next-auth@beta keycloak-js
+  ```
+
+- Step 2 - Configure Authjs
+  
+  Follow the installation instructions [here](https://authjs.dev/getting-started/installation)
+
+  Add `.env` file to the root of the app. Add the following contents to `.env`:
+
+  ```yaml
+  AUTH_KEYCLOAK_ID="shop-app"
+  AUTH_KEYCLOAK_ISSUER="http://localhost:8080/realms/offgrid-public"
+  AUTH_KEYCLOAK_SECRET=""
+  AUTH_URL="http://localhost:3000"
+  AUTH_SECRET=""
+  ```
+
+  <br />
+
+  > [!NOTE]
+  > &nbsp;  
+  > See [.env.example](./.env.example) file for an example of the properties required for `.env`
+  >
+
+  <br />
+
+  > [!IMPORTANT]
+  > Fromt the root of the app (folder containing package.json), run the following command to obtain the `AUTH_SECRET`:  
+  >  
+  > ```bash
+  > npx auth secret
+  > ```
+
+  <br />
+
+- Step 3 - See Typescript Module Augmentation
+  
+  Review [Module Augmentation](https://authjs.dev/getting-started/typescript#module-augmentation)
+
+  See [auth.ts](./auth.ts).
+
+- Step 4 - Configure Keycloak provider
+  
+  See [Authjs Keycloak Provider](https://authjs.dev/getting-started/providers/keycloak)
+
+- Step 5 - Add Session provider
+  
+  See [./components/providers/app-provider.tsx](./components/providers/app-provider.tsx).
+
+  ```tsx
+  <SessionProvider>{children}</SessionProvider>
+  ```
+
+- Step 6 - Create a client in keycloak
+  
+  A keycloak realm and client has already been setup as part of keycloak infrastructure setup. See [./infra/local/keycloak/realms/offgrid-public-realm.json](../../../infra/local/keycloak/realms/offgrid-public-realm.json).
+  
+
+---
+
 ## 🎓 Learn More
 
 To learn more about Next.js, take a look at the following resources:
