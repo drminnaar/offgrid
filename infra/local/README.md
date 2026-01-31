@@ -8,7 +8,7 @@ This folder contains the local infrastructure used for development and testing. 
 
 ---
 
-## Folder Structure
+## 🗂️ Folder Structure
 
 ```yaml
 
@@ -16,8 +16,10 @@ infra
 │
 └── local
     ├── postgres             # postgres service config
+    ├── flyway               # flyway service config
+    ├── keycloak             # keycloak service config
     ├── scripts              # collection of bash scripts to manage stack and connect to services
-    │    ├── compose.sh      # manage the stack (up, down, exec, ps, logs)
+    │    ├── compose.sh      # manage the stack (up, down, exec, ps, logs, recreate)
     │    ├── flyway.sh       # manage the flyway migrations (migrate, info, validate etc)
     │    ├── psql.sh         # open a psql session for the local Postgres
     │    ├── psql-test.sh    # test postgres connectivity
@@ -30,15 +32,20 @@ infra
 > [!NOTE]
 > &nbsp;  
 > Postgres:
-> - `compose.postgres.yaml` — Defines postgres compose service for local development.
+> - [`./postgres/compose.yaml`](./postgres/compose.yaml) — Defines postgres compose service for local development.
 >
 > Flyway:
-> - `compose.flyway.yaml` — Define Flyway compose service to manage Flyway databse migrations.
-> - `migrations/*.pgsl` - Migrations folder that contains all database migration definitions
+> - [`./flyway/compose.yaml`](./flyway/compose.yaml) — Define Flyway compose service to manage Flyway databse migrations.
+> - [`./flyway/migrations/*.pgsl`](./flyway/migrations) - Migrations folder that contains all database migration definitions
+>
+> Keycloak:  
+> - [`./keycloak/compose.yaml`](./keycloak/compose.yaml) — Keycloak compose file and overrides.
+> - [`./keycloak/realms/offgrid-public-realm.json`](./keycloak/realms/offgrid-public-realm.json) — exported realm configuration used to initialize Keycloak.
+> - [`./keycloak/requests/auth.http`](./keycloak/requests/auth.http) — example HTTP requests demonstrating auth. 
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
 > [!IMPORTANT]
 > - Run these commands from a Git Bash / POSIX shell (on Windows use Git Bash or WSL).
@@ -49,7 +56,7 @@ infra
 
   Ensure that a `.env` file is created at the root of the local infrastructure scripts folder (`./infra/local/scripts/.env`). These environment variables are used by the scripts that manage various services.
 
-  See  [`./infra/local/scripts/.env.example`](../../infra/local/scripts/.env.example).
+  See  [`./infra/local/scripts/.env.example`](./scripts/.env.example).
 
   ```yaml
   # postgres environment variables
@@ -60,6 +67,10 @@ infra
   # postgres pgadmin4 environment variables
   OG_PGADMIN_DEFAULT_EMAIL=
   OG_PGADMIN_DEFAULT_PASSWORD=
+
+  # keycloak environment variables
+  OG_KC_BOOTSTRAP_ADMIN_USERNAME=
+  OG_KC_BOOTSTRAP_ADMIN_PASSWORD=
   ```
 
 - Step 2 - Start the stack:
@@ -72,9 +83,14 @@ infra
 
   Alternatively, run the bundled VS Code tasks (Tasks menu or `Ctrl+Shft+b`) which calls the same script: `bash: compose up`
 
+- Step 3 - Access services:
+
+  - **Keycloak UI:** `http://localhost:8080`
+  - **Keycloak Admin CLI:** `./infra/local/scripts/kcadm.sh`
+
 ---
 
-## Common Commands
+## ☰ Common Commands
 
 > [!IMPORTANT]
 > - Run these commands from a Git Bash / POSIX shell (on Windows use Git Bash or WSL).
@@ -145,9 +161,83 @@ infra
 
   ```
 
+- Use Keycloak admin CLI:
+
+  ```bash
+
+  ./infra/local/scripts/kcadm.sh
+
+  ```
+
 ---
 
-## Notes & Recommendations
+## 🗝️ About Keycloak Service
+
+[Keycloak](https://www.keycloak.org) is an open-source identity and access management server that provides login, user management, and OAuth2/OpenID Connect authentication for apps and APIs.
+
+See [Keycloak Guide](https://github.com/drminnaar/tech-notes/tree/main/guides/keycloak) for more information on setup.
+
+As part of container initialization, the following `realm` files are imported into keycloak to provide basic realm setup with users, groups, and roles.
+
+- [offgrid-public.json](./keycloak/realms/offgrid-public-realm.json). See [below](#keycloak-realm-configuration-offgrid-public) for more details.
+
+### Keycloak Realm Configuration (offgrid-public)
+
+#### Purpose
+
+Defines a Keycloak realm used by the Next.js shop frontend and the .NET 10 Shop API.
+
+#### Realm Settings
+
+- Registration enabled  
+- Email login allowed  
+- Password reset allowed  
+- Default group: `/customer-standard`
+
+#### Roles
+
+##### Realm Roles (Customer Tiers)
+
+- `customer-standard` (base tier)  
+- `customer-silver` (composite: includes standard)  
+- `customer-gold` (composite: includes silver)
+
+##### Client Roles
+
+- `shop-api` → `api-access` (API access gate)
+
+#### Groups
+
+- `customer-standard`, `customer-silver`, `customer-gold`  
+  - Each group assigns the corresponding realm role  
+  - Each group also grants `shop-api` → `api-access`  
+  - Descriptions clarify tier benefits
+
+#### Clients
+
+##### shop-app
+
+- Public client for browser logins  
+- Audience mapper adds `shop-api` to `aud` in tokens
+
+##### shop-api
+
+- Bearer-only client used for API token validation
+
+#### Seed Users
+
+- `johndoe` → `/customer-standard`  
+- `janedoe` → `/customer-silver`  
+- `alicewonder` → `/customer-gold`
+
+#### Token Behavior
+
+- Customer tiers appear in `realm_access.roles`  
+- API should validate `aud = shop-api` and authorize via realm roles
+
+---
+
+## 📝 Notes & Recommendations
 
 - On Windows, prefer running scripts with Git Bash or WSL to avoid shell incompatibilities.
 

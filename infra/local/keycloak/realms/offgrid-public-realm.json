@@ -1,0 +1,201 @@
+{
+  "realm": "offgrid-public",
+  "enabled": true,
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": false,
+  "rememberMe": false,
+  "verifyEmail": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": false,
+  "permanentLockout": false,
+  "maxTemporaryLockouts": 0,
+  "bruteForceStrategy": "MULTIPLE",
+  "roles": {
+    "realm": [
+      {
+        "name": "customer-standard",
+        "description": "A standard customer",
+        "composite": false,
+        "clientRole": false
+      },
+      {
+        "name": "customer-silver",
+        "description": "A silver tier customer",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "customer-standard"
+          ]
+        },
+        "clientRole": false
+      },
+      {
+        "name": "customer-gold",
+        "description": "A customer in gold tier",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "customer-silver"
+          ]
+        },
+        "clientRole": false
+      }
+    ],
+    "client": {
+      "shop-api": [
+        {
+          "name": "api-access",
+          "description": "Allows access to the .NET 10 Backend"
+        }
+      ]
+    }
+  },
+  "groups": [
+    {
+      "name": "customer-gold",
+      "description": "Top-tier customers with the highest loyalty benefits and premium discounts",
+      "path": "/customer-gold",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "customer-gold"
+      ],
+      "clientRoles": {
+        "shop-api": [
+          "api-access"
+        ]
+      }
+    },
+    {
+      "name": "customer-silver",
+      "description": "Mid-tier customers with enhanced benefits and standard discounts",
+      "path": "/customer-silver",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "customer-silver"
+      ],
+      "clientRoles": {
+        "shop-api": [
+          "api-access"
+        ]
+      }
+    },
+    {
+      "name": "customer-standard",
+      "description": "The default group that all customers are assigned to on registration",
+      "path": "/customer-standard",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "customer-standard"
+      ],
+      "clientRoles": {
+        "shop-api": [
+          "api-access"
+        ]
+      }
+    }
+  ],
+  "defaultGroups": [
+    "/customer-standard"
+  ],
+  "clients": [
+    {
+      "clientId": "shop-app",
+      "name": "Offgrid Shop App",
+      "description": "A Next.js web application that sells products",
+      "rootUrl": "http://localhost:3000",
+      "adminUrl": "http://localhost:3000",
+      "baseUrl": "http://localhost:3000",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "protocolMappers": [
+        {
+          "name": "shop-api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "shop-api",
+            "id.token.claim": "true",
+            "access.token.claim": "true"
+          }
+        }
+      ],
+      "redirectUris": [
+        "/*"
+      ],
+      "webOrigins": []
+    },
+    {
+      "clientId": "shop-api",
+      "name": "Offgrid Shop API",
+      "description": "A .NET 10 backend API for the Offgrid shop application",
+      "bearerOnly": true,
+      "protocol": "openid-connect"
+    }
+  ],
+  "users": [
+    {
+      "username": "johndoe",
+      "enabled": true,
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "johndoe@example.com",
+      "emailVerified": true,
+      "groups": [
+        "/customer-standard"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "janedoe",
+      "enabled": true,
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "email": "janedoe@example.com",
+      "emailVerified": true,
+      "groups": [
+        "/customer-silver"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "alicewonder",
+      "enabled": true,
+      "firstName": "Alice",
+      "lastName": "Wonder",
+      "email": "alicewonder@example.com",
+      "emailVerified": true,
+      "groups": [
+        "/customer-gold"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

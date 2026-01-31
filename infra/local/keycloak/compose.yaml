@@ -1,0 +1,51 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.5
+    container_name: offgrid_keycloak
+    command: start-dev --import-realm
+    environment:
+      - KC_HEALTH_ENABLED=true
+      - KC_HOSTNAME_STRICT=false
+      - KC_HOSTNAME_STRICT_HTTPS=false
+      - KC_BOOTSTRAP_ADMIN_USERNAME=${OG_KC_BOOTSTRAP_ADMIN_USERNAME}
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=${OG_KC_BOOTSTRAP_ADMIN_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+    volumes:
+      - ./realms:/opt/keycloak/data/import:ro
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/opt/keycloak/bin/kcadm.sh",
+          "config",
+          "credentials",
+          "--server",
+          "http://keycloak:8080",
+          "--realm",
+          "master",
+          "--user",
+          "${OG_KC_BOOTSTRAP_ADMIN_USERNAME}",
+          "--password",
+          "${OG_KC_BOOTSTRAP_ADMIN_PASSWORD}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 90s
+
+  keycloak-bin:
+    image: quay.io/keycloak/keycloak:26.4
+    container_name: offgrid_keycloak-bin
+    restart: unless-stopped
+    networks:
+      - default
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    working_dir: /opt/keycloak/bin
+    entrypoint:
+      ["/bin/sh", "-c", "cd /opt/keycloak/bin && exec tail -f /dev/null"]

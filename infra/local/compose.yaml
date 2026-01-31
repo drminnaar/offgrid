@@ -5,4 +5,5 @@ networks:
     name: offgrid
 
 include:
-  - ./postgres/compose.postgres.yaml
+  - ./postgres/compose.yaml
+  - ./keycloak/compose.yaml
