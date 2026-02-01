@@ -183,6 +183,64 @@ As part of container initialization, the following `realm` files are imported in
 
 ### Keycloak Realm Configuration (offgrid-public)
 
+Visually, the keycloak configuration can be viewed as follows:
+
+```mermaid
+---
+title: Keycloak Realm Configuration - Entity Relationships
+config:
+    layout: elk
+---
+erDiagram
+    CLIENT ||--o{ REALM_ROLE : defines
+    CLIENT ||--o{ CLIENT_ROLE : defines
+    REALM_ROLE ||--o{ REALM_ROLE : "composite"
+    USER_GROUP ||--o{ REALM_ROLE : "has"
+    USER_GROUP ||--o{ CLIENT_ROLE : "has"
+    USER ||--o{ USER_GROUP : "member of"
+    
+    CLIENT {
+        string clientId
+        string name
+        string description
+    }
+    REALM_ROLE {
+        string name
+        string description
+        boolean composite
+    }
+    CLIENT_ROLE {
+        string name
+        string description
+    }
+    USER_GROUP {
+        string name
+        string description
+        string path
+    }
+    USER {
+        string username
+        string email
+        string firstName
+        string lastName
+        boolean enabled
+    }
+```
+
+- Key Relationships:
+
+  - Clients define both Realm Roles and Client Roles
+  - Realm Roles can be composite (contain other realm roles) - like customer-gold → customer-silver → customer-standard hierarchy
+  - User Groups have assigned Realm Roles and Client Roles
+  - Users are members of User Groups
+
+- Specific Structure for Shop app:
+
+- Clients: shop-app (confidential client), shop-api (bearer token only)
+- Groups: customer-standard, customer-silver, customer-gold
+- Roles: Hierarchical composite roles where customer-gold inherits from customer-silver, which inherits from customer-standard
+- Users: johndoe (standard), janedoe (silver), alicewonder (gold)
+
 #### Purpose
 
 Defines a Keycloak realm used by the Next.js shop frontend and the .NET 10 Shop API.
