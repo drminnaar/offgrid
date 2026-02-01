@@ -115,7 +115,8 @@
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
-      "publicClient": true,
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
       "protocolMappers": [
         {
           "name": "shop-api-audience",
@@ -126,6 +127,22 @@
             "included.client.audience": "shop-api",
             "id.token.claim": "true",
             "access.token.claim": "true"
+          }
+        },
+        {
+          "name": "realmroles-to-role-claim",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "lightweight.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "role",
+            "jsonType.label": "String"
           }
         }
       ],
