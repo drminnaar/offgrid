@@ -19,7 +19,8 @@ public static class CustomerEndpointMap
         route
             .MapPost("", UpsertCustomerHandler.UpsertCustomerAsync)
             .AddEndpointFilter<ValidationFilter<UpsertCustomerCommand>>()
-            .WithName(UpsertCustomerHandler.EndpointName);
+            .WithName(UpsertCustomerHandler.EndpointName)
+            .RequireAuthorization();
         return route;
     }
 }

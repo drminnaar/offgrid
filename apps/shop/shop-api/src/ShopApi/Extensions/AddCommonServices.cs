@@ -1,4 +1,4 @@
-﻿namespace Offgrid.ShopApi.DependencyInjection;
+﻿namespace Offgrid.ShopApi.Extensions;
 
 public static partial class CommonServiceExtensions
 {

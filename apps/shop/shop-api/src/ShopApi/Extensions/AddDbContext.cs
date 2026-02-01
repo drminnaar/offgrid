@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Offgrid.Customers.Infrastructure.Persistence;
 
-namespace Offgrid.ShopApi.DependencyInjection;
+namespace Offgrid.ShopApi.Extensions;
 
 public static partial class CommonServiceExtensions
 {

@@ -1,8 +1,6 @@
-﻿using Offgrid.ShopApi.ExceptionHandlers;
+﻿namespace Offgrid.ShopApi.ExceptionHandlers;
 
-namespace Offgrid.ShopApi.DependencyInjection;
-
-public static partial class ApiExtensions
+public static partial class ExceptionHandlerExtensions
 {
     public static IServiceCollection AddExceptionHandlers(this IServiceCollection services)
     {

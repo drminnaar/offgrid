@@ -27,7 +27,6 @@ public sealed class GlobalExceptionHandler : IExceptionHandler
         var problemDetails = CreateProblemDetails(httpContext, exception);
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
         httpContext.Response.ContentType = ApplicationProblemJsonMediaType;
-        // await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken: cancellationToken);
         await JsonSerializer.SerializeAsync(httpContext.Response.Body, problemDetails, cancellationToken: cancellationToken);
         return true;
     }
@@ -41,9 +40,7 @@ public sealed class GlobalExceptionHandler : IExceptionHandler
         }
         else
         {
-            var problemHttpContext = ProblemHttpContext.FromHttpContext(httpContext, Activity.Current?.Id);
-            var problemException = ProblemException.FromException(exception, _timeProvider);
-            problemDetails = CreateNotForProdProblemDetails(problemHttpContext, problemException);
+            problemDetails = CreateNotForProdProblemDetails(httpContext, exception, _timeProvider);
         }
         problemDetails.Extensions.TryAdd("requestId", httpContext.Request?.HttpContext.TraceIdentifier ?? string.Empty);
         problemDetails.Extensions.TryAdd("traceId", Activity.Current?.Id ?? string.Empty);
@@ -51,8 +48,11 @@ public sealed class GlobalExceptionHandler : IExceptionHandler
         return problemDetails;
     }
 
-    private static ProblemDetails CreateNotForProdProblemDetails(ProblemHttpContext context, ProblemException exception)
+    private static ProblemDetails CreateNotForProdProblemDetails(HttpContext context, Exception exception, TimeProvider timeProvider)
     {
+        var problemHttpContext = ProblemHttpContext.FromHttpContext(context, Activity.Current?.Id);
+        var problemException = ProblemException.FromException(exception, timeProvider);
+
         var problem = new ProblemDetails()
         {
             Detail = exception.Message,
@@ -61,8 +61,8 @@ public sealed class GlobalExceptionHandler : IExceptionHandler
             Title = $"{exception.GetType().Name}",
             Type = InternalServerErrorProblemType
         };
-        problem.Extensions.TryAdd("exception", exception);
-        problem.Extensions.TryAdd("httpContext", context);
+        problem.Extensions.TryAdd("exception", problemException);
+        problem.Extensions.TryAdd("httpContext", problemHttpContext);
         return problem;
     }
 

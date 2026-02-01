@@ -4,7 +4,7 @@ using Offgrid.Customers.Domain.Repositories;
 using Offgrid.Customers.Domain.Services;
 using Offgrid.Customers.Infrastructure.Persistence.Repositories;
 
-namespace Offgrid.ShopApi.DependencyInjection;
+namespace Offgrid.ShopApi.Extensions;
 
 public static partial class CustomerServiceExtensions
 {
