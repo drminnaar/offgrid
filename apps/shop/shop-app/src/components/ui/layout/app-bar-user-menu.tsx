@@ -56,7 +56,6 @@ export const AppBarUserMenu = () => {
             textValue='Sign Up'
             onPress={handleSignup}
           >
-            {/* <a href={registerUrl}>Sign Up</a> */}
             Sign Up
           </DropdownItem>
         </DropdownMenu>

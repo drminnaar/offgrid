@@ -14,5 +14,10 @@ declare namespace NodeJS {
      * The description of the application.
      */
     readonly NEXT_PUBLIC_APP_DESCRIPTION: string;
+
+    /**
+     * The URL of the Shop API.
+     */
+    readonly SHOP_API_BASE_URL: string;
   }
 }

@@ -2,6 +2,7 @@ import NextAuth, { DefaultSession } from "next-auth";
 import Keycloak from 'next-auth/providers/keycloak';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { JWT } from 'next-auth/jwt';
+import { upsertCustomer } from './app/actions/customers';
 
 // Extend the Session interface to include custom properties
 // See: https://next-auth.js.org/getting-started/typescript#module-augmentation
@@ -36,9 +37,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.user.id = token.userId;
-
       if (session.user.id && session.user.email) {
-        // upsert customer record in shop database
+        const response = await upsertCustomer(session.accessToken, {
+          keycloakUserId: session.user.id,
+          email: session.user.email,
+          fullName: session.user.name || '',
+        });
+
+        if (response.success) {
+          // Update session with customer details
+          session.user.active = response.data.status.toLowerCase();
+          session.user.customerNumber = response.data.customerNumber;
+        }
       }
       return session;
     }
