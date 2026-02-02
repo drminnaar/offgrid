@@ -1,4 +1,24 @@
-@base_url={{$dotenv SHOP_API_BASE_URL}}
+# -------------------------------------------------------------------------------------------------
+# The folowing environment variables are set in the $shared and docker environments (See ./vscode/settings.json):
+#   - SHOP_API_BASE_URL
+#   - OG_KC_BASE_URL
+#
+# All other environment variables are loaded from the .env file using the $dotenv syntax.
+#
+# Switch / choose the active environment
+#
+# 1. Status bar (easiest & most visible)
+#    - Look at the bottom-right of VS Code window → you'll see something like
+#      REST Client: No Environment or REST Client: local.
+#    - Click it → pick from the list (local / staging / prod / No Environment / …).
+# 2. Keyboard shortcut:
+#    - Ctrl + Alt + E (Windows/Linux)
+#    - Cmd + Alt + E (macOS)
+# 3. Command Palette:
+#    - Ctrl + Shift + P (or Cmd + Shift + P) → type Rest Client: Switch Environment → select one.
+# -------------------------------------------------------------------------------------------------
+
+@base_url={{SHOP_API_BASE_URL}}
 @client_id={{$dotenv OG_KC_CLIENT_ID}}
 @client_secret={{$dotenv OG_KC_CLIENT_SECRET}}
 
@@ -11,7 +31,7 @@
 # @password={{$dotenv OG_KC_CUSTOMER_GOLD_PASSWORD}}
 
 @realm={{$dotenv OG_KC_REALM}}
-@token_url={{$dotenv OG_KC_BASE_URL}}/realms/{{realm}}/protocol/openid-connect/token
+@token_url={{OG_KC_BASE_URL}}/realms/{{realm}}/protocol/openid-connect/token
 
 
 ###  1. Password Grant (Resource Owner Password Credentials)
@@ -64,10 +84,11 @@ POST {{base_url}}/customers
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
+
 {
-"keycloakUserId": "x",
-"fullName": "x",
-"email": "x"
+  "keycloakUserId": "x",
+  "fullName": "x",
+  "email": "x"
 }
 
 
@@ -76,10 +97,11 @@ POST {{base_url}}/customers
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
+
 {
-"keycloakUserId": "d290f1ee-6c54-4b01-90e6-d701748f0851",
-"fullName": "Jonny",
-"email": "john.doe@example.com"
+  "keycloakUserId": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "fullName": "Jonny",
+  "email": "john.doe@example.com"
 }
 
 

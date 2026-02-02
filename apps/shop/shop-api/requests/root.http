@@ -1,4 +1,23 @@
-@base_url={{$dotenv SHOP_API_BASE_URL}}
+# -------------------------------------------------------------------------------------------------
+# The environment variable SHOP_API_BASE_URL is set in the $shared and docker environments
+# (See ./vscode/settings.json).
+#
+# All other environment variables are loaded from the .env file using the $dotenv syntax.
+#
+# Switch / choose the active environment
+#
+# 1. Status bar (easiest & most visible)
+#    - Look at the bottom-right of VS Code window → you'll see something like
+#      REST Client: No Environment or REST Client: local.
+#    - Click it → pick from the list (local / staging / prod / No Environment / …).
+# 2. Keyboard shortcut:
+#    - Ctrl + Alt + E (Windows/Linux)
+#    - Cmd + Alt + E (macOS)
+# 3. Command Palette:
+#    - Ctrl + Shift + P (or Cmd + Shift + P) → type Rest Client: Switch Environment → select one.
+# -------------------------------------------------------------------------------------------------
+
+@base_url={{SHOP_API_BASE_URL}}
 
 GET {{base_url}}/
 Accept: application/json

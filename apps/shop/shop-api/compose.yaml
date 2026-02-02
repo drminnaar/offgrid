@@ -1,0 +1,13 @@
+services:
+  shop-api:
+    build:
+      context: ../shop-api
+      dockerfile: Dockerfile
+    container_name: shop-api
+    restart: unless-stopped
+    ports:
+      - "7000:7000"
+    networks:
+      - default
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
