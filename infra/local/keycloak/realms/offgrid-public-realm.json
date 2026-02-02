@@ -147,9 +147,13 @@
         }
       ],
       "redirectUris": [
-        "/*"
+        "http://localhost:3000/*",
+        "http://shop-app:3000/*"
       ],
-      "webOrigins": []
+      "webOrigins": [
+        "http://localhost:3000",
+        "http://shop-app:3000"
+      ]
     },
     {
       "clientId": "shop-api",
