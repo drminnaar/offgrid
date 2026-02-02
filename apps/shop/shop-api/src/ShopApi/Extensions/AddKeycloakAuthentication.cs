@@ -44,7 +44,7 @@ public static partial class ApiExtensions
                 };
 
 
-                if (environment.IsDevelopment())
+                if (!environment.IsProduction())
                 {
                     options.Events = new JwtBearerEvents
                     {
