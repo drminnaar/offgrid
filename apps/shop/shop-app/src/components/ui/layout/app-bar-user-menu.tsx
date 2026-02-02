@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import {
   Dropdown,
@@ -9,6 +10,7 @@ import {
 } from '@heroui/react';
 
 export const AppBarUserMenu = () => {
+  const router = useRouter();
   const { data: session } = useSession();
 
   const handleSignin = () => {
@@ -19,12 +21,6 @@ export const AppBarUserMenu = () => {
     signIn('keycloak', {
       callbackUrl: '/',
       kc_action: 'register',
-    });
-  };
-
-  const handleSignout = () => {
-    signOut({
-      redirectTo: '/',
     });
   };
 
@@ -63,6 +59,16 @@ export const AppBarUserMenu = () => {
     );
   }
 
+  const handleSignout = () => {
+    signOut({
+      redirectTo: '/',
+    });
+  };
+
+  const handleViewProfile = () => {
+    router.push('/profile');
+  };
+
   return (
     <Dropdown placement='bottom-end'>
       <DropdownTrigger>
@@ -79,12 +85,21 @@ export const AppBarUserMenu = () => {
       </DropdownTrigger>
       <DropdownMenu aria-label='Profile Actions' variant='flat'>
         <DropdownItem
-          key='profile'
+          key='email'
           className='h-14 gap-2'
           textValue={session.user.email || 'User Email'}
+          onPress={handleViewProfile}
         >
           <p className='font-semibold'>Signed in as</p>
           <p className='font-semibold'>{session.user.email}</p>
+        </DropdownItem>
+        <DropdownItem
+          key='profile'
+          className='h-14 gap-2'
+          textValue='View Profile'
+          onPress={handleViewProfile}
+        >
+          View Profile
         </DropdownItem>
         <DropdownItem
           key='logout'
