@@ -51,7 +51,7 @@ Installing devDependencies:
 
 ---
 
-## Packages
+## 📦 Packages
 
 This section highlights important packages that have been used to build the app.
 
@@ -128,7 +128,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ---
 
-## Keycloak Auth Setup
+## 🗝️ Keycloak Auth Setup
 
 - Step 1 - Install packages
   
@@ -190,6 +190,49 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
   
   A keycloak realm and client has already been setup as part of keycloak infrastructure setup. See [./infra/local/keycloak/realms/offgrid-public-realm.json](../../../infra/local/keycloak/realms/offgrid-public-realm.json).
   
+
+---
+
+## 🐳 Docker Setup
+
+### App Settings
+
+When the app is packaged into a Docker container, it will use an environment file called `.env.docker`. This file needs to be created and can be based on the [`.env.docker.example`](./.env.docker.example). The environment file is specified as part of the [`compose.yaml`](./compose.yaml) file as follows:
+
+```yaml
+env_file:
+  - .env.docker
+```
+
+This will ensure that the requried environment settings are used when initialising Docker container. Note that Docker Compose service names are used instead of localhost. Inside a container, localhost refers to the container itself, not your host machine or other containers. Each service runs on its own network namespace, so containers must reach each other via the Compose network DNS name (the service name), not localhost.
+
+> [!IMPORTANT]
+> Add a `keycloak` entry to your hosts file so the browser can resolve `http://keycloak:8080` during login/redirect callbacks when running locally. This maps the hostname to your local machine.
+> - Windows: Edit `C:\Windows\System32\drivers\etc\hosts` as Administrator and add:
+> `127.0.0.1 keycloak`
+> - Linux: Edit `/etc/hosts` as root and add:
+> `127.0.0.1 keycloak`
+
+### Manage Shop Containers
+
+The `shop-app` defines its own [`Dockerfile`](./Dockerfile) and [`compose.yaml`](./compose.yaml) file.
+
+The containers are managed using `docker compose` as follows:
+
+```bash
+# location: ./apps/shop/infra
+
+# start containers
+docker compose up --build
+
+# stop containers
+docker compose down --volumes --remove-orphans
+
+# recreate shop-api container
+docker compose up --build -d --force-recreate shop-api
+
+# recreate shop-app container
+docker compose up --build -d --force-recreate shop-app
 
 ---
 

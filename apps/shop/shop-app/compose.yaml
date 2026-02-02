@@ -1,0 +1,13 @@
+services:
+  shop-app:
+    build:
+      context: ../shop-app
+      dockerfile: Dockerfile
+    env_file:
+      - .env.docker
+    container_name: shop-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - default

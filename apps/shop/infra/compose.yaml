@@ -1,0 +1,10 @@
+name: shop-stack
+
+networks:
+  default:
+    name: offgrid
+    external: true
+
+include:
+  - ../shop-api/compose.yaml
+  - ../shop-app/compose.yaml
