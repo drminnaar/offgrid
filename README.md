@@ -54,43 +54,27 @@ The project structure will evolve over time. However, this section provides an e
 ```text
 
 offgrid
-├── apps                                  # Web applications
-│   ├── shop                              # Customer facing shopping e-commerce website (Next.js)
-│   │   └── Dockerfile                    # Docker container image for shop app
+├── apps                                  # Primary applications
+│   ├── shop                              # Customer facing shopping e-commerce website
+│   │   ├── shop-app                      # Nextjs web applicaiton
+│   │   └── shop-api                      # .NET API
 │   └── portal                            # Staff portal website (React) to manage backoffice
-│       └── Dockerfile                    # Docker container image for portal app
-│
-├── apis                                  # .NET domain APIs
-│   ├── shared                            # .NET shared libraries used by API's
-│   └── shop-api
-│   │   ├── compose.yaml                  # Shop API compose file
-│   │   └── Dockerfile                    # Docker container image for API
-│   ├── portal-api
-│   │   ├── compose.yaml                  # Shop API compose file
-│   │   └── Dockerfile                    # Docker container image for API
-│   ├── compose.yaml                      # Docker Compose file to manage API's (using include directive for multi-compose-file support)
-│   └── ...                               # other API's
+│       ├── shop-app  
+│       └── portal-api                    # Docker container image for portal app
 │
 ├── infra
 │   └── local                             # Local development infrastructure
 │       ├── compose.yaml                  # Main compose file (using include directive for multi-compose-file support)
 │       │
 │       ├── postgres/                     # Postgres docker config
-│       │   └── compose.postgres.yaml     # Custom Postgres compose file
+│       │   └── compose.yaml     # Custom Postgres compose file
 │       │
-│       ├── mongo                         # Mongo docker config
-│       │   └── compose.mongo.yaml        # Custom Mongo compose file
-│       │
-│       ├── keycloak                      # Keycloak docker config
-│       │   └── compose.keycloak.yaml     # Custom Keycloak compose file
-│       │
-│       ├── typesense                     # Typesense docker config
-│       │   └── compose.typesense.yaml    # Custom Typesense compose file
-│       │
-│       ├── rabbitmq                      # RabbitMQ docker config
-│       │   └── compose.rabbitmq.yaml     # Custom RabbitMQ compose file
-│       │
-│       └── .env.example                  # Example environment variables for local services
+│       └── keycloak                      # Keycloak docker config
+│           └── compose.keycloak.yaml     # Custom Keycloak compose file
+│       
+├── libs                                  # Shared libraries
+│   ├── dotnet                            # .NET shared libraries
+│   └── typescript                        # Typescript shared libraries
 │
 ├── docs
 │   ├── decision-register                 # A simple wiki to capture key project decisions
@@ -98,8 +82,8 @@ offgrid
 │   ├── git                               # Collection of git standards and practices for this repo
 │   └── org                               # Organizational description and design
 │
-├── .github                               # Workflows, etc.
-├── .gitignore
+├── scripts
+│
 └── README.md
 
 ```
@@ -162,7 +146,7 @@ The following diagram provides a very high level overview of where various techn
 
 ---
 
-## 📋 Prerequisites
+## 📋 Tooling Prerequisites
 
 The following software will be required to be installed on your device in order to open and run the applications and API's:
 
@@ -176,13 +160,13 @@ The following software will be required to be installed on your device in order 
 
 📜 NOTE: Run the following script from your terminal to get a "Tool Installation Report". 
 
-- [./scripts/prereq-check.sh](./scripts/prereq-check.sh)
+- [./scripts/tool-installation-check.sh](./scripts/tool-installation-check.sh)
 
 The script checks against a list of required and optional tools to verify the installation status of each tool.
 
 ```text
-➜ chmod +x ./prereq-check.sh
-➜ ./prereq-check.sh
+➜ chmod +x ./tool-installation-check.sh
+➜ ./tool-installation-check.sh
 
 Checking installed tools...
 
@@ -205,7 +189,6 @@ Checking installed tools...
   ✔️  gh: Installed (Version: 2.83.2)
   ✔️  yq: Installed (Version: yq (https://github.com/mikefarah/yq/) version v4.48.1)
 
-================================================================================
 ```
 
 ---
@@ -219,6 +202,143 @@ Checking installed tools...
 - [Git Setup Guide](./docs/standards/git/git-setup.md)
   
   Provides details on the approach and standards relating to git setup and use.
+
+---
+
+## 🚀 Getting Started
+
+Each area of focus has a detailed `README` file where you can find specific information about that respective area. For example:
+
+- infra
+  - [./infra/local/README.md](./infra/local/README.md)
+- apps
+  - docs
+    - [./apps/shop/docs/design/version-1/README.md](./apps/shop/docs/design/version-1/README.md)
+  - shop-app
+    - [./apps/shop/shop-app/README.md](./apps/shop/shop-app/README.md)
+  - shop-api
+    - [./apps/shop/shop-api/README.md](./apps/shop/shop-api/README.md)
+
+### Verify Prerequisites
+
+> [!IMPORTANT]
+> - Run these commands from a Git Bash / POSIX shell (on Windows use Git Bash or WSL).
+>
+> - Ensure that all scripts have execute (`x`) permissions. Run `chmod +x my-script.sh` to add execute permissions.
+
+```bash
+
+# verify tool installation
+./scripts/tool-installation-check.sh
+
+# verify environment setting files are created
+./scripts/env-file-check.sh
+
+# verify host file entries
+./scripts/host-file-entry-check.sh
+
+```
+
+Alternatively, use the following wrapper script that runs all prereq scripts from above:
+
+```bash
+
+# run all prerequisite checks
+./scripts/prereq-check.sh
+
+```
+
+### Run Infrastructure Services
+
+This section explains how to run the required infrastructure services locally in Docker. For example:
+
+- Postgres
+- Keycloak
+- Flyway
+
+> [!IMPORTANT]
+> - Run these commands from a Git Bash / POSIX shell (on Windows use Git Bash or WSL).
+>
+> - Ensure that all scripts have execute (`x`) permissions. Run `chmod +x my-script.sh` to add execute permissions.
+
+```bash
+
+# start infrastructure stack
+./infra/local/scripts/compose.sh up
+
+# verify infrastructure stack
+./infra/local/scripts/compose.sh ps
+
+# run flyway migrations
+./infra/local/scripts/flyway.sh migrate
+
+```
+
+Alternatively, use the following wrapper scripts:
+
+```bash
+
+# run all infrastructure services (postgres, keycloak, etc) locally
+./scripts/run-infra-services.sh
+
+# run shop services (app, api) in Docker (optional)
+./scripts/run-shop-services.sh
+
+```
+
+### Run Shop Services
+
+This section explains how to run the shop services locally in Docker. For example:
+
+- shop-app (nextjs)
+- shop-api (.NET 10)
+
+> [!IMPORTANT]
+> - Run these commands from a Git Bash / POSIX shell (on Windows use Git Bash or WSL).
+>
+> - Ensure that all scripts have execute (`x`) permissions. Run `chmod +x my-script.sh` to add execute permissions.
+
+```bash
+
+# start infrastructure stack
+./infra/local/scripts/compose.sh up
+
+# verify infrastructure stack
+./infra/local/scripts/compose.sh ps
+
+# run flyway migrations
+./infra/local/scripts/flyway.sh migrate
+
+```
+
+Alternatively, use the following wrapper scripts:
+
+```bash
+
+# run all infrastructure services (postgres, keycloak, etc) locally
+./scripts/run-infra-services.sh
+
+# run shop services (app, api) in Docker (optional)
+./scripts/run-shop-services.sh
+
+```
+
+### Access Infra and Services
+
+Access the apps and services via the following links:
+
+- [Shop App Website (http://localhost:3000)](http://localhost:3000)
+  - See [./apps/shop/shop-app/README.md](./apps/shop/shop-app/README.md) for more details
+- [Shop API (http://localhost:3000)](http://localhost:7000)
+  - See [./apps/shop/shop-api/README.md](./apps/shop/shop-api/README.md) for more details
+- [Keycloak Admin UI (http://localhost:8080)](http://localhost:8080)
+
+Connect to database services:
+
+See [Infrastructure README (./infra/local/README.md)](./infra/local/README.md)
+
+- [Postgres (./infra/local/scripts/psql.sh)](./infra/local/scripts/psql.sh):  `./infra/local/scripts/psql.sh`
+- [Flyway (./infra/local/scripts/flyway.sh)](./infra/local/scripts/flyway.sh): `./infra/local/scripts/flyway.sh info`
 
 ---
 
