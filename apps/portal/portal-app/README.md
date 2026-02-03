@@ -106,7 +106,7 @@ Access app at [http://localhost:4000](http://localhost:4000)
 
 ```bash
 
-npm install @fontsource-variable/roboto
+npm install @fontsource/roboto
 
 ```
 
