@@ -111,3 +111,40 @@ npm install @fontsource-variable/roboto
 ```
 
 See [Typesource - Roboto Install](https://fontsource.org/fonts/roboto/install).
+
+### Material MUI (and Icons)
+
+See:
+
+- [Material UI - Getting Started](https://mui.com/material-ui/getting-started/)
+- [Material UI - Install](https://mui.com/material-ui/getting-started/installation/)
+- [Material UI - Install Icons](https://mui.com/material-ui/material-icons/)
+- [Material UI - Install Datagrid](https://mui.com/x/react-data-grid/quickstart/)
+
+<br />
+
+```bash
+# install mui framework
+npm install @mui/material @emotion/react @emotion/styled
+
+# install mui icons
+npm install @mui/icons-material
+
+# install mui data grid
+npm install @mui/x-data-grid
+
+```
+
+### Lucide React
+
+Lucide is built with ES Modules, so it's completely tree-shakable. Each icon can be imported as a React component, which renders an inline SVG element.
+
+See [Lucide React](https://lucide.dev/guide/packages/lucide-react).
+
+```bash
+
+npm install lucide-react
+
+```
+
+---
