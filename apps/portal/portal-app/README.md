@@ -147,4 +147,18 @@ npm install lucide-react
 
 ```
 
+### React Router
+
+React Router is the standard, widely-used library for handling navigation and routing in React applications. It enables the creation of single-page applications (SPAs) with dynamic views and bookmarkable URLs, allowing navigation between different components without requiring a full page reload.
+
+See [React Router](https://reactrouter.com/home) for more details.
+
+This project installs React Router using _Data Mode_. See the [official installation docs](https://reactrouter.com/start/data/installation).
+
+```bash
+
+npm install react-router
+
+```
+
 ---

@@ -1,6 +1,7 @@
 // packages
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { RouterProvider } from 'react-router';
 
 // styles
 import { CssBaseline } from '@mui/material';
@@ -11,11 +12,11 @@ import '@fontsource/roboto/700.css';
 import './index.css';
 
 // components
-import { App } from './App';
+import { AppRouter } from './routes';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <CssBaseline />
-    <App />
+    <RouterProvider router={AppRouter} />
   </StrictMode>,
 );
