@@ -1,7 +1,14 @@
 // packages
 import { useState } from 'react';
 import { NavLink } from 'react-router';
-import { AccountCircle, Email, Landscape, Logout } from '@mui/icons-material';
+import {
+  AccountCircle as AccountCircleIcon,
+  DarkMode as DarkModeIcon,
+  Email as EmailIcon,
+  Landscape as LandscapeIcon,
+  LightMode as LightModeIcon,
+  Logout as LogoutIcon,
+} from '@mui/icons-material';
 import {
   AppBar,
   Box,
@@ -12,14 +19,18 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Switch,
   Toolbar,
   Typography,
+  type PaletteMode,
 } from '@mui/material';
 
 type AppHeaderProps = {
   username: string;
   email: string;
   logout: () => void;
+  togglePaletteMode: () => void;
+  paletteMode: PaletteMode;
 };
 
 const navStyles = {
@@ -36,6 +47,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   username,
   email,
   logout,
+  togglePaletteMode,
+  paletteMode,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -61,7 +74,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
         }}
       >
         <Box display='flex' alignItems='center'>
-          <Landscape
+          <LandscapeIcon
             sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, fontSize: 48 }}
           />
           <Typography
@@ -72,10 +85,18 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
           >
             Offgrid - Admin Portal
           </Typography>
+          <IconButton sx={{ mx: 2 }}>
+            {paletteMode === 'dark' ? (
+              <DarkModeIcon />
+            ) : (
+              <LightModeIcon sx={{ color: '#FFF59D' }} />
+            )}
+            <Switch onChange={togglePaletteMode} />
+          </IconButton>
         </Box>
         <div>
           <IconButton size='large' onClick={handleMenu} color='inherit'>
-            <AccountCircle />
+            <AccountCircleIcon />
             <Typography variant='subtitle1' component='span' sx={{ ml: 1 }}>
               {username}
             </Typography>
@@ -89,14 +110,14 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
           >
             <MenuItem>
               <ListItemIcon>
-                <Email />
+                <EmailIcon />
               </ListItemIcon>
               <ListItemText>{email}</ListItemText>
             </MenuItem>
             <Divider />
             <MenuItem onClick={logout}>
               <ListItemIcon>
-                <Logout />
+                <LogoutIcon />
               </ListItemIcon>
               <ListItemText>Logout</ListItemText>
             </MenuItem>

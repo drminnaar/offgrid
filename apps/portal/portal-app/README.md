@@ -177,4 +177,32 @@ npm install keycloak-js
 
 ```
 
+### React Redux & Redux Toolkit
+
+React Redux is the official UI binding library that connects the standalone Redux state management library to React applications. It provides a predictable way to manage a complex application's global state in a single, centralized location called the store.
+
+See the following links for more information:
+
+- [React Redux Getting Started](https://react-redux.js.org/introduction/getting-started)
+- [React Redux NPM Package](https://www.npmjs.com/package/react-redux)
+
+```bash
+
+npm install react-redux
+
+```
+
+Redux Toolkit (RTK) is the official, recommended, and opinionated toolset for efficient Redux development. It streamlines state management by reducing boilerplate code, simplifying store setup, and enabling "mutative" immutable updates. Key features include configureStore, createSlice, and built-in support for middleware like Redux Thunk.
+
+See the following links for more information:
+
+- [Redux Getting Started](https://redux.js.org/introduction/getting-started)
+- [Redux NPM Package](https://www.npmjs.com/package/@reduxjs/toolkit)
+
+```bash
+
+npm install @reduxjs/toolkit
+
+```
+
 ---
