@@ -13,10 +13,13 @@ import './index.css';
 
 // components
 import { AppRouter } from './routes';
+import { AppRootProvider } from './providers';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <CssBaseline />
-    <RouterProvider router={AppRouter} />
+    <AppRootProvider>
+      <CssBaseline />
+      <RouterProvider router={AppRouter} />
+    </AppRootProvider>
   </StrictMode>,
 );

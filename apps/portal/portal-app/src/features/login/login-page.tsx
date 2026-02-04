@@ -1,11 +1,22 @@
 // packages
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Container } from '@mui/material';
 
 // components
 import { LoginCard } from './login-card';
+import { useKeycloak } from '../../lib/auth/keycloak';
+import { useNavigate } from 'react-router';
 
 export const LoginPage: React.FC = () => {
+  const { authenticated, login } = useKeycloak();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authenticated) {
+      navigate('/dashboard');
+    }
+  }, [authenticated, navigate]);
+
   return (
     <Box
       sx={{
@@ -19,7 +30,7 @@ export const LoginPage: React.FC = () => {
       }}
     >
       <Container maxWidth='sm'>
-        <LoginCard login={() => console.log('Login not implemented')} />
+        <LoginCard login={login} />
       </Container>
     </Box>
   );

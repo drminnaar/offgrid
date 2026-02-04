@@ -161,4 +161,20 @@ npm install react-router
 
 ```
 
+### Keycloak
+
+Keycloak JS is the official client-side JavaScript library (adapter) that enables web applications to use Keycloak for all aspects of identity and access management (IAM). It handles the complexities of authentication protocols like OpenID Connect and OAuth 2.0 under the hood, simplifying the integration of security features into your application.
+
+See the following links for more information:
+
+- [Official Keycloak Documentation](https://www.keycloak.org/securing-apps/javascript-adapter)
+- [GitHub Repo](https://github.com/keycloak/keycloak-js)
+- [NPM Package](https://www.npmjs.com/package/keycloak-js)
+
+```bash
+
+npm install keycloak-js
+
+```
+
 ---
