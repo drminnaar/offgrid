@@ -1,0 +1,217 @@
+{
+  "realm": "offgrid-internal",
+  "enabled": true,
+  "registrationAllowed": false,
+  "registrationEmailAsUsername": false,
+  "rememberMe": false,
+  "verifyEmail": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": false,
+  "permanentLockout": false,
+  "maxTemporaryLockouts": 0,
+  "bruteForceStrategy": "MULTIPLE",
+  "roles": {
+    "realm": [
+      {
+        "name": "admin",
+        "description": "Full administrative access",
+        "composite": false,
+        "clientRole": false
+      },
+      {
+        "name": "customer-manager",
+        "description": "Can manage customer accounts and profiles",
+        "composite": false,
+        "clientRole": false
+      },
+      {
+        "name": "product-manager",
+        "description": "Can manage products, inventory, and catalog",
+        "composite": false,
+        "clientRole": false
+      }
+    ],
+    "client": {
+      "portal-api": [
+        {
+          "name": "api-access",
+          "description": "Allows access to the .NET 10 Backend"
+        }
+      ]
+    }
+  },
+  "groups": [
+    {
+      "name": "administrators",
+      "description": "System administrators with full access",
+      "path": "/administrators",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "admin",
+        "customer-manager",
+        "product-manager",
+        "order-manager"
+      ],
+      "clientRoles": {
+        "portal-api": [
+          "api-access"
+        ]
+      }
+    },
+    {
+      "name": "product-team",
+      "description": "Product managers who manage catalog and inventory",
+      "path": "/product-team",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "product-manager"
+      ],
+      "clientRoles": {
+        "portal-api": [
+          "api-access"
+        ]
+      }
+    },
+    {
+      "name": "customer-team",
+      "description": "Customer managers who handle customer accounts and support",
+      "path": "/customer-team",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "customer-manager"
+      ],
+      "clientRoles": {
+        "portal-api": [
+          "api-access"
+        ]
+      }
+    }
+  ],
+  "defaultGroups": [],
+  "clients": [
+    {
+      "clientId": "portal-app",
+      "name": "Offgrid Portal App",
+      "description": "A React admin application for managing the e-commerce backend",
+      "rootUrl": "http://localhost:4000",
+      "adminUrl": "http://localhost:4000",
+      "baseUrl": "http://localhost:4000",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "clientAuthenticatorType": "none",
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "protocolMappers": [
+        {
+          "name": "portal-api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "portal-api",
+            "id.token.claim": "true",
+            "access.token.claim": "true"
+          }
+        },
+        {
+          "name": "realmroles-to-role-claim",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "lightweight.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "role",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "redirectUris": [
+        "http://localhost:4000/*",
+        "http://portal-app:4000/*"
+      ],
+      "webOrigins": [
+        "http://localhost:4000",
+        "http://portal-app:4000"
+      ]
+    },
+    {
+      "clientId": "portal-api",
+      "name": "Offgrid Portal API",
+      "description": "A .NET 10 backend API for the admin portal application",
+      "bearerOnly": true,
+      "protocol": "openid-connect"
+    }
+  ],
+  "users": [
+    {
+      "username": "portal-admin",
+      "enabled": true,
+      "firstName": "Admin",
+      "lastName": "User",
+      "email": "portal-admin@example.com",
+      "emailVerified": true,
+      "groups": [
+        "/administrators"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "product-manager",
+      "enabled": true,
+      "firstName": "Product",
+      "lastName": "Manager",
+      "email": "product-manager@example.com",
+      "emailVerified": true,
+      "groups": [
+        "/product-team"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "customer-manager",
+      "enabled": true,
+      "firstName": "Customer",
+      "lastName": "Manager",
+      "email": "customer-manager@example.com",
+      "emailVerified": true,
+      "groups": [
+        "/customer-team"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
