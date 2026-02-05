@@ -32,10 +32,12 @@
   "rest-client.environmentVariables": {
     "$shared": {
       "SHOP_API_BASE_URL": "http://localhost:7000",
+      "PORTAL_API_BASE_URL": "http://localhost:7001",
       "OG_KC_BASE_URL": "http://localhost:8080",
     },
     "docker": {
       "SHOP_API_BASE_URL": "http://localhost:7000",
+      "PORTAL_API_BASE_URL": "http://localhost:7001",
       "OG_KC_BASE_URL": "http://keycloak:8080",
     }
   }
