@@ -219,7 +219,7 @@
       }
     },
     // ------------------------------------------------------------------------
-    // .NET Tasks
+    // Shop API
     // ------------------------------------------------------------------------
     {
       "label": "dotnet: run shop-api",
@@ -255,7 +255,7 @@
       }
     },
     // ------------------------------------------------------------------------
-    // .Shop App
+    // Shop App
     // ------------------------------------------------------------------------
     {
       "label": "shop-app: npm run dev",
@@ -275,6 +275,79 @@
           "dev",
           "--prefix",
           "${workspaceFolder}/shop/shop-app"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "icon": {
+        "id": "play",
+        "color": "terminal.ansiCyan"
+      }
+    },
+    // ------------------------------------------------------------------------
+    // Portal API
+    // ------------------------------------------------------------------------
+    {
+      "label": "dotnet: run portal-api",
+      "type": "shell",
+      "problemMatcher": "$msCompile",
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "dotnet run --project ./portal/portal-api/src/BackofficeApi/BackofficeApi.csproj"
+        ]
+      },
+      "linux": {
+        "command": "dotnet",
+        "args": [
+          "run",
+          "--project",
+          "${workspaceFolder}/portal/portal-api/src/BackofficeApi/BackofficeApi.csproj"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "icon": {
+        "id": "play",
+        "color": "terminal.ansiGreen"
+      }
+    },
+    // ------------------------------------------------------------------------
+    // Portal App
+    // ------------------------------------------------------------------------
+    {
+      "label": "portal-app: npm run dev",
+      "type": "shell",
+      "problemMatcher": "$msCompile",
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "npm run dev --prefix ./portal/portal-app"
+        ]
+      },
+      "linux": {
+        "command": "npm",
+        "args": [
+          "run",
+          "dev",
+          "--prefix",
+          "${workspaceFolder}/portal/portal-app"
         ]
       },
       "group": {
