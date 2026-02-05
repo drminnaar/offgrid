@@ -302,7 +302,7 @@
         "command": "C:/Program Files/Git/bin/bash.exe",
         "args": [
           "-c",
-          "dotnet run --project ./portal/portal-api/src/BackofficeApi/BackofficeApi.csproj"
+          "dotnet run --project ./portal/portal-api/src/Api/Api.csproj"
         ]
       },
       "linux": {
@@ -310,7 +310,7 @@
         "args": [
           "run",
           "--project",
-          "${workspaceFolder}/portal/portal-api/src/BackofficeApi/BackofficeApi.csproj"
+          "${workspaceFolder}/portal/portal-api/src/Api/Api.csproj"
         ]
       },
       "group": {
