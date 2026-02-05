@@ -59,6 +59,7 @@ Ensure that you have followed the project infrastructure [README](../../infra/lo
 The following requirements must be satisfied before running Shop API:
 
 - ✅️ Postgresql service is running
+- ✅️ Keycloak service is running
 - ✅️ Flyway migrations applied
 
 ### 2. Start API
