@@ -2,7 +2,7 @@
 using Offgrid.Shop.Customers.Application.Commands.UpsertCustomer;
 using Offgrid.Shop.Customers.Application.Services;
 
-namespace Offgrid.ShopApi.Endpoints.Customers;
+namespace Offgrid.Shop.Api.Endpoints.Customers;
 
 public sealed class UpsertCustomerHandler
 {

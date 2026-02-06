@@ -1,6 +1,6 @@
-﻿using Offgrid.ShopApi.Endpoints.Customers;
+﻿using Offgrid.Shop.Api.Endpoints.Customers;
 
-namespace Offgrid.ShopApi.Endpoints.Root;
+namespace Offgrid.Shop.Api.Endpoints.Root;
 
 public static class RootEndpointMap
 {

@@ -1,6 +1,6 @@
 ﻿using Offgrid.Framework.AspNetCore.Diagnostics;
 
-namespace Offgrid.ShopApi.Extensions;
+namespace Offgrid.Shop.Api.Extensions;
 
 public static partial class ApiExtensions
 {

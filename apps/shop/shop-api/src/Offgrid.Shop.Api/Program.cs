@@ -1,10 +1,10 @@
-﻿using Offgrid.ShopApi.Extensions;
-using Offgrid.ShopApi.Endpoints.Customers;
-using Offgrid.ShopApi.Endpoints.Root;
-using Offgrid.Framework.Configuration.Extensions;
+﻿using Offgrid.Framework.Configuration.Extensions;
 using Offgrid.Framework.AspNetCore.Http.Middleware.Extensions;
 using Offgrid.Framework.EntityFrameworkCore.Extensions;
 using Offgrid.Shop.Customers.Infrastructure.Persistence;
+using Offgrid.Shop.Api.Endpoints.Customers;
+using Offgrid.Shop.Api.Endpoints.Root;
+using Offgrid.Shop.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
 ﻿using Offgrid.Framework.AspNetCore.Http.Filters;
 using Offgrid.Shop.Customers.Application.Commands.UpsertCustomer;
 
-namespace Offgrid.ShopApi.Endpoints.Customers;
+namespace Offgrid.Shop.Api.Endpoints.Customers;
 
 public static class CustomerEndpointMap
 {

@@ -5,7 +5,7 @@ using Offgrid.Shop.Customers.Domain.Repositories;
 using Offgrid.Shop.Customers.Domain.Services;
 using Offgrid.Shop.Customers.Infrastructure.Persistence.Repositories;
 
-namespace Offgrid.ShopApi.Extensions;
+namespace Offgrid.Shop.Api.Extensions;
 
 public static partial class ApiExtensions
 {
