@@ -4,7 +4,7 @@ namespace Offgrid.Portal.Customers.Application.Services;
 
 public interface ICustomerService
 {
-    Task ChangeCustomerStatusAsync(
+    Task<ChangeCustomerStatusResult> ChangeCustomerStatusAsync(
         Guid customerId,
         ChangeCustomerStatusCommand command,
         CancellationToken cancellationToken = default);
@@ -19,11 +19,11 @@ public sealed class CustomerService : ICustomerService
         _handler = handler ?? throw new ArgumentNullException(nameof(handler));
     }
 
-    public async Task ChangeCustomerStatusAsync(
+    public async Task<ChangeCustomerStatusResult> ChangeCustomerStatusAsync(
         Guid customerId,
         ChangeCustomerStatusCommand command,
         CancellationToken cancellationToken = default)
     {
-        await _handler.HandleAsync(customerId, command, cancellationToken);
+        return await _handler.HandleAsync(customerId, command, cancellationToken);
     }
 }

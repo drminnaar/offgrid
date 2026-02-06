@@ -6,7 +6,7 @@ namespace Offgrid.Portal.Customers.Application.Commands.ChangeCustomerStatus;
 
 public interface IChangeCustomerStatusCommandHandler
 {
-    Task HandleAsync(
+    Task<ChangeCustomerStatusResult> HandleAsync(
         Guid customerId,
         ChangeCustomerStatusCommand command,
         CancellationToken cancellationToken = default);
@@ -25,7 +25,7 @@ public sealed class ChangeCustomerStatusCommandHandler : IChangeCustomerStatusCo
         _timeProvider = timeProvider ?? throw new ArgumentNullException(nameof(timeProvider));
     }
 
-    public async Task HandleAsync(
+    public async Task<ChangeCustomerStatusResult> HandleAsync(
         Guid customerId,
         ChangeCustomerStatusCommand command,
         CancellationToken cancellationToken = default)
@@ -47,7 +47,15 @@ public sealed class ChangeCustomerStatusCommandHandler : IChangeCustomerStatusCo
             };
         }
 
-        existingCustomer.ChangeStatus(command.Status, _timeProvider);
+        if (!Enum.TryParse<CustomerStatus>(command.Status, ignoreCase: true, out var newStatus))
+        {
+            throw new ValidationException(
+                $"Invalid status value: {command.Status}",
+                new ValidationException.ValidationError(nameof(command.Status), $"Status must be a valid value of {string.Join(", ", Enum.GetNames<CustomerStatus>())}."));
+        }
+
+        existingCustomer.ChangeStatus(newStatus, _timeProvider);
         await _customerRepository.SaveChangesAsync(cancellationToken);
+        return existingCustomer.ToChangeCustomerStatusResult();
     }
 }

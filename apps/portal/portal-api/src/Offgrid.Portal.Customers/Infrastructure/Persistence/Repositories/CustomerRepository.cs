@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Offgrid.Portal.Customers.Domain.Entities;
 using Offgrid.Portal.Customers.Domain.Repositories;
-using Offgrid.Portal.Customers.Infrastructure.Persistence;
 
 namespace Offgrid.Portal.Customers.Infrastructure.Persistence.Repositories;
 
@@ -21,10 +20,13 @@ public sealed class CustomerRepository : ICustomerRepository
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var stateEntriesWritten = await _dbContext.SaveChangesAsync(cancellationToken);
-        if (stateEntriesWritten == 0)
+        if (_dbContext.HasChanges())
         {
-            throw new DbUpdateException("Failed to save customer changes to the database. No state entries were written.");
+            var stateEntriesWritten = await _dbContext.SaveChangesAsync(cancellationToken);
+            if (stateEntriesWritten == 0)
+            {
+                throw new DbUpdateException("Failed to save customer changes to the database. No state entries were written.");
+            }
         }
     }
 }

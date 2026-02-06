@@ -1,0 +1,109 @@
+# -------------------------------------------------------------------------------------------------
+# The folowing environment variables are set in the $shared and docker environments (See ./vscode/settings.json):
+#   - PORTAL_API_BASE_URL
+#   - OG_KC_BASE_URL
+#
+# All other environment variables are loaded from the .env file using the $dotenv syntax.
+#
+# Switch / choose the active environment
+#
+# 1. Status bar (easiest & most visible)
+#    - Look at the bottom-right of VS Code window → you'll see something like
+#      REST Client: No Environment or REST Client: local.
+#    - Click it → pick from the list (local / staging / prod / No Environment / …).
+# 2. Keyboard shortcut:
+#    - Ctrl + Alt + E (Windows/Linux)
+#    - Cmd + Alt + E (macOS)
+# 3. Command Palette:
+#    - Ctrl + Shift + P (or Cmd + Shift + P) → type Rest Client: Switch Environment → select one.
+# -------------------------------------------------------------------------------------------------
+
+@base_url={{PORTAL_API_BASE_URL}}
+@client_id={{$dotenv OG_KC_PORTAL_CLIENT_ID}}
+
+# Select the user to authenticate as a Standard Customer, Silver Customer, or Gold Customer:
+@username={{$dotenv OG_KC_PORTAL_ADMIN_USERNAME}}
+@password={{$dotenv OG_KC_PORTAL_ADMIN_PASSWORD}}
+# @username={{$dotenv OG_KC_CUSTOMER_MANAGER_USERNAME}}
+# @password={{$dotenv OG_KC_CUSTOMER_MANAGER_PASSWORD}}
+# @username={{$dotenv OG_KC_PRODUCT_MANAGER_USERNAME}}
+# @password={{$dotenv OG_KC_PRODUCT_MANAGER_PASSWORD}}
+
+@realm={{$dotenv OG_KC_PORTAL_REALM}}
+@token_url={{OG_KC_BASE_URL}}/realms/{{realm}}/protocol/openid-connect/token
+
+
+###  1. Password Grant (Resource Owner Password Credentials)
+# @name login
+
+POST {{token_url}}
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password
+&password={{password}}
+&username={{username}}
+&client_id={{client_id}}
+
+
+###
+@access_token={{login.response.body.access_token}}
+
+
+### Change Customer Status - Invalid data with empty body
+PUT {{base_url}}/customers/123/status
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Change Customer Status - Invalid customer id with empty body
+PUT {{base_url}}/customers/123/status
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{}
+
+
+### Change Customer Status - Valid and non-existing customer id with any status
+PUT {{base_url}}/customers/019c30c3-3c6d-713f-ba21-35286c6f5daa/status
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "status": "any"
+}
+
+
+### Change Customer Status - Valid and existing customer id with invalid status
+PUT {{base_url}}/customers/019c30c3-3c6d-713f-ba21-35286c6d5daa/status
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "status": "activee"
+}
+
+
+### Change Customer Status - Valid customer id with valid value
+PUT {{base_url}}/customers/019c30c3-3c6d-713f-ba21-35286c6d5daa/status
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "status": "active"
+}
+
+
+### Change Customer Status - Valid customer id with 'suspended' status
+PUT {{base_url}}/customers/019c30c3-3c6d-713f-ba21-35286c6d5daa/status
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "status": "suspended"
+}

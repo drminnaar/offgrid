@@ -12,6 +12,11 @@ public sealed class AppDbContext : DbContext, IAppDbContext
 
     public DbSet<Customer> Customers => Set<Customer>();
 
+    public bool HasChanges()
+    {
+        return ChangeTracker.HasChanges();
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
