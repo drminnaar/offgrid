@@ -1,4 +1,5 @@
-﻿using Offgrid.Framework.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using Offgrid.Framework.Exceptions;
 using Offgrid.Shop.Customers.Domain.Repositories;
 using Offgrid.Shop.Customers.Domain.Services;
 
@@ -39,7 +40,16 @@ public sealed class UpsertCustomerCommandHandler : IUpsertCustomerCommandHandler
         if (existingCustomer != null)
         {
             existingCustomer.Update(fullName, email, _timeProvider);
-            await _customerRepository.UpdateAsync(existingCustomer, cancellationToken);
+
+            try
+            {
+                await _customerRepository.UpdateAsync(existingCustomer, cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new DomainException("Customer was modified by another user. Please try again.",
+                    [new("Customer", ["Concurrency conflict - customer was updated by another process"])]);
+            }
             return existingCustomer.ToUpsertCustomerResult();
         }
         else

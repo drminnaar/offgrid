@@ -1,4 +1,5 @@
-﻿using Offgrid.Framework.Exceptions;
+﻿using System.ComponentModel.DataAnnotations;
+using Offgrid.Framework.Exceptions;
 using Offgrid.Framework.System;
 using Offgrid.Shop.Customers.Domain.Services;
 
@@ -16,6 +17,9 @@ public sealed class Customer
     public DateTimeOffset CreatedDate { get; private set; }
     public DateTimeOffset? UpdatedDate { get; private set; }
     public DateTimeOffset? DeletedDate { get; private set; }
+
+    [Timestamp]  // EF Core will manage this automatically
+    public byte[] Version { get; private set; } = [];
 
     private Customer()
     {
