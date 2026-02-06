@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Offgrid.Framework.EntityFrameworkCore;
+namespace Offgrid.Framework.EntityFrameworkCore.Extensions;
 
 public static partial class EntityFrameworkCoreExtensions
 {
@@ -10,7 +10,7 @@ public static partial class EntityFrameworkCoreExtensions
         this IServiceCollection services,
         IConfiguration configuration,
         bool enableDetailedErrors = false,
-        bool enableSensitiveDataLogging = false) where TContext : DbContext where TImplementation : TContext
+        bool enableSensitiveDataLogging = false) where TContext : class where TImplementation : DbContext, TContext
     {
         const string ConnectionStringName = "Offgrid";
 
