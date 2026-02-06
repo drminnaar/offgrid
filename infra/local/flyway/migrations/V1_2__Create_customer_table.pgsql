@@ -10,6 +10,7 @@ CREATE TABLE
         "first_name" TEXT NOT NULL,
         "email" TEXT,
         "status" VARCHAR(20) NOT NULL,
+        "version" bytea NOT NULL DEFAULT '\x',
         CONSTRAINT "pk_customers_customer_customerid" PRIMARY KEY ("customer_id")
     );
 
