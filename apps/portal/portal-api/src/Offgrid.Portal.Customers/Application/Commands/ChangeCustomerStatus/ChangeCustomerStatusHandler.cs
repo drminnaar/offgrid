@@ -1,4 +1,4 @@
-﻿using Offgrid.Portal.Customers.Domain.Exceptions;
+﻿using Offgrid.Framework.Exceptions;
 using Offgrid.Portal.Customers.Domain.Entities;
 using Offgrid.Portal.Customers.Domain.Repositories;
 

@@ -1,4 +1,5 @@
-﻿using Offgrid.Portal.Customers.Domain.Exceptions;
+﻿
+using Offgrid.Framework.Exceptions;
 
 namespace Offgrid.Portal.Customers.Domain.Entities;
 

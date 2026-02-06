@@ -32,5 +32,13 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
                 v => v.ToString(),
                 v => Enum.Parse<CustomerStatus>(v));
         entity.Property(e => e.CustomerNumber).HasColumnName("customer_number").HasMaxLength(20).IsRequired();
+
+        // unique indexes
+        entity.HasIndex(e => e.KeycloakUserId).IsUnique().HasDatabaseName("ux_customers_customer_keycloakuserid");
+        entity.HasIndex(e => e.Email).IsUnique().HasDatabaseName("ux_customers_customer_email");
+        entity.HasIndex(e => e.CustomerNumber).IsUnique().HasDatabaseName("ux_customers_customer_customernumber");
+
+        // indexes
+        entity.HasIndex(e => e.Status).HasDatabaseName("ix_customers_customer_status");
     }
 }
