@@ -34,22 +34,6 @@ The following diagram illustrates the various layers of the architecture, along 
 
 ---
 
-## 🛠️ Initial Installation
-
-This is a [.NET 10](https://dotnet.microsoft.com/en-us/) - [Minimal API project](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-10.0) created with [`dotnet CLI`](https://learn.microsoft.com/en-us/dotnet/core/tools/).
-
-The initial project was created as follows:
-
-```bash
-
-dotnet new sln --name Offgrid
-dotnet new webapi --no-https --no-openapi --use-minimal-apis --output ./src/ShopApi
-dotnet sln ./Offgrid add ./src/ShopApi
-
-```
-
----
-
 ## 🚀 Getting Started
 
 ### 1. Run Infra Services
@@ -65,8 +49,9 @@ The following requirements must be satisfied before running Shop API:
 ### 2. Start API
 
 ```bash
+# ./apps/shop/shop-api
 
-dotnet watch run ./src/ShopApi
+dotnet watch run --project ./src/Offgrid.Shop.Api
 
 ```
 

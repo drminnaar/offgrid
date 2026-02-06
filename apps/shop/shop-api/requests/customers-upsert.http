@@ -63,6 +63,7 @@ POST {{base_url}}/customers
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
+
 {}
 
 
