@@ -1,0 +1,50 @@
+{
+  "folders": [
+    {
+      "path": "./apps/libs/dotnet",
+      "name": "Shared",
+    },
+    {
+      "path": "./apps/shop/shop-app",
+      "name": "Shop App",
+    },
+    {
+      "path": "./apps/shop/shop-api",
+      "name": "Shop API",
+    }
+  ],
+  "settings": {
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#3399ff",
+      "activityBar.background": "#3399ff",
+      "activityBar.foreground": "#15202b",
+      "activityBar.inactiveForeground": "#15202b99",
+      "activityBarBadge.background": "#bf0060",
+      "activityBarBadge.foreground": "#e7e7e7",
+      "commandCenter.border": "#e7e7e799",
+      "sash.hoverBorder": "#3399ff",
+      "statusBar.background": "#007fff",
+      "statusBar.foreground": "#e7e7e7",
+      "statusBarItem.hoverBackground": "#3399ff",
+      "statusBarItem.remoteBackground": "#007fff",
+      "statusBarItem.remoteForeground": "#e7e7e7",
+      "titleBar.activeBackground": "#007fff",
+      "titleBar.activeForeground": "#e7e7e7",
+      "titleBar.inactiveBackground": "#007fff99",
+      "titleBar.inactiveForeground": "#e7e7e799",
+      "tab.activeBorderTop": "#00CA8E",
+      "tab.activeBackground": "#015c11"
+    },
+    "peacock.color": "#007fff",
+    "rest-client.environmentVariables": {
+      "$shared": {
+        "SHOP_API_BASE_URL": "http://localhost:7000",
+        "OG_KC_BASE_URL": "http://localhost:8080",
+      },
+      "docker": {
+        "SHOP_API_BASE_URL": "http://localhost:7000",
+        "OG_KC_BASE_URL": "http://keycloak:8080",
+      }
+    }
+  },
+}
