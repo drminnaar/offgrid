@@ -1,10 +1,10 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Offgrid.Framework.System.ComponentModel.DataAnnotations;
 
-public abstract record CommandBase
+public abstract record ValidatableBase
 {
-    protected CommandBase()
+    protected ValidatableBase()
     {
     }
 
