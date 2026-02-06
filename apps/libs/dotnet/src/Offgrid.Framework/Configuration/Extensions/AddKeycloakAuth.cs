@@ -9,7 +9,7 @@ namespace Offgrid.Framework.Configuration.Extensions;
 
 public static partial class ConfigurationExtensions
 {
-    public static IServiceCollection AddKeycloakAuthentication(
+    public static IServiceCollection AddKeycloakAuth(
         this IServiceCollection services,
         IConfiguration configuration,
         bool enableJwtBearerEventLogging)
