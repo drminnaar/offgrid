@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Offgrid.Framework.Exceptions;
+using Offgrid.Framework.System;
 
 namespace Offgrid.Framework.AspNetCore.Diagnostics;
 
@@ -33,14 +34,6 @@ public sealed class ValidationExceptionHandler : IExceptionHandler
 
     private ValidationProblemDetails CreateProblemDetails(ValidationException exception, HttpContext httpContext)
     {
-        static string ToCamelCase(string input)
-        {
-            if (string.IsNullOrEmpty(input) || char.IsLower(input[0]))
-                return input;
-
-            return char.ToLowerInvariant(input[0]) + input.Substring(1);
-        }
-
         var problemDetails = new ValidationProblemDetails
         {
             Title = "Validation Error",
@@ -52,7 +45,7 @@ public sealed class ValidationExceptionHandler : IExceptionHandler
 
         foreach (var error in exception.Errors)
         {
-            problemDetails.Errors.Add(ToCamelCase(error.Key), [.. error.Value]);
+            problemDetails.Errors.Add(error.Key.ToCamelCase(), [.. error.Value]);
         }
 
         problemDetails.Extensions.TryAdd("requestId", httpContext.Request?.HttpContext.TraceIdentifier ?? string.Empty);
