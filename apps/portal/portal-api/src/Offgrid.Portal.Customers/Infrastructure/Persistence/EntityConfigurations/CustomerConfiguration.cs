@@ -32,6 +32,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
                 v => v.ToString(),
                 v => Enum.Parse<CustomerStatus>(v));
         entity.Property(e => e.CustomerNumber).HasColumnName("customer_number").HasMaxLength(20).IsRequired();
+        entity.Property(e => e.Version).HasColumnName("version").IsRowVersion().IsRequired();
 
         // unique indexes
         entity.HasIndex(e => e.KeycloakUserId).IsUnique().HasDatabaseName("ux_customers_customer_keycloakuserid");

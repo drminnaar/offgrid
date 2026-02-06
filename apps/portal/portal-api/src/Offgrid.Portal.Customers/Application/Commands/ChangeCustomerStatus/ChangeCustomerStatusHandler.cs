@@ -1,4 +1,5 @@
-﻿using Offgrid.Framework.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using Offgrid.Framework.Exceptions;
 using Offgrid.Portal.Customers.Domain.Entities;
 using Offgrid.Portal.Customers.Domain.Repositories;
 
@@ -55,7 +56,17 @@ public sealed class ChangeCustomerStatusCommandHandler : IChangeCustomerStatusCo
         }
 
         existingCustomer.ChangeStatus(newStatus, _timeProvider);
-        await _customerRepository.SaveChangesAsync(cancellationToken);
+
+        try
+        {
+            await _customerRepository.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            throw new DomainException("Customer was modified by another user. Please try update again.",
+                [new("Customer", ["Concurrency conflict - customer was updated by another process"])]);
+        }
+
         return existingCustomer.ToChangeCustomerStatusResult();
     }
 }

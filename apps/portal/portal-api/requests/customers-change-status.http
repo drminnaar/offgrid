@@ -19,7 +19,7 @@
 # -------------------------------------------------------------------------------------------------
 
 @base_url={{PORTAL_API_BASE_URL}}
-@client_id={{$dotenv OG_KC_PORTAL_CLIENT_ID}}
+@client_id={{$dotenv OG_KC_CLIENT_ID}}
 
 # Select the user to authenticate as a Standard Customer, Silver Customer, or Gold Customer:
 @username={{$dotenv OG_KC_PORTAL_ADMIN_USERNAME}}
@@ -29,7 +29,7 @@
 # @username={{$dotenv OG_KC_PRODUCT_MANAGER_USERNAME}}
 # @password={{$dotenv OG_KC_PRODUCT_MANAGER_PASSWORD}}
 
-@realm={{$dotenv OG_KC_PORTAL_REALM}}
+@realm={{$dotenv OG_KC_REALM}}
 @token_url={{OG_KC_BASE_URL}}/realms/{{realm}}/protocol/openid-connect/token
 
 
@@ -99,7 +99,7 @@ Authorization: Bearer {{access_token}}
 
 
 ### Change Customer Status - Valid customer id with 'suspended' status
-PUT {{base_url}}/customers/019c30c3-3c6d-713f-ba21-35286c6d5daa/status
+PUT {{base_url}}/customers/019c3243-f8ae-7da9-9165-5d9d0aa08266/status
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
