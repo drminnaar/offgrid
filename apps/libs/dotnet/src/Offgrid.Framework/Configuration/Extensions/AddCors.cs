@@ -5,7 +5,7 @@ namespace Offgrid.Framework.Configuration.Extensions;
 
 public static partial class ConfigurationExtensions
 {
-    public static IServiceCollection AddCorsUsingConfig(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddCors(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddCors(options =>
         {
