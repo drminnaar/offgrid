@@ -1,4 +1,6 @@
-﻿namespace Offgrid.Framework.Domain;
+﻿using System.Text.Json.Serialization;
+
+namespace Offgrid.Framework.Domain;
 
 public sealed record Change
 {
@@ -8,6 +10,12 @@ public sealed record Change
     public IReadOnlyCollection<string> Reasons { get; }
 
     public Change(string propertyName, object? oldValue, object? newValue, params string[] reasons)
+        : this(propertyName, oldValue, newValue, (IReadOnlyCollection<string>)reasons)
+    {
+    }
+
+    [JsonConstructor]
+    public Change(string propertyName, object? oldValue, object? newValue, IReadOnlyCollection<string> reasons)
     {
         if (string.IsNullOrWhiteSpace(propertyName))
         {
