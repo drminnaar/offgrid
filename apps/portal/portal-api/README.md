@@ -8,7 +8,7 @@ This is the primary API used by the Portal admin app.
 
 ### High Level Solution Design
 
-See [design documentation](../docs/design/version-1/README.md):
+See [design documentation](../docs/design):
 
 - [Version 1 - README (Current)](../docs/design/version-1/README.md) - Represents `version 1` target state.
 
@@ -34,27 +34,11 @@ The following diagram illustrates the various layers of the architecture, along 
 
 ---
 
-## 🛠️ Initial Installation
-
-This is a [.NET 10](https://dotnet.microsoft.com/en-us/) - [Minimal API project](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-10.0) created with [`dotnet CLI`](https://learn.microsoft.com/en-us/dotnet/core/tools/).
-
-The initial project was created as follows:
-
-```bash
-
-dotnet new sln --name Offgrid.Portal
-dotnet new webapi --no-https --no-openapi --use-minimal-apis --output ./src/PortalApi
-dotnet sln ./Offgrid.Portal add ./src/PortalApi
-
-```
-
----
-
 ## 🚀 Getting Started
 
 ### 1. Run Infra Services
 
-Ensure that you have followed the project infrastructure [README](../../infra/local/README.md) guide and have the required services running on your local machine.
+Ensure that you have followed the project infrastructure [README](../../../infra/local/README.md) guide and have the required services running on your local machine.
 
 The following requirements must be satisfied before running Portal API:
 
@@ -65,6 +49,7 @@ The following requirements must be satisfied before running Portal API:
 ### 2. Start API
 
 ```bash
+# ./apps/portal/portal-api
 
 dotnet watch run ./src/PortalApi
 
@@ -76,5 +61,7 @@ The [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest
 
 - Root:
   - See [`./requests/root.http`](./requests/root.http)
+  - See [`./requests/customers-reinstate.http`](./requests/customers-reinstate.http)
+  - See [`./requests/customers-suspend.http`](./requests/customers-suspend.http)
 
 ---
