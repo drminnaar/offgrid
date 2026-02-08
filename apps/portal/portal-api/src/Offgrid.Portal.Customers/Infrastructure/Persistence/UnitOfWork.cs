@@ -9,20 +9,25 @@ public sealed class UnitOfWork : IUnitOfWork
     private readonly IAppDbContext _dbContext;
     private readonly ICustomerRepository _customerRepository;
     private readonly ICustomerChangeRepository _customerChangeRepository;
+    private readonly ICustomerOutboxRepository _customerOutboxRepository;
 
     public UnitOfWork(
         IAppDbContext dbContext,
         ICustomerRepository customerRepository,
-        ICustomerChangeRepository customerChangeRepository)
+        ICustomerChangeRepository customerChangeRepository,
+        ICustomerOutboxRepository customerOutboxRepository)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
         _customerChangeRepository = customerChangeRepository ??
             throw new ArgumentNullException(nameof(customerChangeRepository));
+        _customerOutboxRepository = customerOutboxRepository ??
+            throw new ArgumentNullException(nameof(customerOutboxRepository));
     }
 
     public ICustomerRepository Customers => _customerRepository;
     public ICustomerChangeRepository CustomerChanges => _customerChangeRepository;
+    public ICustomerOutboxRepository CustomerOutboxes => _customerOutboxRepository;
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

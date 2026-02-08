@@ -26,11 +26,13 @@ public static partial class ApiExtensions
         // add infrastructure services
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<ICustomerChangeRepository, CustomerChangeRepository>();
+        services.AddScoped<ICustomerOutboxRepository, CustomerOutboxRepository>();
         services.TryAddScoped<IUnitOfWork, UnitOfWork>();
         services.TryAddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
 
         // add domain services
         services.AddScoped<ICustomerChangeFactory, CustomerChangeFactory>();
+        services.AddScoped<ICustomerOutboxFactory, CustomerOutboxFactory>();
 
         // add domain event handlers
         services.AddScoped<IDomainEventHandler<CustomerChangedEvent>, CustomerChangedEventHandler>();

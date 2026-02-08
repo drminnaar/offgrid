@@ -19,22 +19,22 @@ public sealed class SuspendCustomerCommandHandler : ISuspendCustomerCommandHandl
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICustomerChangeFactory _customerChangeFactory;
-    private readonly IDomainEventDispatcher _domainEventDispatcher;
+    private readonly ICustomerOutboxFactory _customerOutboxFactory;
     private readonly TimeProvider _timeProvider;
 
     public SuspendCustomerCommandHandler(
         IUnitOfWork unitOfWork,
         ICustomerChangeFactory customerChangeFactory,
-        IDomainEventDispatcher domainEventDispatcher,
+        ICustomerOutboxFactory customerOutboxFactory,
         TimeProvider timeProvider)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
         ArgumentNullException.ThrowIfNull(customerChangeFactory, nameof(customerChangeFactory));
-        ArgumentNullException.ThrowIfNull(domainEventDispatcher, nameof(domainEventDispatcher));
+        ArgumentNullException.ThrowIfNull(customerOutboxFactory, nameof(customerOutboxFactory));
         ArgumentNullException.ThrowIfNull(timeProvider, nameof(timeProvider));
         _unitOfWork = unitOfWork;
         _customerChangeFactory = customerChangeFactory;
-        _domainEventDispatcher = domainEventDispatcher;
+        _customerOutboxFactory = customerOutboxFactory;
         _timeProvider = timeProvider;
     }
 
@@ -62,7 +62,7 @@ public sealed class SuspendCustomerCommandHandler : ISuspendCustomerCommandHandl
 
         var domainEvents = existingCustomer.DomainEvents.ToList();
         RecordCustomerChangedEvents(domainEvents);
-
+        RecordOutboxEvents(domainEvents);
         existingCustomer.ClearDomainEvents();
         _unitOfWork.Customers.Update(existingCustomer);
 
@@ -74,11 +74,6 @@ public sealed class SuspendCustomerCommandHandler : ISuspendCustomerCommandHandl
         {
             existingCustomer.RestoreDomainEvents(domainEvents);
             throw;
-        }
-
-        if (domainEvents.Count > 0)
-        {
-            await _domainEventDispatcher.DispatchEventsAsync(domainEvents, cancellationToken);
         }
 
         return new SuspendCustomerResult(existingCustomer.CustomerId, existingCustomer.Status.ToString());
@@ -102,6 +97,20 @@ public sealed class SuspendCustomerCommandHandler : ISuspendCustomerCommandHandl
                 changedDate: changeEvent.OccurredAt);
 
             _unitOfWork.CustomerChanges.Add(customerChange);
+        }
+    }
+
+    private void RecordOutboxEvents(IReadOnlyCollection<IDomainEvent> domainEvents)
+    {
+        if (domainEvents.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var changeEvent in domainEvents)
+        {
+            var outboxEvent = _customerOutboxFactory.Create(changeEvent);
+            _unitOfWork.CustomerOutboxes.Add(outboxEvent);
         }
     }
 }

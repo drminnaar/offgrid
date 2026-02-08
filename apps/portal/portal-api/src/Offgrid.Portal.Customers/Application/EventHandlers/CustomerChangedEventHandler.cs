@@ -16,7 +16,6 @@ public sealed class CustomerChangedEventHandler : IDomainEventHandler<CustomerCh
 
     public Task HandleAsync(CustomerChangedEvent domainEvent, CancellationToken cancellationToken = default)
     {
-        Console.WriteLine("Handling CustomerChangedEvent...");
         _logger.LogInformation(
             "Handled {EventName} for customer {CustomerId} at {OccurredAt}.",
             domainEvent.EventName,
