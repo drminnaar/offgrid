@@ -32,6 +32,8 @@
 @realm={{$dotenv OG_KC_REALM}}
 @token_url={{OG_KC_BASE_URL}}/realms/{{realm}}/protocol/openid-connect/token
 
+@sample_customer_id={{$dotenv SAMPLE_CUSTOMER_ID}}
+
 
 ###  1. Password Grant (Resource Owner Password Credentials)
 # @name login
@@ -49,15 +51,15 @@ grant_type=password
 @access_token={{login.response.body.access_token}}
 
 
-### Change Customer Status - Invalid data with empty body
-PUT {{base_url}}/customers/123/status
+### Reinstate Customer - Invalid data with empty body
+POST {{base_url}}/customers/123/reinstate
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 
-### Change Customer Status - Invalid customer id with empty body
-PUT {{base_url}}/customers/123/status
+### Reinstate Customer - Invalid customer id with empty body
+POST {{base_url}}/customers/123/reinstate
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
@@ -65,45 +67,32 @@ Authorization: Bearer {{access_token}}
 {}
 
 
-### Change Customer Status - Valid and non-existing customer id with any status
-PUT {{base_url}}/customers/019c30c3-3c6d-713f-ba21-35286c6f5daa/status
+### Reinstate Customer - Valid and non-existing customer id
+POST {{base_url}}/customers/019c30c3-3c6d-713f-ba21-35286c6f5daa/reinstate
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{}
+
+
+### Reinstate Customer - Valid and non-existing customer id, with valid body
+POST {{base_url}}/customers/019c30c3-3c6d-713f-ba21-35286c6f5daa/reinstate
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "status": "any"
+  "reason": "Reinstating customer after suspension."
 }
 
 
-### Change Customer Status - Valid and existing customer id with invalid status
-PUT {{base_url}}/customers/019c30c3-3c6d-713f-ba21-35286c6d5daa/status
+### Reinstate Customer - Valid and existing customer id with invalid status
+POST {{base_url}}/customers/{{sample_customer_id}}/reinstate
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "status": "activee"
-}
-
-
-### Change Customer Status - Valid customer id with valid value
-PUT {{base_url}}/customers/019c30c3-3c6d-713f-ba21-35286c6d5daa/status
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer {{access_token}}
-
-{
-  "status": "active"
-}
-
-
-### Change Customer Status - Valid customer id with 'suspended' status
-PUT {{base_url}}/customers/019c3243-f8ae-7da9-9165-5d9d0aa08266/status
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer {{access_token}}
-
-{
-  "status": "suspended"
+  "reason": "Reinstating customer after suspension."
 }

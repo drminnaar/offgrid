@@ -1,25 +1,38 @@
 ﻿using Offgrid.Framework.AspNetCore.Http.Filters;
-using Offgrid.Portal.Customers.Application.Commands.ChangeCustomerStatus;
+using Offgrid.Portal.Customers.Application.Commands.ReinstateCustomer;
+using Offgrid.Portal.Customers.Application.Commands.SuspendCustomer;
 
 namespace Offgrid.Portal.Api.Endpoints.Customers;
 
 public static class CustomerEndpointMap
 {
-    private const string PREFIX = "/customers";
+    internal const string PREFIX = "/customers";
 
     public static WebApplication MapCustomerEndpoints(this WebApplication app)
     {
-        var group = app.MapGroup(PREFIX);
-        group.MapChangeCustomerStatus();
+        app
+            .MapGroup(PREFIX)
+            .MapReinstateCustomer()
+            .MapSuspendCustomer();
         return app;
     }
 
-    private static RouteGroupBuilder MapChangeCustomerStatus(this RouteGroupBuilder route)
+    private static RouteGroupBuilder MapReinstateCustomer(this RouteGroupBuilder route)
     {
         route
-            .MapPut("/{customerId}/status", ChangeCustomerStatusHandler.ChangeCustomerStatusAsync)
-            .AddEndpointFilter<ValidationFilter<ChangeCustomerStatusCommand>>()
-            .WithName(ChangeCustomerStatusHandler.EndpointName)
+            .MapPost("/{customerId}/reinstate", ReinstateCustomerActionHandler.ReinstateCustomerAsync)
+            .AddEndpointFilter<ValidationFilter<ReinstateCustomerCommand>>()
+            .WithName(ReinstateCustomerActionHandler.EndpointName)
+            .RequireAuthorization();
+        return route;
+    }
+
+    private static RouteGroupBuilder MapSuspendCustomer(this RouteGroupBuilder route)
+    {
+        route
+            .MapPost("/{customerId}/suspend", SuspendCustomerActionHandler.SuspendCustomerAsync)
+            .AddEndpointFilter<ValidationFilter<SuspendCustomerCommand>>()
+            .WithName(SuspendCustomerActionHandler.EndpointName)
             .RequireAuthorization();
         return route;
     }

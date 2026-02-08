@@ -1,29 +1,45 @@
-﻿using Offgrid.Portal.Customers.Application.Commands.ChangeCustomerStatus;
+﻿using Offgrid.Portal.Customers.Application.Commands.ReinstateCustomer;
+using Offgrid.Portal.Customers.Application.Commands.SuspendCustomer;
 
 namespace Offgrid.Portal.Customers.Application.Services;
 
 public interface ICustomerService
 {
-    Task<ChangeCustomerStatusResult> ChangeCustomerStatusAsync(
+    Task<ReinstateCustomerResult> ReinstateCustomerAsync(
         Guid customerId,
-        ChangeCustomerStatusCommand command,
+        ReinstateCustomerCommand command,
+        CancellationToken cancellationToken = default);
+
+    Task<SuspendCustomerResult> SuspendCustomerAsync(
+        Guid customerId,
+        SuspendCustomerCommand command,
         CancellationToken cancellationToken = default);
 }
 
 public sealed class CustomerService : ICustomerService
 {
-    private readonly IChangeCustomerStatusCommandHandler _handler;
+    private readonly IReinstateCustomerCommandHandler _reinstateHandler;
+    private readonly ISuspendCustomerCommandHandler _suspendHandler;
 
-    public CustomerService(IChangeCustomerStatusCommandHandler handler)
+    public CustomerService(IReinstateCustomerCommandHandler reinstateHandler, ISuspendCustomerCommandHandler suspendHandler)
     {
-        _handler = handler ?? throw new ArgumentNullException(nameof(handler));
+        _reinstateHandler = reinstateHandler ?? throw new ArgumentNullException(nameof(reinstateHandler));
+        _suspendHandler = suspendHandler ?? throw new ArgumentNullException(nameof(suspendHandler));
     }
 
-    public async Task<ChangeCustomerStatusResult> ChangeCustomerStatusAsync(
+    public async Task<ReinstateCustomerResult> ReinstateCustomerAsync(
         Guid customerId,
-        ChangeCustomerStatusCommand command,
+        ReinstateCustomerCommand command,
         CancellationToken cancellationToken = default)
     {
-        return await _handler.HandleAsync(customerId, command, cancellationToken);
+        return await _reinstateHandler.HandleAsync(customerId, command, cancellationToken);
+    }
+
+    public async Task<SuspendCustomerResult> SuspendCustomerAsync(
+        Guid customerId,
+        SuspendCustomerCommand command,
+        CancellationToken cancellationToken = default)
+    {
+        return await _suspendHandler.HandleAsync(customerId, command, cancellationToken);
     }
 }

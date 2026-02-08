@@ -1,10 +1,11 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Offgrid.Framework.Domain;
 using Offgrid.Framework.Exceptions;
+using Offgrid.Portal.Customers.Domain.Events;
 
 namespace Offgrid.Portal.Customers.Domain.Entities;
 
-public sealed class Customer
+public sealed class Customer : AggregateRoot
 {
     public Guid CustomerId { get; private set; }
     public string CustomerNumber { get; private set; } = string.Empty;
@@ -20,38 +21,31 @@ public sealed class Customer
     [Timestamp]  // EF Core will manage this automatically
     public byte[] Version { get; private set; } = [];
 
-    private Customer()
+    private Customer() : base()
     {
     }
 
-    public void ChangeStatus(CustomerStatus newStatus, TimeProvider timeProvider)
+    public void Reinstate(string reinstatedBy, string reinstatedReason, TimeProvider timeProvider)
     {
-        if (IsDeleted)
+        if (string.IsNullOrWhiteSpace(reinstatedBy))
         {
-            throw new DomainException("Cannot change status of a deleted customer.");
+            throw new DomainException("Reinstated by is required.");
         }
 
-        if (Status == newStatus)
+        if (string.IsNullOrWhiteSpace(reinstatedReason))
+        {
+            throw new DomainException("Reinstated reason is required.");
+        }
+
+        var currentStatus = Status;
+        var newStatus = CustomerStatus.Active;
+
+        if (currentStatus == newStatus)
         {
             return;
         }
 
-        switch (newStatus)
-        {
-            case CustomerStatus.Active:
-                Reinstate(timeProvider);
-                break;
-            case CustomerStatus.Suspended:
-                Suspend(timeProvider);
-                break;
-            default:
-                throw new DomainException($"Unsupported customer status: {newStatus}");
-        }
-    }
-
-    public void Reinstate(TimeProvider timeProvider)
-    {
-        if (Status != CustomerStatus.Suspended)
+        if (currentStatus != CustomerStatus.Suspended)
         {
             throw new DomainException("Only suspended customers can be reinstated.");
         }
@@ -61,13 +55,40 @@ public sealed class Customer
             throw new DomainException("Deleted customers cannot be reinstated.");
         }
 
+        var reinstatedDate = timeProvider.GetUtcNow();
         Status = CustomerStatus.Active;
-        UpdatedDate = timeProvider.GetUtcNow();
+        UpdatedDate = reinstatedDate;
+
+        RaiseDomainEvent(new CustomerReinstatedEvent(CustomerId, reinstatedDate));
+        RaiseDomainEvent(new CustomerChangedEvent(CustomerId, reinstatedDate, new(
+            reinstatedBy,
+            [
+                new Change(nameof(Status), currentStatus.ToString(), newStatus.ToString(), [reinstatedReason])
+            ]
+        )));
     }
 
-    public void Suspend(TimeProvider timeProvider)
+    public void Suspend(string suspendedBy, string changeReason, TimeProvider timeProvider)
     {
-        if (Status != CustomerStatus.Active)
+        if (string.IsNullOrWhiteSpace(suspendedBy))
+        {
+            throw new DomainException("Suspended by is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(changeReason))
+        {
+            throw new DomainException("Change reason is required.");
+        }
+
+        var currentStatus = Status;
+        var newStatus = CustomerStatus.Suspended;
+
+        if (currentStatus == newStatus)
+        {
+            return;
+        }
+
+        if (currentStatus != CustomerStatus.Active)
         {
             throw new DomainException("Only active customers can be suspended.");
         }
@@ -77,8 +98,17 @@ public sealed class Customer
             throw new DomainException("Deleted customers cannot be suspended.");
         }
 
+        var suspendedDate = timeProvider.GetUtcNow();
         Status = CustomerStatus.Suspended;
-        UpdatedDate = timeProvider.GetUtcNow();
+        UpdatedDate = suspendedDate;
+
+        RaiseDomainEvent(new CustomerSuspendedEvent(CustomerId, suspendedDate));
+        RaiseDomainEvent(new CustomerChangedEvent(CustomerId, suspendedDate, new(
+            suspendedBy,
+            [
+                new Change(nameof(Status), currentStatus.ToString(), newStatus.ToString(), [changeReason])
+            ]
+        )));
     }
 
     private bool IsDeleted => DeletedDate.HasValue;
