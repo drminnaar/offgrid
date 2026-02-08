@@ -7,6 +7,7 @@ public static partial class ApiExtensions
     public static IServiceCollection AddExceptionHandlers(this IServiceCollection services)
     {
         services.AddExceptionHandler<BadHttpRequestExceptionHandler>();
+        services.AddExceptionHandler<UnauthorizedAccessExceptionHandler>();
         services.AddExceptionHandler<DomainExceptionHandler>();
         services.AddExceptionHandler<ValidationExceptionHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
