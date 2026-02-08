@@ -1,6 +1,9 @@
-﻿using Offgrid.Framework.Exceptions;
+﻿using Offgrid.Framework.Domain;
+using Offgrid.Framework.Exceptions;
 using Offgrid.Portal.Customers.Domain.Entities;
+using Offgrid.Portal.Customers.Domain.Events;
 using Offgrid.Portal.Customers.Domain.Repositories;
+using Offgrid.Portal.Customers.Domain.Services;
 
 namespace Offgrid.Portal.Customers.Application.Commands.SuspendCustomer;
 
@@ -14,14 +17,24 @@ public interface ISuspendCustomerCommandHandler
 
 public sealed class SuspendCustomerCommandHandler : ISuspendCustomerCommandHandler
 {
-    private readonly ICustomerRepository _customerRepository;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ICustomerChangeFactory _customerChangeFactory;
+    private readonly IDomainEventDispatcher _domainEventDispatcher;
     private readonly TimeProvider _timeProvider;
 
-    public SuspendCustomerCommandHandler(ICustomerRepository customerRepository, TimeProvider timeProvider)
+    public SuspendCustomerCommandHandler(
+        IUnitOfWork unitOfWork,
+        ICustomerChangeFactory customerChangeFactory,
+        IDomainEventDispatcher domainEventDispatcher,
+        TimeProvider timeProvider)
     {
-        ArgumentNullException.ThrowIfNull(customerRepository, nameof(customerRepository));
+        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+        ArgumentNullException.ThrowIfNull(customerChangeFactory, nameof(customerChangeFactory));
+        ArgumentNullException.ThrowIfNull(domainEventDispatcher, nameof(domainEventDispatcher));
         ArgumentNullException.ThrowIfNull(timeProvider, nameof(timeProvider));
-        _customerRepository = customerRepository;
+        _unitOfWork = unitOfWork;
+        _customerChangeFactory = customerChangeFactory;
+        _domainEventDispatcher = domainEventDispatcher;
         _timeProvider = timeProvider;
     }
 
@@ -33,10 +46,10 @@ public sealed class SuspendCustomerCommandHandler : ISuspendCustomerCommandHandl
         var isValid = command.TryValidate(out var validationErrors);
         if (!isValid)
         {
-            throw new ValidationException("Invalid suspend customer command", validationErrors);
+            throw new ValidationException("Invalid request to suspend customer.", validationErrors);
         }
 
-        var existingCustomer = await _customerRepository
+        var existingCustomer = await _unitOfWork.Customers
             .GetByIdAsync(customerId, cancellationToken)
             ?? throw new EntityNotFoundException($"Customer with ID {customerId} not found.")
             {
@@ -46,9 +59,49 @@ public sealed class SuspendCustomerCommandHandler : ISuspendCustomerCommandHandl
 
         var (reason, suspendedBy) = command;
         existingCustomer.Suspend(suspendedBy, reason, _timeProvider);
-        _customerRepository.Update(existingCustomer);
-        await _customerRepository.SaveChangesAsync(cancellationToken);
+
+        var domainEvents = existingCustomer.DomainEvents.ToList();
+        RecordCustomerChangedEvents(domainEvents);
+
+        existingCustomer.ClearDomainEvents();
+        _unitOfWork.Customers.Update(existingCustomer);
+
+        try
+        {
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+        catch
+        {
+            existingCustomer.RestoreDomainEvents(domainEvents);
+            throw;
+        }
+
+        if (domainEvents.Count > 0)
+        {
+            await _domainEventDispatcher.DispatchEventsAsync(domainEvents, cancellationToken);
+        }
 
         return new SuspendCustomerResult(existingCustomer.CustomerId, existingCustomer.Status.ToString());
+    }
+
+    private void RecordCustomerChangedEvents(IReadOnlyCollection<IDomainEvent> domainEvents)
+    {
+        var changeEvents = domainEvents.OfType<CustomerChangedEvent>().ToList();
+
+        if (changeEvents.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var changeEvent in changeEvents)
+        {
+            var customerChange = _customerChangeFactory.Create(
+                customerId: changeEvent.CustomerId,
+                changedBy: changeEvent.ChangedBy,
+                changes: changeEvent.Changes,
+                changedDate: changeEvent.OccurredAt);
+
+            _unitOfWork.CustomerChanges.Add(customerChange);
+        }
     }
 }

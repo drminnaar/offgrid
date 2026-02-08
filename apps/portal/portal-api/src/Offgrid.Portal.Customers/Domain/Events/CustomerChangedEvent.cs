@@ -2,20 +2,31 @@
 
 namespace Offgrid.Portal.Customers.Domain.Events
 {
-    public sealed record CustomerChangedEvent(
-        Guid CustomerId,
-        DateTimeOffset OccurredAt,
-        ValueChanges Changes
-    ) : IDomainEvent, IHasValueChanges
+    public sealed record CustomerChangedEvent : IDomainEvent, IHasValueChanges
     {
+        public CustomerChangedEvent(
+            Guid customerId,
+            DateTimeOffset occurredAt,
+            ValueChanges customerChanges)
+        {
+            ArgumentNullException.ThrowIfNull(customerChanges, nameof(customerChanges));
+            CustomerId = customerId;
+            OccurredAt = occurredAt;
+            _customerChanges = customerChanges;
+        }
+
+        public Guid CustomerId { get; }
+        public DateTimeOffset OccurredAt { get; }
+
         public string EventId => EventRegistry.Customer.CustomerChangedEventId;
 
         public string EventName => nameof(CustomerChangedEvent);
 
         public string CorrelationId => CustomerId.ToString();
 
-        public string ChangedBy => Changes.ChangedBy;
+        public string ChangedBy => _customerChanges.ChangedBy;
 
-        IReadOnlyCollection<Change> IHasValueChanges.Changes => Changes.Changes;
+        private readonly ValueChanges _customerChanges;
+        public IReadOnlyCollection<Change> Changes => _customerChanges.Changes;
     }
 }
