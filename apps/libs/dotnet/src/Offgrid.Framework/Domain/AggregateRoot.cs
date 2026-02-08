@@ -19,6 +19,12 @@ public abstract class AggregateRoot
         _domainEvents.Add(domainEvent);
     }
 
+    public void RestoreDomainEvents(IEnumerable<IDomainEvent> domainEvents)
+    {
+        ArgumentNullException.ThrowIfNull(domainEvents);
+        _domainEvents.AddRange(domainEvents);
+    }
+
     public void ClearDomainEvents()
     {
         _domainEvents.Clear();
