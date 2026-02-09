@@ -25,14 +25,14 @@ public sealed class Customer : AggregateRoot
     {
     }
 
-    public void Reinstate(string reinstatedBy, string reinstatedReason, TimeProvider timeProvider)
+    public void Reinstate(string reinstatedBy, string reason, TimeProvider timeProvider)
     {
         if (string.IsNullOrWhiteSpace(reinstatedBy))
         {
             throw new DomainException("Reinstated by is required.");
         }
 
-        if (string.IsNullOrWhiteSpace(reinstatedReason))
+        if (string.IsNullOrWhiteSpace(reason))
         {
             throw new DomainException("Reinstated reason is required.");
         }
@@ -59,25 +59,25 @@ public sealed class Customer : AggregateRoot
         Status = CustomerStatus.Active;
         UpdatedDate = reinstatedDate;
 
-        RaiseDomainEvent(new CustomerReinstatedEvent(CustomerId, reinstatedDate));
+        RaiseDomainEvent(new CustomerReinstatedEvent(CustomerId, reinstatedDate, reason));
         RaiseDomainEvent(new CustomerChangedEvent(CustomerId, reinstatedDate, new(
             reinstatedBy,
             [
-                new Change(nameof(Status), currentStatus.ToString(), newStatus.ToString(), [reinstatedReason])
+                new Change(nameof(Status), currentStatus.ToString(), newStatus.ToString(), [reason])
             ]
         )));
     }
 
-    public void Suspend(string suspendedBy, string changeReason, TimeProvider timeProvider)
+    public void Suspend(string suspendedBy, string reason, TimeProvider timeProvider)
     {
         if (string.IsNullOrWhiteSpace(suspendedBy))
         {
             throw new DomainException("Suspended by is required.");
         }
 
-        if (string.IsNullOrWhiteSpace(changeReason))
+        if (string.IsNullOrWhiteSpace(reason))
         {
-            throw new DomainException("Change reason is required.");
+            throw new DomainException("Suspension reason is required.");
         }
 
         var currentStatus = Status;
@@ -102,11 +102,11 @@ public sealed class Customer : AggregateRoot
         Status = CustomerStatus.Suspended;
         UpdatedDate = suspendedDate;
 
-        RaiseDomainEvent(new CustomerSuspendedEvent(CustomerId, suspendedDate));
+        RaiseDomainEvent(new CustomerSuspendedEvent(CustomerId, suspendedDate, reason));
         RaiseDomainEvent(new CustomerChangedEvent(CustomerId, suspendedDate, new(
             suspendedBy,
             [
-                new Change(nameof(Status), currentStatus.ToString(), newStatus.ToString(), [changeReason])
+                new Change(nameof(Status), currentStatus.ToString(), newStatus.ToString(), [reason])
             ]
         )));
     }

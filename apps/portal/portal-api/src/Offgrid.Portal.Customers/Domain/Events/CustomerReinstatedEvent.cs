@@ -4,7 +4,8 @@ namespace Offgrid.Portal.Customers.Domain.Events
 {
     public sealed record CustomerReinstatedEvent(
         Guid CustomerId,
-        DateTimeOffset OccurredAt
+        DateTimeOffset OccurredAt,
+        string Reason
     ) : IDomainEvent
     {
         public string EventTypeId => EventRegistry.Customer.CustomerReinstatedEventId;
