@@ -18,7 +18,7 @@ public sealed class CustomerReinstatedEventHandler : IDomainEventHandler<Custome
     {
         _logger.LogInformation(
             "Handled {EventName} for customer {CustomerId} at {OccurredAt}.",
-            domainEvent.EventName,
+            domainEvent.EventType,
             domainEvent.CustomerId,
             domainEvent.OccurredAt);
 

@@ -18,7 +18,7 @@ public sealed class CustomerChangedEventHandler : IDomainEventHandler<CustomerCh
     {
         _logger.LogInformation(
             "Handled {EventName} for customer {CustomerId} at {OccurredAt}.",
-            domainEvent.EventName,
+            domainEvent.EventType,
             domainEvent.CustomerId,
             domainEvent.OccurredAt);
 

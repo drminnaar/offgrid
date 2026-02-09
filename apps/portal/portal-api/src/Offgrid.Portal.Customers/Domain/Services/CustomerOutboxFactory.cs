@@ -28,8 +28,8 @@ public class CustomerOutboxFactory : ICustomerOutboxFactory
 
         return CustomerOutbox.CreateNew(
             _idGenerator.GenerateEntityId(),
-            domainEvent.EventId,
-            domainEvent.EventName,
+            domainEvent.EventTypeId,
+            domainEvent.EventType,
             payload,
             domainEvent.OccurredAt,
             _timeProvider.GetUtcNow()

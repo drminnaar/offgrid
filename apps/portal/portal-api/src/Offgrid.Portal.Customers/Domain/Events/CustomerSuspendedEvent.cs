@@ -7,9 +7,9 @@ namespace Offgrid.Portal.Customers.Domain.Events
         DateTimeOffset OccurredAt
     ) : IDomainEvent
     {
-        public string EventId => EventRegistry.Customer.CustomerSuspendedEventId;
+        public string EventTypeId => EventRegistry.Customer.CustomerSuspendedEventId;
 
-        public string EventName => nameof(CustomerSuspendedEvent);
+        public string EventType => nameof(CustomerSuspendedEvent);
 
         public string CorrelationId => CustomerId.ToString();
     }

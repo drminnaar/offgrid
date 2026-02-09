@@ -18,7 +18,7 @@ public sealed class CustomerSuspendedEventHandler : IDomainEventHandler<Customer
     {
         _logger.LogInformation(
             "Handled {EventName} for customer {CustomerId} at {OccurredAt}.",
-            domainEvent.EventName,
+            domainEvent.EventType,
             domainEvent.CustomerId,
             domainEvent.OccurredAt);
 
