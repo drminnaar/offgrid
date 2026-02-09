@@ -6,7 +6,7 @@ namespace Offgrid.Portal.Customers.Domain.Services;
 
 public interface ICustomerOutboxFactory
 {
-    CustomerOutbox Create(IDomainEvent domainEvent);
+    CustomerOutboxMessage Create(IDomainEvent domainEvent);
 }
 
 public class CustomerOutboxFactory : ICustomerOutboxFactory
@@ -20,13 +20,13 @@ public class CustomerOutboxFactory : ICustomerOutboxFactory
         _idGenerator = idGenerator ?? throw new ArgumentNullException(nameof(idGenerator));
     }
 
-    public CustomerOutbox Create(IDomainEvent domainEvent)
+    public CustomerOutboxMessage Create(IDomainEvent domainEvent)
     {
         ArgumentNullException.ThrowIfNull(domainEvent);
 
         var payload = JsonSerializer.Serialize(domainEvent, domainEvent.GetType());
 
-        return CustomerOutbox.CreateNew(
+        return CustomerOutboxMessage.CreateNew(
             _idGenerator.GenerateEntityId(),
             domainEvent.EventTypeId,
             domainEvent.EventType,

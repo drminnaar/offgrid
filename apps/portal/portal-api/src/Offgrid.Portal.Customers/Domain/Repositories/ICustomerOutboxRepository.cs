@@ -4,5 +4,5 @@ namespace Offgrid.Portal.Customers.Domain.Repositories;
 
 public interface ICustomerOutboxRepository
 {
-    void Add(CustomerOutbox customerOutbox);
+    void Add(CustomerOutboxMessage customerOutboxMessage);
 }

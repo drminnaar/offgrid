@@ -1,10 +1,10 @@
 ﻿namespace Offgrid.Portal.Customers.Domain.Entities;
 
-public sealed class CustomerOutbox
+public sealed class CustomerOutboxMessage
 {
     public DateTimeOffset CreatedAt { get; private set; }
     public Guid Id { get; private set; }
-    public string EventId { get; private set; } = string.Empty;
+    public string EventTypeId { get; private set; } = string.Empty;
     public string EventType { get; private set; } = string.Empty;
     public string Payload { get; private set; } = string.Empty;
     public DateTimeOffset OccurredAt { get; private set; }
@@ -14,22 +14,22 @@ public sealed class CustomerOutbox
     public DateTimeOffset? NextRetryAt { get; private set; }
     public bool IsDeadletter { get; private set; }
 
-    private CustomerOutbox()
+    private CustomerOutboxMessage()
     {
     }
 
-    public static CustomerOutbox CreateNew(
+    public static CustomerOutboxMessage CreateNew(
         Guid id,
-        string eventId,
+        string eventTypeId,
         string eventType,
         string payload,
         DateTimeOffset occurredAt,
         DateTimeOffset createdAt)
     {
-        return new CustomerOutbox
+        return new CustomerOutboxMessage
         {
             Id = id,
-            EventId = eventId,
+            EventTypeId = eventTypeId,
             EventType = eventType,
             Payload = payload,
             OccurredAt = occurredAt,

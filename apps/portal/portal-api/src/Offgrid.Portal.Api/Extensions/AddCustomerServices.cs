@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using Offgrid.Customers.Contracts.DomainEvents;
 using Offgrid.Framework.Domain;
 using Offgrid.Portal.Customers.Application.Commands.ReinstateCustomer;
 using Offgrid.Portal.Customers.Application.Commands.SuspendCustomer;
 using Offgrid.Portal.Customers.Application.EventHandlers;
 using Offgrid.Portal.Customers.Application.Services;
-using Offgrid.Portal.Customers.Domain.Events;
 using Offgrid.Portal.Customers.Domain.Repositories;
 using Offgrid.Portal.Customers.Domain.Services;
 using Offgrid.Portal.Customers.Infrastructure.Events;

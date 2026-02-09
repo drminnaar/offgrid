@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Offgrid.Customers.Contracts.DomainEvents;
 using Offgrid.Framework.Domain;
 using Offgrid.Framework.Exceptions;
-using Offgrid.Portal.Customers.Domain.Events;
 
 namespace Offgrid.Portal.Customers.Domain.Entities;
 

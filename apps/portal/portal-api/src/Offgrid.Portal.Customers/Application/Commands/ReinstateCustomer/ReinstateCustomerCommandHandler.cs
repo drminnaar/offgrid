@@ -1,7 +1,7 @@
-﻿using Offgrid.Framework.Domain;
+﻿using Offgrid.Customers.Contracts.DomainEvents;
+using Offgrid.Framework.Domain;
 using Offgrid.Framework.Exceptions;
 using Offgrid.Portal.Customers.Domain.Entities;
-using Offgrid.Portal.Customers.Domain.Events;
 using Offgrid.Portal.Customers.Domain.Repositories;
 using Offgrid.Portal.Customers.Domain.Services;
 

@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\events\src\Offgrid.Customers.Contracts\Offgrid.Customers.Contracts.csproj" />
     <ProjectReference Include="..\..\..\..\libs\dotnet\src\Offgrid.Framework\Offgrid.Framework.csproj" />
   </ItemGroup>
 

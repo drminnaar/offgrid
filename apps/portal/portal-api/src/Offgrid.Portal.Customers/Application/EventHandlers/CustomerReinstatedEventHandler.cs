@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Offgrid.Customers.Contracts.DomainEvents;
 using Offgrid.Framework.Domain;
-using Offgrid.Portal.Customers.Domain.Events;
 
 namespace Offgrid.Portal.Customers.Application.EventHandlers;
 

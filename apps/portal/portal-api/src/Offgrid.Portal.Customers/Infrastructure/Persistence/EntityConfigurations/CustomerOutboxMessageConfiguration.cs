@@ -4,12 +4,12 @@ using Offgrid.Portal.Customers.Domain.Entities;
 
 namespace Offgrid.Portal.Customers.Infrastructure.Persistence.EntityConfigurations;
 
-public class CustomerOutboxConfiguration : IEntityTypeConfiguration<CustomerOutbox>
+public class CustomerOutboxMessageConfiguration : IEntityTypeConfiguration<CustomerOutboxMessage>
 {
-    public void Configure(EntityTypeBuilder<CustomerOutbox> entity)
+    public void Configure(EntityTypeBuilder<CustomerOutboxMessage> entity)
     {
         // map table
-        entity.ToTable(name: "customer_outbox", schema: Schema.CUSTOMERS);
+        entity.ToTable(name: "customer_outbox_message", schema: Schema.CUSTOMERS);
 
         // map primary key
         entity.HasKey(e => e.Id);
@@ -17,7 +17,7 @@ public class CustomerOutboxConfiguration : IEntityTypeConfiguration<CustomerOutb
 
         // map columns
         entity.Property(e => e.CreatedAt).HasColumnName("created_at").IsRequired();
-        entity.Property(e => e.EventId).HasColumnName("event_id").HasMaxLength(255).IsRequired();
+        entity.Property(e => e.EventTypeId).HasColumnName("event_type_id").HasMaxLength(255).IsRequired();
         entity.Property(e => e.EventType).HasColumnName("event_type").HasMaxLength(255).IsRequired();
         entity.Property(e => e.Payload).HasColumnName("payload").HasColumnType("jsonb").IsRequired();
         entity.Property(e => e.OccurredAt).HasColumnName("occurred_at").IsRequired();
@@ -30,11 +30,11 @@ public class CustomerOutboxConfiguration : IEntityTypeConfiguration<CustomerOutb
         // indexes
         entity
             .HasIndex(e => e.OccurredAt)
-            .HasDatabaseName("ix_customers_customeroutbox_occurredat")
+            .HasDatabaseName("ix_customers_customeroutboxmessage_occurredat")
             .HasFilter("processed_at IS NULL");
         entity
             .HasIndex(e => e.NextRetryAt)
-            .HasDatabaseName("ix_customers_customeroutbox_nextretryat")
+            .HasDatabaseName("ix_customers_customeroutboxmessage_nextretryat")
             .HasFilter("processed_at IS NULL");
     }
 }

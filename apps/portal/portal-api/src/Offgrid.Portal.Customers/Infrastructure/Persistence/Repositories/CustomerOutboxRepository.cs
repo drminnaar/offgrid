@@ -12,9 +12,9 @@ public sealed class CustomerOutboxRepository : ICustomerOutboxRepository
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public void Add(CustomerOutbox customerOutbox)
+    public void Add(CustomerOutboxMessage customerOutboxMessage)
     {
-        ArgumentNullException.ThrowIfNull(customerOutbox, nameof(customerOutbox));
-        _dbContext.CustomerOutboxes.Add(customerOutbox);
+        ArgumentNullException.ThrowIfNull(customerOutboxMessage, nameof(customerOutboxMessage));
+        _dbContext.CustomerOutboxMessages.Add(customerOutboxMessage);
     }
 }

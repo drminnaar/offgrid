@@ -12,7 +12,7 @@ public sealed class AppDbContext : DbContext, IAppDbContext
 
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<CustomerChange> CustomerChanges => Set<CustomerChange>();
-    public DbSet<CustomerOutbox> CustomerOutboxes => Set<CustomerOutbox>();
+    public DbSet<CustomerOutboxMessage> CustomerOutboxMessages => Set<CustomerOutboxMessage>();
 
     public bool HasChanges()
     {
