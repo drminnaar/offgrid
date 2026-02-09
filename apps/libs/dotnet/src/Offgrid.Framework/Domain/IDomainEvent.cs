@@ -2,8 +2,8 @@
 
 public interface IDomainEvent
 {
-    public string EventId { get; }
-    public string EventName { get; }
+    public string EventTypeId { get; }
+    public string EventType { get; }
     public string CorrelationId { get; }
     public DateTimeOffset OccurredAt { get; }
 }
