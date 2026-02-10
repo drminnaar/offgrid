@@ -1,9 +1,26 @@
+﻿using System.Text.Json;
+
 namespace Offgrid.Framework.System;
 
 public static class StringExtensions
 {
     extension(string source)
     {
+        public bool IsJson()
+        {
+            if (string.IsNullOrWhiteSpace(source)) return false;
+
+            try
+            {
+                using var _ = JsonDocument.Parse(source);
+                return true;
+            }
+            catch (JsonException)
+            {
+                return false;
+            }
+        }
+
         public string ToCamelCase()
         {
             if (string.IsNullOrEmpty(source) || char.IsLower(source[0]))
