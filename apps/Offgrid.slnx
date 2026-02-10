@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Events/">
+    <Project Path="events/src/Offgrid.Customers.Contracts/Offgrid.Customers.Contracts.csproj" />
+    <Project Path="events/src/Offgrid.Customers.OutboxWorker/Offgrid.Customers.OutboxWorker.csproj" />
+  </Folder>
 
   <Folder Name="/Libs/">
     <Project Path="libs/dotnet/src/Offgrid.Framework/Offgrid.Framework.csproj" />

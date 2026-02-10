@@ -60,12 +60,12 @@ public sealed class Customer : AggregateRoot
         UpdatedDate = reinstatedDate;
 
         RaiseDomainEvent(new CustomerReinstatedEvent(CustomerId, reinstatedDate, reason));
-        RaiseDomainEvent(new CustomerChangedEvent(CustomerId, reinstatedDate, new(
+        RaiseDomainEvent(new CustomerChangedEvent(
+            CustomerId,
+            reinstatedDate,
             reinstatedBy,
-            [
-                new Change(nameof(Status), currentStatus.ToString(), newStatus.ToString(), [reason])
-            ]
-        )));
+            [new(nameof(Status), currentStatus.ToString(), newStatus.ToString(), [reason])]
+        ));
     }
 
     public void Suspend(string suspendedBy, string reason, TimeProvider timeProvider)
@@ -103,12 +103,12 @@ public sealed class Customer : AggregateRoot
         UpdatedDate = suspendedDate;
 
         RaiseDomainEvent(new CustomerSuspendedEvent(CustomerId, suspendedDate, reason));
-        RaiseDomainEvent(new CustomerChangedEvent(CustomerId, suspendedDate, new(
+        RaiseDomainEvent(new CustomerChangedEvent(
+            CustomerId,
+            suspendedDate,
             suspendedBy,
-            [
-                new Change(nameof(Status), currentStatus.ToString(), newStatus.ToString(), [reason])
-            ]
-        )));
+            [new(nameof(Status), currentStatus.ToString(), newStatus.ToString(), [reason])]
+        ));
     }
 
     private bool IsDeleted => DeletedDate.HasValue;
