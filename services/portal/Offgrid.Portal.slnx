@@ -1,0 +1,14 @@
+<Solution>
+<Folder Name="/Requests/">
+    <File Path="portal/requests/.env.example" />
+    <File Path="portal/requests/customers-reinstate.http" />
+    <File Path="portal/requests/customers-suspend.http" />
+    <File Path="portal/requests/root.http" />
+  </Folder>
+
+  <Project Path="../../libs/dotnet/src/Offgrid.Framework/Offgrid.Framework.csproj" />
+  <Project Path="src/Offgrid.Portal.Api/Offgrid.Portal.Api.csproj" />
+  <Project Path="src/Offgrid.Portal.Customers/Offgrid.Portal.Customers.csproj" />
+  <Project Path="src/Offgrid.Portal.Customers.Contracts/Offgrid.Portal.Customers.Contracts.csproj" />
+  <Project Path="src/Offgrid.Portal.Customers.OutboxProcessor/Offgrid.Portal.Customers.OutboxProcessor.csproj" />
+</Solution>

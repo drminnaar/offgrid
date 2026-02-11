@@ -1,0 +1,37 @@
+<Solution>
+
+  <Folder Name="/1 - Libs/">
+    <Project Path="../libs/dotnet/src/Offgrid.Framework/Offgrid.Framework.csproj" />
+  </Folder>
+
+  <Folder Name="/2 - Portal/">
+    <File Path="portal/README.md" />
+    <Project Path="portal/src/Offgrid.Portal.Api/Offgrid.Portal.Api.csproj" />
+    <Project Path="portal/src/Offgrid.Portal.Customers/Offgrid.Portal.Customers.csproj" />
+    <Project Path="portal/src/Offgrid.Portal.Customers.Contracts/Offgrid.Portal.Customers.Contracts.csproj" />
+    <Project Path="portal/src/Offgrid.Portal.Customers.OutboxProcessor/Offgrid.Portal.Customers.OutboxProcessor.csproj" />
+  </Folder>
+
+  <Folder Name="/3 - Shop/">
+    <File Path="shop/compose.yaml" />
+    <File Path="shop/Dockerfile" />
+    <File Path="shop/README.md" />
+    <Project Path="shop/src/Offgrid.Shop.Api/Offgrid.Shop.Api.csproj" />
+    <Project Path="shop/src/Offgrid.Shop.Customers/Offgrid.Shop.Customers.csproj" />
+  </Folder>
+  <Folder Name="/4 - Requests/" />
+
+  <Folder Name="/4 - Requests/Portal/">
+    <File Path="portal/requests/.env.example" />
+    <File Path="portal/requests/customers-reinstate.http" />
+    <File Path="portal/requests/customers-suspend.http" />
+    <File Path="portal/requests/root.http" />
+  </Folder>
+  
+  <Folder Name="/4 - Requests/Shop/">
+    <File Path="shop/requests/.env.example" />
+    <File Path="shop/requests/customers-upsert.http" />
+    <File Path="shop/requests/root.http" />
+  </Folder>
+
+</Solution>

@@ -1,5 +1,0 @@
-<Solution>
-  <Project Path="../../libs/dotnet/src/Offgrid.Framework/Offgrid.Framework.csproj" />
-  <Project Path="src/Offgrid.Portal.Api/Offgrid.Portal.Api.csproj" />
-  <Project Path="src/Offgrid.Portal.Customers/Offgrid.Portal.Customers.csproj" />
-</Solution>

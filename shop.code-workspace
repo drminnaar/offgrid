@@ -1,16 +1,16 @@
 {
   "folders": [
     {
-      "path": "./apps/libs/dotnet",
-      "name": "Shared",
+      "path": "./libs/dotnet/src",
+      "name": "Libs",
     },
     {
-      "path": "./apps/shop/shop-app",
-      "name": "Shop App",
+      "path": "./apps/shop-app",
+      "name": "Shop Frontend",
     },
     {
-      "path": "./apps/shop/shop-api",
-      "name": "Shop API",
+      "path": "./services/shop/src",
+      "name": "Shop Backend",
     }
   ],
   "settings": {

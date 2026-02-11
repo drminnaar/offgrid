@@ -54,35 +54,44 @@ The project structure will evolve over time. However, this section provides an e
 ```text
 
 offgrid
-├── apps                                  # Primary applications
-│   ├── shop                              # Customer facing shopping e-commerce website
-│   │   ├── shop-app                      # Nextjs web applicaiton
-│   │   └── shop-api                      # .NET API
-│   └── portal                            # Staff portal website (React) to manage backoffice
-│       ├── shop-app  
-│       └── portal-api                    # Docker container image for portal app
+├── apps                                  # Frontend applications
+│   ├── portal-app                        # React admin portal
+│   └── shop-app                          # Next.js customer shop
+│
+├── services                              # .NET backend services
+│   ├── Offgrid.slnx
+│   ├── portal/
+│   │   ├── Offgrid.Portal.slnx
+│   │   └── src/                          # Portal APIs, domain services, processors
+│   └── shop/
+│       ├── Offgrid.Shop.slnx
+│       └── src/                          # Shop API and services
 │
 ├── infra
 │   └── local                             # Local development infrastructure
 │       ├── compose.yaml                  # Main compose file (using include directive for multi-compose-file support)
 │       │
-│       ├── postgres/                     # Postgres docker config
-│       │   └── compose.yaml     # Custom Postgres compose file
+│       ├── flyway                        # Flyway docker config
+│       │   └── compose.yaml              # Custom Flyway compose file
+│       │
+│       ├── postgres                      # Postgres docker config
+│       │   └── compose.yaml              # Custom Postgres compose file
 │       │
 │       └── keycloak                      # Keycloak docker config
 │           └── compose.keycloak.yaml     # Custom Keycloak compose file
 │       
 ├── libs                                  # Shared libraries
-│   ├── dotnet                            # .NET shared libraries
-│   └── typescript                        # Typescript shared libraries
+│   └── dotnet                            # .NET shared libraries
 │
 ├── docs
-│   ├── decision-register                 # A simple wiki to capture key project decisions
-│   ├── designs                           # Collection of design diagrams
-│   ├── git                               # Collection of git standards and practices for this repo
-│   └── org                               # Organizational description and design
+│   ├── design                            # Architecture and DDD docs
+│   ├── images                            # Diagrams and visual assets
+│   ├── portal                            # Portal app docs
+│   ├── shop                              # Shop app docs
+│   └── standards                         # Engineering standards
 │
 ├── scripts
+├── *.code-workspace
 │
 └── README.md
 

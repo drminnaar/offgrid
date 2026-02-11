@@ -1,11 +1,11 @@
 {
   "folders": [
     {
-      "path": "./apps/portal/portal-api/requests",
+      "path": "./services/portal/requests",
       "name": "Portal API Requests",
     },
     {
-      "path": "./apps/shop/shop-api/requests",
+      "path": "./services/shop/requests",
       "name": "Shop API Requests",
     },
   ],

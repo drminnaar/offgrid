@@ -229,7 +229,7 @@
         "command": "C:/Program Files/Git/bin/bash.exe",
         "args": [
           "-c",
-          "dotnet run --project ./shop/shop-api/src/ShopApi/ShopApi.csproj"
+          "dotnet watch run --project ./services/shop/src/Offgrid.Shop.Api/Offgrid.Shop.Api.csproj"
         ]
       },
       "linux": {
@@ -237,7 +237,7 @@
         "args": [
           "run",
           "--project",
-          "${workspaceFolder}/shop/shop-api/src/ShopApi/ShopApi.csproj"
+          "${workspaceFolder}/services/shop/src/Offgrid.Shop.Api/Offgrid.Shop.Api.csproj"
         ]
       },
       "group": {
@@ -258,14 +258,14 @@
     // Shop App
     // ------------------------------------------------------------------------
     {
-      "label": "shop-app: npm run dev",
+      "label": "npm: run shop-app",
       "type": "shell",
       "problemMatcher": "$msCompile",
       "windows": {
         "command": "C:/Program Files/Git/bin/bash.exe",
         "args": [
           "-c",
-          "npm run dev --prefix ./shop/shop-app"
+          "npm run dev --prefix ./apps/shop-app"
         ]
       },
       "linux": {
@@ -274,7 +274,7 @@
           "run",
           "dev",
           "--prefix",
-          "${workspaceFolder}/shop/shop-app"
+          "${workspaceFolder}/apps/shop-app"
         ]
       },
       "group": {
@@ -302,7 +302,7 @@
         "command": "C:/Program Files/Git/bin/bash.exe",
         "args": [
           "-c",
-          "dotnet run --project ./portal/portal-api/src/Api/Api.csproj"
+          "dotnet watch run --project ./services/portal/src/Offgrid.Portal.Api/Offgrid.Portal.Api.csproj"
         ]
       },
       "linux": {
@@ -310,7 +310,7 @@
         "args": [
           "run",
           "--project",
-          "${workspaceFolder}/portal/portal-api/src/Api/Api.csproj"
+          "${workspaceFolder}/services/portal/src/Offgrid.Portal.Api/Offgrid.Portal.Api.csproj"
         ]
       },
       "group": {
@@ -328,17 +328,53 @@
       }
     },
     // ------------------------------------------------------------------------
-    // Portal App
+    // Portal Outbox Processor
     // ------------------------------------------------------------------------
     {
-      "label": "portal-app: npm run dev",
+      "label": "dotnet: run portal-outbox-processor",
       "type": "shell",
       "problemMatcher": "$msCompile",
       "windows": {
         "command": "C:/Program Files/Git/bin/bash.exe",
         "args": [
           "-c",
-          "npm run dev --prefix ./portal/portal-app"
+          "dotnet watch run --project ./services/portal/src/Offgrid.Portal.Customers.OutboxProcessor/Offgrid.Portal.Customers.OutboxProcessor.csproj"
+        ]
+      },
+      "linux": {
+        "command": "dotnet",
+        "args": [
+          "run",
+          "--project",
+          "${workspaceFolder}/services/portal/src/Offgrid.Portal.Customers.OutboxProcessor/Offgrid.Portal.Customers.OutboxProcessor.csproj"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "icon": {
+        "id": "gear",
+        "color": "terminal.ansiGreen"
+      }
+    },
+    // ------------------------------------------------------------------------
+    // Portal App
+    // ------------------------------------------------------------------------
+    {
+      "label": "npm: run portal-app",
+      "type": "shell",
+      "problemMatcher": "$msCompile",
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "npm run dev --prefix ./apps/portal-app"
         ]
       },
       "linux": {
@@ -347,7 +383,7 @@
           "run",
           "dev",
           "--prefix",
-          "${workspaceFolder}/portal/portal-app"
+          "${workspaceFolder}/apps/portal-app"
         ]
       },
       "group": {
