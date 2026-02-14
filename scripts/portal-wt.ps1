@@ -1,4 +1,4 @@
-$repo = "$HOME\code\offgrid"
+$repo = git rev-parse --show-toplevel
 $bash = "C:\Program Files\Git\bin\bash.exe"
 $cmd_portalapp = "npm run dev --prefix ./apps/portal-app"
 $cmd_portalapi = "dotnet watch run --project ./services/portal/src/Offgrid.Portal.Api/Offgrid.Portal.Api.csproj"
