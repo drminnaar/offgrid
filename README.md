@@ -226,17 +226,19 @@ Find documentation here:
 - Infra Docs
   - [./infra/local/README.md](./infra/local/README.md)
 
+- Portal Design Docs
+  - [./docs/portal/design/version-1](./docs/portal/design/version-1)
+
+- Shop Design Docs
+  - [./docs/shop/design/version-1](./docs/shop/design/version-1)
+
 - App Docs
-  - shop-app
-    - [./apps/shop-app/README.md](./apps/shop-app/README.md)
-  - portal-app
-    - [./apps/portal-app/README.md](./apps/portal-app/README.md)
+  - shop-app: [./apps/shop-app/README.md](./apps/shop-app/README.md)
+  - portal-app: [./apps/portal-app/README.md](./apps/portal-app/README.md)
 
 - Service Docs
-  - shop-api
-    - [./services/shop/README.md](./services/shop/README.md)
-  - portal-api
-    - [./services/portal/README.md](./services/portal/README.md)
+  - shop-api: [./services/shop/README.md](./services/shop/README.md)
+  - portal-api: [./services/portal/README.md](./services/portal/README.md)
 
 - Other Docs
   - [Offgrid Organizational Design](./docs/design/org-design.md)
