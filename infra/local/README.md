@@ -8,6 +8,12 @@ This folder contains the local infrastructure used for development and testing. 
 
 ---
 
+## 🤖 Agents Guidance
+
+- Local infra guide: [../agents.md](../agents.md)
+
+---
+
 ## 🗂️ Folder Structure
 
 ```yaml

@@ -4,6 +4,12 @@ This is the primary API used by the Shop website.
 
 ---
 
+## 🤖 Agents Guidance
+
+- Local guide: [./agents.md](./agents.md)
+
+---
+
 ## 📐 Design
 
 ### High Level Solution Design

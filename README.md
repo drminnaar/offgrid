@@ -217,7 +217,27 @@ Checking installed tools...
 
 ---
 
+## 🤖 Agents Guidance
+
+- Repo-level guide: [./agents.md](./agents.md)
+- App guides: [./apps/shop-app/agents.md](./apps/shop-app/agents.md), [./apps/portal-app/agents.md](./apps/portal-app/agents.md)
+- Service guides: [./services/agents.md](./services/agents.md), [./services/shop/agents.md](./services/shop/agents.md), [./services/portal/agents.md](./services/portal/agents.md)
+- .NET Lib guides: [./libs/dotnet/agents.md](./libs/dotnet/agents.md)
+- Infra guide: [./infra/agents.md](./infra/agents.md)
+- Docs guide: [./docs/agents.md](./docs/agents.md)
+- Helper script: [./scripts/show-agents.sh](./scripts/show-agents.sh)
+- Copilot instructions: [./.github/copilot-instructions.md](./.github/copilot-instructions.md)
+
+---
+
 ## 🚀 Getting Started
+
+> [!IMPORTANT]
+> &nbsp;  
+> Please take note of the comprehensive [**📋 onboarding document**](./docs/onboarding.md).
+> &nbsp;  
+> &nbsp;  
+> The [onboarding document](./docs/onboarding.md) is completely generated using GitHub Copilot (Grok Code Fast 1/Claude Opus 4.6) with some minor tweaks between the different AI models.
 
 ### Read The Docs
 
@@ -419,6 +439,33 @@ See [Infrastructure README (./infra/local/README.md)](./infra/local/README.md)
 - [Flyway (./infra/local/scripts/flyway.sh)](./infra/local/scripts/flyway.sh): `./infra/local/scripts/flyway.sh info`
 
 - [RabbitMQ Admin](./infra/local/scripts/rabbitmqadmin.sh): `./infra/local/scripts/rabbitmqadmin.sh`
+
+### Custom Tasks
+
+> [!NOTE]
+> Take note of the Visual Studio Tasks that have been defined for this project.  
+> - See [tasks.json](./.vscode/tasks.json)  
+> - Press `Ctrl+Shift+b` to open build menu that displays tasks
+
+A summary of the [tasks.json](./.vscode/tasks.json) is provided as follows:
+
+- **infra**
+  - `bash: compose up` — Start the local infra stack via the compose helper script.
+  - `bash: compose down` — Stop and remove the local infra stack via the compose helper script.
+  - `bash: compose ps` — Show status of local infra containers.
+  - `bash: compose logs` — Show logs for a selected service (prompted).
+  - `bash: compose up-recreate` — Recreate a selected service (prompted).
+  - `bash: psql` — Open a Postgres CLI session using the repo script.
+  - `bash: rabbitmqadmin` — Run RabbitMQ admin CLI using the repo script.
+  - `bash: flyway` — Run Flyway command (prompted).
+- **shop apps/services**
+  - `dotnet: run shop-api` — Run the Shop API with dotnet watch.
+  - `npm: run shop-app` — Run the Shop frontend app in dev mode.
+- **portal apps/services**
+  - `dotnet: run portal-api` — Run the Portal API with dotnet watch.
+  - `dotnet: run portal-outbox-processor` — Run the Portal Customers Outbox Processor with dotnet watch.
+  - `dotnet: run portal-event-processor` — Run the Portal Customers Event Processor with dotnet watch.
+  - `npm: run portal-app` — Run the Portal frontend app in dev mode.
 
 ---
 

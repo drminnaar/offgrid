@@ -100,6 +100,12 @@ Access app at [http://localhost:4000](http://localhost:4000)
 
 ---
 
+## 🤖 Agents Guidance
+
+- Local guide: [./agents.md](./agents.md)
+
+---
+
 ## 📦 Packages
 
 ### Roboto Fonts

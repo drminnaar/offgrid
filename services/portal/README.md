@@ -4,6 +4,12 @@ This is the primary API used by the Portal admin app.
 
 ---
 
+## 🤖 Agents Guidance
+
+- Local guide: [./agents.md](./agents.md)
+
+---
+
 ## 📐 Design
 
 ### High Level Solution Design

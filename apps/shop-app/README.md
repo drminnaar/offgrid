@@ -128,6 +128,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ---
 
+## 🤖 Agents Guidance
+
+- Local guide: [./agents.md](./agents.md)
+
+---
+
 ## 🗝️ Keycloak Auth Setup
 
 - Step 1 - Install packages
