@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Offgrid.Framework.Domain;
+using Offgrid.Framework.System.Text;
 using Offgrid.Portal.Customers.Domain.Entities;
 
 namespace Offgrid.Portal.Customers.Domain.Services;
@@ -24,7 +25,10 @@ public class CustomerOutboxFactory : ICustomerOutboxFactory
     {
         ArgumentNullException.ThrowIfNull(domainEvent);
 
-        var payload = JsonSerializer.Serialize(domainEvent, domainEvent.GetType());
+        var payload = JsonSerializer.Serialize(
+            domainEvent,
+            domainEvent.GetType(),
+            JsonSerializationOptions.Messaging);
 
         return CustomerOutboxMessage.CreateNew(
             _idGenerator.GenerateEntityId(),
