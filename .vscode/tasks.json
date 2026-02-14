@@ -393,6 +393,42 @@
       }
     },
     // ------------------------------------------------------------------------
+    // Portal Event Processor
+    // ------------------------------------------------------------------------
+    {
+      "label": "dotnet: run portal-event-processor",
+      "type": "shell",
+      "problemMatcher": "$msCompile",
+      "windows": {
+        "command": "C:/Program Files/Git/bin/bash.exe",
+        "args": [
+          "-c",
+          "dotnet watch run --project ./services/portal/src/Offgrid.Portal.Customers.EventProcessor/Offgrid.Portal.Customers.EventProcessor.csproj"
+        ]
+      },
+      "linux": {
+        "command": "dotnet",
+        "args": [
+          "run",
+          "--project",
+          "${workspaceFolder}/services/portal/src/Offgrid.Portal.Customers.EventProcessor/Offgrid.Portal.Customers.EventProcessor.csproj"
+        ]
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "icon": {
+        "id": "gear",
+        "color": "terminal.ansiGreen"
+      }
+    },
+    // ------------------------------------------------------------------------
     // Portal App
     // ------------------------------------------------------------------------
     {
