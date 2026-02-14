@@ -1,0 +1,11 @@
+{
+  "RabbitMqClient": {
+    "HostName": "localhost",
+    "Port": 5672,
+    "UserName": "guest",
+    "Password": "guest",
+    "VirtualHost": "/",
+    "ExchangeName": "events-exchange",
+    "ExchangeType": "topic"
+  }
+}
