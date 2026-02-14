@@ -74,6 +74,9 @@ offgrid
 │       ├── flyway                        # Flyway docker config
 │       │   └── compose.yaml              # Custom Flyway compose file
 │       │
+│       ├── rabbitmq                      # RabbitMQ docker config
+│       │   └── compose.yaml              # Custom RabbitMQ compose file
+│       │
 │       ├── postgres                      # Postgres docker config
 │       │   └── compose.yaml              # Custom Postgres compose file
 │       │
@@ -216,17 +219,29 @@ Checking installed tools...
 
 ## 🚀 Getting Started
 
-Each area of focus has a detailed `README` file where you can find specific information about that respective area. For example:
+### Read The Docs
 
-- infra
+Find documentation here:
+
+- Infra Docs
   - [./infra/local/README.md](./infra/local/README.md)
-- apps
-  - docs
-    - [./apps/shop/docs/design/version-1/README.md](./apps/shop/docs/design/version-1/README.md)
+
+- App Docs
   - shop-app
-    - [./apps/shop/shop-app/README.md](./apps/shop/shop-app/README.md)
+    - [./apps/shop-app/README.md](./apps/shop-app/README.md)
+  - portal-app
+    - [./apps/portal-app/README.md](./apps/portal-app/README.md)
+
+- Service Docs
   - shop-api
-    - [./apps/shop/shop-api/README.md](./apps/shop/shop-api/README.md)
+    - [./services/shop/README.md](./services/shop/README.md)
+  - portal-api
+    - [./services/portal/README.md](./services/portal/README.md)
+
+- Other Docs
+  - [Offgrid Organizational Design](./docs/design/org-design.md)
+  - [Offgrid Strategic Design](./docs/design/strategic-design.md)
+  - [Domain Driven Design Guide](./docs/design/domain-driven-design-guide.md)
 
 ### Verify Prerequisites
 
@@ -297,6 +312,8 @@ Alternatively, use the following wrapper scripts:
 
 ### Run Shop Services
 
+### Using Docker
+
 This section explains how to run the shop services locally in Docker. For example:
 
 - shop-app (nextjs)
@@ -332,28 +349,99 @@ Alternatively, use the following wrapper scripts:
 
 ```
 
+### Run Portal Services
+
+This section explains how to run the portal services locally in the terminal. For example:
+
+- Portal Api (.NET 10)
+  
+  ```pwsh
+  dotnet watch run --project ./services/portal/src/Offgrid.Portal.Api/Offgrid.Portal.Api.csproj
+  ```
+
+- Portal Customer Outbox Processor (.NET 10)
+  
+  ```pwsh
+  dotnet watch run --project ./services/portal/src/Offgrid.Portal.Customers.OutboxProcessor/Offgrid.Portal.Customers.OutboxProcessor.csproj
+  ```
+
+- Portal Customer Event Processor (.NET 10)
+  
+  ```pwsh
+  dotnet watch run --project ./services/portal/src/Offgrid.Portal.Customers.EventProcessor/Offgrid.Portal.Customers.EventProcessor.csproj
+  ```
+
+- Portal App (Reactjs)
+  
+  ```pwsh
+  npm run dev --prefix ./apps/portal-app
+  ```
+
+For Windows users, open up Powershell in Windows Terminal and run the following command:
+
+```pwsh
+
+# ./scripts/portal-wt.ps1
+# Update repo path in script to your local repo path
+
+pwsh -file .\portal-wt.ps1
+
+```
+
 ### Access Infra and Services
 
 Access the apps and services via the following links:
 
 - [Shop App Website (http://localhost:3000)](http://localhost:3000)
-  - See [./apps/shop/shop-app/README.md](./apps/shop/shop-app/README.md) for more details
-- [Shop API (http://localhost:3000)](http://localhost:7000)
-  - See [./apps/shop/shop-api/README.md](./apps/shop/shop-api/README.md) for more details
+  - See [./apps/shop-app/README.md](./apps/shop-app/README.md) for more details
+
+- [Shop API (http://localhost:7000)](http://localhost:7000)
+  - See [./services/shop/README.md](./services/shop/README.md) for more details
+
+- [Portal App Website (http://localhost:4000)](http://localhost:4000)
+  - See [./apps/portal-app/README.md](./apps/portal-app/README.md) for more details
+
+- [Portal API (http://localhost:7001)](http://localhost:7001)
+  - See [./services/portal/README.md](./services/portal/README.md) for more details
+
 - [Keycloak Admin UI (http://localhost:8080)](http://localhost:8080)
+
+- [RabbitMQ Admin UI (http://localhost:15672)](http://localhost:15672)
 
 Connect to database services:
 
 See [Infrastructure README (./infra/local/README.md)](./infra/local/README.md)
 
-- [Postgres (./infra/local/scripts/psql.sh)](./infra/local/scripts/psql.sh):  `./infra/local/scripts/psql.sh`
+- [Postgres psql (./infra/local/scripts/psql.sh)](./infra/local/scripts/psql.sh):  `./infra/local/scripts/psql.sh`
+
 - [Flyway (./infra/local/scripts/flyway.sh)](./infra/local/scripts/flyway.sh): `./infra/local/scripts/flyway.sh info`
+
+- [RabbitMQ Admin](./infra/local/scripts/rabbitmqadmin.sh): `./infra/local/scripts/rabbitmqadmin.sh`
 
 ---
 
 ## 🏷️ Versioning
 
 I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/drminnaar/offgrid/tags).
+
+- [Version 1.0.0](https://github.com/drminnaar/offgrid/releases/tag/v1.0.0)
+  
+  This is the initial release of Offgrid, a reference/demo e-commerce project showcasing a modern, monorepo-based online adventure gear store (biking, winter & water sports equipment). Built with .NET 10 (C# 14) for the backend APIs, Next.js + React + TypeScript for the customer-facing shopping site, and Keycloak for authentication, it demonstrates clean architecture, Domain-Driven Design (DDD), and full local development setup via Docker Compose.
+
+  Key highlights include:
+
+  - Customer shopping frontend (Next.js) + .NET API
+  - PostgreSQL + Flyway migrations, Keycloak (OIDC/OAuth2)
+  - Monorepo layout: apps/, libs/, infra/, docs/, scripts/
+  - One-command startup scripts & prerequisite validation
+  - Extensive DDD & architecture documentation
+  - No binaries/assets attached — source code & Docker only
+  
+  See [release notes](https://github.com/drminnaar/offgrid/releases/tag/v1.0.0).
+
+  See [the code](https://github.com/drminnaar/offgrid/tree/v1.0.0).
+
+  See [design docs](./docs/shop/design/version-1).
 
 ---
 
