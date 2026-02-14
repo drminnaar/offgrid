@@ -3,6 +3,11 @@ using Offgrid.Portal.Customers.OutboxProcessor.Application.Services;
 using Offgrid.Portal.Customers.OutboxProcessor.Domain.Services;
 using Offgrid.Portal.Customers.OutboxProcessor.Infrastructure.Persistence.Repositories;
 using Offgrid.Portal.Customers.OutboxProcessor.Infrastructure.Messaging;
+using Offgrid.Framework.Messaging;
+using CloudNative.CloudEvents;
+using Offgrid.Framework.RabbitMq;
+using Offgrid.Framework.CncfCloudEvents;
+using Offgrid.Framework.Domain;
 
 namespace Offgrid.Portal.Customers.OutboxProcessor.Extensions;
 
@@ -13,14 +18,17 @@ public static class CustomerServiceExtensions
         // add framework services
         services.TryAddSingleton(TimeProvider.System);
 
-        // add domain services
-        services.AddScoped<IOutbox, CustomerOutboxRepository>();
+        // add infrastructure services
+        services.AddSingleton<ICloudEventIdProvider, CloudEventIdProvider>();
+        services.AddSingleton<CloudEventFactoryBase<IDomainEvent>, CloudEventFactory>();
+        services.AddSingleton<RabbitMqCloudEventPublisher>();
+        services.AddSingleton<IEventPublisher<CloudEvent>, MessageBusPublisher>();
 
         // add application services
-        services.AddScoped<ICloudEventIdProvider, CloudEventIdProvider>();
-        services.AddScoped<ICloudEventFactory, CloudEventFactory>();
         services.AddScoped<ICustomerOutboxService, CustomerOutboxService>();
-        services.AddScoped<IEventPublisher, LoggingPublisher>();
+
+        // add domain services
+        services.AddScoped<IOutbox, CustomerOutboxRepository>();
 
         return services;
     }

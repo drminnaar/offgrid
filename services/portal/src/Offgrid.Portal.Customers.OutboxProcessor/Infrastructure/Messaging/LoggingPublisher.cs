@@ -1,10 +1,11 @@
-﻿using CloudNative.CloudEvents;
+﻿using System.Text;
+using CloudNative.CloudEvents;
 using CloudNative.CloudEvents.SystemTextJson;
-using Offgrid.Portal.Customers.OutboxProcessor.Application.Services;
+using Offgrid.Framework.Messaging;
 
 namespace Offgrid.Portal.Customers.OutboxProcessor.Infrastructure.Messaging;
 
-public sealed class LoggingPublisher : IEventPublisher
+public sealed class LoggingPublisher : IEventPublisher<CloudEvent>
 {
     private readonly ILogger<LoggingPublisher> _logger;
 
@@ -22,10 +23,8 @@ public sealed class LoggingPublisher : IEventPublisher
             cloudEvent.Type);
 
         var formatter = new JsonEventFormatter();
-
-        // 3. Encode to JSON (as a ReadOnlyMemory<byte> or Stream)
-        var bytes = formatter.EncodeStructuredModeMessage(cloudEvent, out var contentType);
-        var jsonString = System.Text.Encoding.UTF8.GetString(bytes.ToArray());
+        var bytes = formatter.EncodeStructuredModeMessage(cloudEvent, out var _);
+        var jsonString = Encoding.UTF8.GetString(bytes.ToArray());
 
         _logger.LogInformation("Event data: {EventData}", jsonString);
 

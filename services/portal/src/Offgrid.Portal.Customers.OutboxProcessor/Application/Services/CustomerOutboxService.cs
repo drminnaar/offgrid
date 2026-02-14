@@ -1,6 +1,9 @@
-﻿using Offgrid.Portal.Customers.OutboxProcessor.Domain.Entities;
+﻿using CloudNative.CloudEvents;
+using Offgrid.Framework.CncfCloudEvents;
+using Offgrid.Framework.Domain;
+using Offgrid.Framework.Messaging;
+using Offgrid.Portal.Customers.OutboxProcessor.Domain.Entities;
 using Offgrid.Portal.Customers.OutboxProcessor.Domain.Services;
-using Offgrid.Portal.Customers.OutboxProcessor.Infrastructure.Messaging;
 
 namespace Offgrid.Portal.Customers.OutboxProcessor.Application.Services;
 
@@ -12,15 +15,15 @@ public interface ICustomerOutboxService
 public class CustomerOutboxService : ICustomerOutboxService
 {
     private readonly IOutbox _outbox;
-    private readonly IEventPublisher _publisher;
-    private readonly ICloudEventFactory _cloudEventFactory;
+    private readonly IEventPublisher<CloudEvent> _publisher;
+    private readonly CloudEventFactoryBase<IDomainEvent> _cloudEventFactory;
     private readonly TimeProvider _timeProvider;
     private readonly ILogger<CustomerOutboxService> _logger;
 
     public CustomerOutboxService(
         IOutbox outbox,
-        IEventPublisher publisher,
-        ICloudEventFactory cloudEventFactory,
+        IEventPublisher<CloudEvent> publisher,
+        CloudEventFactoryBase<IDomainEvent> cloudEventFactory,
         TimeProvider timeProvider,
         ILogger<CustomerOutboxService> logger)
     {

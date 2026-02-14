@@ -16,7 +16,7 @@ public class CustomerOutboxWorker(
             }
             using var scope = scopeFactory.CreateScope();
             var customerOutboxService = scope.ServiceProvider.GetRequiredService<ICustomerOutboxService>();
-            await customerOutboxService.ProcessPendingMessagesAsync(10, stoppingToken);
+            await customerOutboxService.ProcessPendingMessagesAsync(1, stoppingToken);
             await Task.Delay(10000, stoppingToken);
         }
     }
