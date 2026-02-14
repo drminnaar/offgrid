@@ -186,6 +186,35 @@
       }
     },
     // ------------------------------------------------------------------------
+    // RabbitMQ Tasks
+    // ------------------------------------------------------------------------
+    {
+      "label": "bash: rabbitmqadmin",
+      "type": "shell",
+      "command": "${workspaceFolder}/infra/local/scripts/rabbitmqadmin.sh",
+      "windows": {
+        "options": {
+          "shell": {
+            "executable": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "args": []
+          }
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "icon": {
+        "id": "database",
+        "color": "terminal.ansiCyan"
+      }
+    },
+    // ------------------------------------------------------------------------
     // Flyway Tasks
     // ------------------------------------------------------------------------
     {
