@@ -68,6 +68,28 @@ The primary areas of focus in this version are as follows:
 
 ---
 
+## 📬 Customer Outbox Processor
+
+The outbox processor reliably publishes customer domain events to the message bus using the outbox pattern. It runs as a background worker that polls the outbox table, converts pending messages into CloudEvents, publishes them to RabbitMQ, and updates outbox state for retries or permanent failure.
+
+- Create .NET 10 Background service to process customer domain events from the customer outbox table
+- Convert domain events into integration events ([CNCF CloudEvents](https://www.cncf.io/projects/cloudevents/))
+- Publish integration events to RabbitMQ
+- Implement basic retry and failure policies
+- Create Dockerfile to define outbox image
+
+---
+
+## ✉️ Customer Event Processor
+
+The event processor consumes customer CloudEvents from RabbitMQ and routes them to handlers. It runs as a set of hosted background services, one per event type, and uses queue-based consumers to process events reliably.
+
+- Create .NET 10 background service to host background workers
+- Create background worker for each integration event type
+- Create Dockerfile to define processor image
+
+---
+
 ## 🏗️ Infrastructure
 
 The primary areas of focus in this version are as follows:
@@ -78,5 +100,6 @@ The primary areas of focus in this version are as follows:
   - Define roles
   - Define groups
   - Define sample users
+- Define RabbitMQ Docker compose service
 
 ---
