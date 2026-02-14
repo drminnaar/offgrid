@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Offgrid.Framework.System.Text;
 
 namespace Offgrid.Framework.AspNetCore.Diagnostics;
 
@@ -29,7 +30,11 @@ public sealed class GlobalExceptionHandler : IExceptionHandler
         var problemDetails = CreateProblemDetails(httpContext, exception);
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
         httpContext.Response.ContentType = ContentTypeNames.Application.ProblemDetailsJson;
-        await JsonSerializer.SerializeAsync(httpContext.Response.Body, problemDetails, cancellationToken: cancellationToken);
+        await JsonSerializer.SerializeAsync(
+            httpContext.Response.Body,
+            problemDetails,
+            JsonSerializationOptions.Web,
+            cancellationToken: cancellationToken);
         return true;
     }
 
