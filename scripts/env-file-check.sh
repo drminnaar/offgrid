@@ -24,17 +24,17 @@ readonly ROOT_FILE="$DIR/../"
 readonly INFRA_LOCAL_SCRIPT_ENV_KEY="/infra/local/scripts/.env"
 readonly INFRA_LOCAL_SCRIPT_ENV_PATH="infra/local/scripts/.env"
 
-readonly APPS_SHOP_SHOPAPP_ENV_KEY="/apps/shop/shop-app/.env"
-readonly APPS_SHOP_SHOPAPP_ENV_PATH="apps/shop/shop-app/.env"
+readonly APPS_SHOPAPP_ENV_KEY="/apps/shop-app/.env"
+readonly APPS_SHOPAPP_ENV_PATH="apps/shop-app/.env"
 
-readonly APPS_SHOP_SHOPAPI_REQUESTS_ENV_KEY="/apps/shop/shop-api/requests/.env"
-readonly APPS_SHOP_SHOPAPI_REQUESTS_ENV_PATH="apps/shop/shop-api/requests/.env"
+readonly SERVICES_SHOPAPI_REQUESTS_ENV_KEY="/services/shop/requests/.env"
+readonly SERVICES_SHOPAPI_REQUESTS_ENV_PATH="services/shop/requests/.env"
 
 
 declare -A required_environment_files=(
     ["$INFRA_LOCAL_SCRIPT_ENV_KEY"]="Not created"
-    ["$APPS_SHOP_SHOPAPP_ENV_KEY"]="Not created"
-    ["$APPS_SHOP_SHOPAPI_REQUESTS_ENV_KEY"]="Not created"
+    ["$APPS_SHOPAPP_ENV_KEY"]="Not created"
+    ["$SERVICES_SHOPAPI_REQUESTS_ENV_KEY"]="Not created"
 )
 
 # Function to check if a file exists
@@ -48,8 +48,8 @@ check_file() {
 }
 
 check_file "$ROOT_FILE/$INFRA_LOCAL_SCRIPT_ENV_PATH" "$INFRA_LOCAL_SCRIPT_ENV_KEY"
-check_file "$ROOT_FILE/$APPS_SHOP_SHOPAPP_ENV_PATH" "$APPS_SHOP_SHOPAPP_ENV_KEY"
-check_file "$ROOT_FILE/$APPS_SHOP_SHOPAPI_REQUESTS_ENV_PATH" "$APPS_SHOP_SHOPAPI_REQUESTS_ENV_KEY"
+check_file "$ROOT_FILE/$APPS_SHOPAPP_ENV_PATH" "$APPS_SHOPAPP_ENV_KEY"
+check_file "$ROOT_FILE/$SERVICES_SHOPAPI_REQUESTS_ENV_PATH" "$SERVICES_SHOPAPI_REQUESTS_ENV_KEY"
 
 # Generate report
 echo -e "\n=========================== Environment Files Report ==========================="
