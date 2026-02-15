@@ -14,6 +14,11 @@ public static class RootEndpointMap
                 customers = new
                 {
                     href = CustomerEndpointMap.PREFIX,
+                    getAll = new
+                    {
+                        href = $"{context.Request.Scheme}://{context.Request.Host}{CustomerEndpointMap.PREFIX}",
+                        method = "GET"
+                    },
                     suspend = new
                     {
                         href = $"{context.Request.Scheme}://{context.Request.Host}{CustomerEndpointMap.PREFIX}/{{customerId}}/suspend",
@@ -32,7 +37,7 @@ public static class RootEndpointMap
             return Results.Ok(new
             {
                 name = "Offgrid Portal API",
-                version = "1.0.0",
+                version = "2.0.0",
                 description = "API for Offgrid Portal application",
                 _links = baseLinks
             });

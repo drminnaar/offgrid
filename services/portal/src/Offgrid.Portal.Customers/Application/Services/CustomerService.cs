@@ -1,10 +1,16 @@
-﻿using Offgrid.Portal.Customers.Application.Commands.ReinstateCustomer;
+﻿using Offgrid.Framework.Domain;
+using Offgrid.Portal.Customers.Application.Commands.ReinstateCustomer;
 using Offgrid.Portal.Customers.Application.Commands.SuspendCustomer;
+using Offgrid.Portal.Customers.Application.Queries.GetAllCustomers;
 
 namespace Offgrid.Portal.Customers.Application.Services;
 
 public interface ICustomerService
 {
+    Task<PagedListResult<CustomerInfo>> GetAllCustomersAsync(
+        GetAllCustomersQuery query,
+        CancellationToken cancellationToken = default);
+
     Task<ReinstateCustomerResult> ReinstateCustomerAsync(
         Guid customerId,
         ReinstateCustomerCommand command,
@@ -20,11 +26,26 @@ public sealed class CustomerService : ICustomerService
 {
     private readonly IReinstateCustomerCommandHandler _reinstateHandler;
     private readonly ISuspendCustomerCommandHandler _suspendHandler;
+    private readonly IGetAllCustomersQueryHandler _getAllCustomersQueryHandler;
 
-    public CustomerService(IReinstateCustomerCommandHandler reinstateHandler, ISuspendCustomerCommandHandler suspendHandler)
+    public CustomerService(
+        IReinstateCustomerCommandHandler reinstateHandler,
+        ISuspendCustomerCommandHandler suspendHandler,
+        IGetAllCustomersQueryHandler getAllCustomersQueryHandler)
     {
-        _reinstateHandler = reinstateHandler ?? throw new ArgumentNullException(nameof(reinstateHandler));
-        _suspendHandler = suspendHandler ?? throw new ArgumentNullException(nameof(suspendHandler));
+        ArgumentNullException.ThrowIfNull(reinstateHandler, nameof(reinstateHandler));
+        ArgumentNullException.ThrowIfNull(suspendHandler, nameof(suspendHandler));
+        ArgumentNullException.ThrowIfNull(getAllCustomersQueryHandler, nameof(getAllCustomersQueryHandler));
+        _reinstateHandler = reinstateHandler;
+        _suspendHandler = suspendHandler;
+        _getAllCustomersQueryHandler = getAllCustomersQueryHandler;
+    }
+
+    public async Task<PagedListResult<CustomerInfo>> GetAllCustomersAsync(
+        GetAllCustomersQuery query,
+        CancellationToken cancellationToken = default)
+    {
+        return await _getAllCustomersQueryHandler.Handle(query, cancellationToken);
     }
 
     public async Task<ReinstateCustomerResult> ReinstateCustomerAsync(

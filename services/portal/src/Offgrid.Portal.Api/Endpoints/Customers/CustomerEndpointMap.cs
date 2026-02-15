@@ -12,9 +12,19 @@ public static class CustomerEndpointMap
     {
         app
             .MapGroup(PREFIX)
+            .MapGetAllCustomers()
             .MapReinstateCustomer()
             .MapSuspendCustomer();
         return app;
+    }
+
+    private static RouteGroupBuilder MapGetAllCustomers(this RouteGroupBuilder route)
+    {
+        route
+            .MapGet("", GetAllCustomersActionHandler.GetAllCustomersAsync)
+            .WithName(GetAllCustomersActionHandler.EndpointName)
+            .RequireAuthorization();
+        return route;
     }
 
     private static RouteGroupBuilder MapReinstateCustomer(this RouteGroupBuilder route)

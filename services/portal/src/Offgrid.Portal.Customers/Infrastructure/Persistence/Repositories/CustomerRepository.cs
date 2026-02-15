@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Offgrid.Framework.EntityFrameworkCore.Extensions;
+using Offgrid.Framework.System.Collections.Generic;
 using Offgrid.Portal.Customers.Domain.Entities;
 using Offgrid.Portal.Customers.Domain.Repositories;
 
@@ -11,6 +13,14 @@ public sealed class CustomerRepository : ICustomerRepository
     public CustomerRepository(IAppDbContext dbContext)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+    }
+
+    public async Task<IPagedList<Customer>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext
+            .Customers
+            .AsNoTracking()
+            .ToPagedListAsync(pageNumber, pageSize, cancellationToken);
     }
 
     public Task<Customer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
