@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="CncfCloudEvents\" />
+    <Folder Include="Domain\Extensions\" />
     <Folder Include="Messaging\" />
     <Folder Include="System.Text\" />
   </ItemGroup>
