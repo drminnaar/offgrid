@@ -4,6 +4,7 @@ using Offgrid.Portal.Customers.Application.Commands.ReinstateCustomer;
 using Offgrid.Portal.Customers.Application.Commands.SuspendCustomer;
 using Offgrid.Portal.Customers.Application.EventHandlers;
 using Offgrid.Portal.Customers.Application.Queries.GetAllCustomers;
+using Offgrid.Portal.Customers.Application.Queries.GetCustomerById;
 using Offgrid.Portal.Customers.Application.Services;
 using Offgrid.Portal.Customers.Contracts.DomainEvents;
 using Offgrid.Portal.Customers.Domain.Repositories;
@@ -44,6 +45,7 @@ public static partial class ApiExtensions
         services.AddScoped<IReinstateCustomerCommandHandler, ReinstateCustomerCommandHandler>();
         services.AddScoped<ISuspendCustomerCommandHandler, SuspendCustomerCommandHandler>();
         services.AddScoped<IGetAllCustomersQueryHandler, GetAllCustomersQueryHandler>();
+        services.AddScoped<IGetCustomerByIdQueryHandler, GetCustomerByIdQueryHandler>();
 
         // add application services
         services.AddScoped<ICustomerService, CustomerService>();

@@ -12,10 +12,20 @@ public static class CustomerEndpointMap
     {
         app
             .MapGroup(PREFIX)
+            .MapGetCustomerById()
             .MapGetAllCustomers()
             .MapReinstateCustomer()
             .MapSuspendCustomer();
         return app;
+    }
+
+    private static RouteGroupBuilder MapGetCustomerById(this RouteGroupBuilder route)
+    {
+        route
+            .MapGet("/{customerId}", GetCustomerByIdActionHandler.GetCustomerByIdAsync)
+            .WithName(GetCustomerByIdActionHandler.EndpointName)
+            .RequireAuthorization();
+        return route;
     }
 
     private static RouteGroupBuilder MapGetAllCustomers(this RouteGroupBuilder route)

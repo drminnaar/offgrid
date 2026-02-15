@@ -1,0 +1,72 @@
+# -------------------------------------------------------------------------------------------------
+# The folowing environment variables are set in the $shared and docker environments (See ./vscode/settings.json):
+#   - PORTAL_API_BASE_URL
+#   - OG_KC_BASE_URL
+#
+# All other environment variables are loaded from the .env file using the $dotenv syntax.
+#
+# Switch / choose the active environment
+#
+# 1. Status bar (easiest & most visible)
+#    - Look at the bottom-right of VS Code window → you'll see something like
+#      REST Client: No Environment or REST Client: local.
+#    - Click it → pick from the list (local / staging / prod / No Environment / …).
+# 2. Keyboard shortcut:
+#    - Ctrl + Alt + E (Windows/Linux)
+#    - Cmd + Alt + E (macOS)
+# 3. Command Palette:
+#    - Ctrl + Shift + P (or Cmd + Shift + P) → type Rest Client: Switch Environment → select one.
+# -------------------------------------------------------------------------------------------------
+
+@base_url={{PORTAL_API_BASE_URL}}
+@client_id={{$dotenv OG_KC_CLIENT_ID}}
+
+# Select the user to authenticate as a Standard Customer, Silver Customer, or Gold Customer:
+@username={{$dotenv OG_KC_PORTAL_ADMIN_USERNAME}}
+@password={{$dotenv OG_KC_PORTAL_ADMIN_PASSWORD}}
+# @username={{$dotenv OG_KC_CUSTOMER_MANAGER_USERNAME}}
+# @password={{$dotenv OG_KC_CUSTOMER_MANAGER_PASSWORD}}
+# @username={{$dotenv OG_KC_PRODUCT_MANAGER_USERNAME}}
+# @password={{$dotenv OG_KC_PRODUCT_MANAGER_PASSWORD}}
+
+@realm={{$dotenv OG_KC_REALM}}
+@token_url={{OG_KC_BASE_URL}}/realms/{{realm}}/protocol/openid-connect/token
+
+@sample_customer_id={{$dotenv SAMPLE_CUSTOMER_ID}}
+
+
+###  1. Password Grant (Resource Owner Password Credentials)
+# @name login
+
+POST {{token_url}}
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password
+&password={{password}}
+&username={{username}}
+&client_id={{client_id}}
+
+
+###
+@access_token={{login.response.body.access_token}}
+
+
+### Get Customer By Id - Request with invalid customer id
+GET {{base_url}}/customers/123
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Get Customer By Id - Request with valid customer id, but non-existing customer
+GET {{base_url}}/customers/123
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Get Customer By Id - Valid request with existing customer id
+GET {{base_url}}/customers/{{sample_customer_id}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
