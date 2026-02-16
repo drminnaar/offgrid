@@ -58,8 +58,15 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 
+### Get All Customers - Invalid request - Invalid status
+GET {{base_url}}/customers?status=abc
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+
 ### Get All Customers - Valid request with pagination parameters
-GET {{base_url}}/customers?page=1&limit=10
+GET {{base_url}}/customers?page=1&limit=10&status=suspended
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}

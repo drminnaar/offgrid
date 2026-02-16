@@ -59,7 +59,7 @@ Authorization: Bearer {{access_token}}
 
 
 ### Get Customer By Id - Request with valid customer id, but non-existing customer
-GET {{base_url}}/customers/123
+GET {{base_url}}/customers/fc94f354-980d-454a-8d98-94fe294350ea
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}

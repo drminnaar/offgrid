@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Offgrid.Framework.AspNetCore.Http.Extensions;
+using Offgrid.Framework.Exceptions;
 using Offgrid.Portal.Customers.Application.Queries.GetAllCustomers;
 using Offgrid.Portal.Customers.Application.Services;
 
@@ -14,6 +15,7 @@ public sealed class GetAllCustomersActionHandler
         HttpContext httpContext,
         [FromQuery(Name = "page")] int pageNumber = GetAllCustomersQuery.DefaultPageNumber,
         [FromQuery(Name = "limit")] int pageSize = GetAllCustomersQuery.DefaultPageSize,
+        [FromQuery(Name = "status")] string status = "",
         CancellationToken token = default)
     {
         var _ = httpContext
@@ -23,8 +25,14 @@ public sealed class GetAllCustomersActionHandler
         var query = new GetAllCustomersQuery
         {
             PageNumber = pageNumber,
-            PageSize = pageSize
+            PageSize = pageSize,
+            Status = status,
         };
+
+        if (!query.TryValidate(out var errors))
+        {
+            throw new ValidationException("Invalid query parameters.", errors);
+        }
 
         var result = await customerService.GetAllCustomersAsync(query, token);
 

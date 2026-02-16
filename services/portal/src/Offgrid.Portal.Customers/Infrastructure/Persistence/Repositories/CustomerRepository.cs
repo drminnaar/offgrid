@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Offgrid.Framework.EntityFrameworkCore.Extensions;
 using Offgrid.Framework.System.Collections.Generic;
+using Offgrid.Framework.System.Linq.Expressions;
 using Offgrid.Portal.Customers.Domain.Entities;
 using Offgrid.Portal.Customers.Domain.Repositories;
 
@@ -15,11 +17,29 @@ public sealed class CustomerRepository : ICustomerRepository
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public async Task<IPagedList<Customer>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<IPagedList<Customer>> GetAllAsync(
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken = default)
+    {
+        return await GetAllAsync(
+            ExpressionBuilder.True<Customer>(),
+            pageNumber,
+            pageSize,
+            cancellationToken);
+    }
+
+    public async Task<IPagedList<Customer>> GetAllAsync(
+        Expression<Func<Customer, bool>> filter,
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken = default)
     {
         return await _dbContext
             .Customers
             .AsNoTracking()
+            .Where(filter)
+            .OrderByDescending(c => c.UpdatedDate)
             .ToPagedListAsync(pageNumber, pageSize, cancellationToken);
     }
 
