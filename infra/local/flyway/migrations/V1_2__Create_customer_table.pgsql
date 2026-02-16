@@ -23,3 +23,5 @@ CREATE UNIQUE INDEX "ux_customers_customer_customernumber" ON customers.customer
 
 -- define indexes
 CREATE INDEX "ix_customers_customer_status" ON customers.customer (status);
+
+CREATE INDEX "ix_customers_customer_lstatus" ON customers.customer (lower(status));
