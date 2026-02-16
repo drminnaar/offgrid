@@ -1,12 +1,21 @@
 // packages
 import { configureStore } from '@reduxjs/toolkit';
+
+// custom slices
 import { globalUISlice } from './global-ui-slice';
+
+// api slices
+import { customerApi } from '../services/customers/customer-api';
 
 export const appStore = configureStore({
   reducer: {
     // global ui state
     [globalUISlice.name]: globalUISlice.reducer,
+    // api
+    [customerApi.reducerPath]: customerApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(customerApi.middleware),
 });
 
 /**

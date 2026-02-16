@@ -117,20 +117,21 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({
     updateToken,
   };
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
-        <div>Loading authentication...</div>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: 'flex',
+  //         justifyContent: 'center',
+  //         alignItems: 'center',
+  //         height: '100vh',
+  //       }}
+  //     >
+  //       <div>Loading authentication...</div>
+  //     </div>
+  //   );
+  // }
+  if (loading) return null;
 
   return (
     <KeycloakContext.Provider value={value}>

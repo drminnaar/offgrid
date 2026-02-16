@@ -1,6 +1,5 @@
 // packages
 import { Outlet } from 'react-router';
-import { AppContent, AppHeader } from './features/layout';
 import { Box } from '@mui/material';
 
 // styles
@@ -8,6 +7,7 @@ import './App.css';
 
 // custom components
 import { LoginPage } from './features/login';
+import { AppContent, AppDrawer, AppHeader } from './features/layout';
 
 // custom hooks
 import { useKeycloak } from './lib/auth/keycloak';
@@ -34,6 +34,7 @@ export const App = () => {
         paletteMode={paletteMode}
         togglePaletteMode={() => dispatch(togglePaletteMode())}
       />
+      <AppDrawer />
       <AppContent>
         <Outlet />
       </AppContent>

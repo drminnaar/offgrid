@@ -5,12 +5,14 @@ import { createBrowserRouter, Navigate } from 'react-router';
 import { App } from '../App';
 import { NotFoundErrorPage } from '../features/errors';
 
-// features
-import { DashboardPage } from '../features/dashboard';
-
 // lib
 import { ProtectedRoute } from '../lib/auth/keycloak';
+
+// pages
 import { LoginPage } from '../features/login';
+import { DashboardPage } from '../features/dashboard';
+import { CustomerPage } from '../features/customers';
+import { CustomerDetailPage } from '../features/customers';
 
 export const AppRouter = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ export const AppRouter = createBrowserRouter([
           {
             path: '/dashboard',
             element: <DashboardPage />,
+          },
+          {
+            path: '/customers',
+            element: <CustomerPage />,
+          },
+          {
+            path: '/customers/:customerId',
+            element: <CustomerDetailPage />,
           },
         ],
       },
