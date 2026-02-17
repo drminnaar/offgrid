@@ -2,13 +2,13 @@
 import { useState } from 'react';
 
 // customer components
-import { AppPagination } from '../../lib/ui';
+import { AppPagination } from '../../../lib/ui';
 import { CustomerTable } from './customer-table';
 import { CustomerPageContentSkeleton } from './customer-page-content-skeleton';
 import { CustomerPageFilters } from './customer-page-filters';
 
 // services
-import { useGetCustomersQuery } from '../../services/customers/customer-api';
+import { useGetCustomersQuery } from '../../../services/customers/customer-api';
 
 // routing
 import { useNavigate } from 'react-router';

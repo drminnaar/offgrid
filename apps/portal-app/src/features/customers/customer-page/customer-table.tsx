@@ -1,3 +1,4 @@
+// packages
 import React from 'react';
 import {
   Table,
@@ -9,14 +10,17 @@ import {
   Paper,
   IconButton,
   Chip,
+  Tooltip,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { AppNoDataAlert } from '../../lib/ui/alerts';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
+// custom components
+import { AppNoDataAlert } from '../../../lib/ui/alerts';
 
 export type CustomerRow = {
   customerId: string;
   customerNumber: string;
-  keycloakUserId: string;
   status: string;
   email: string;
   firstName: string;
@@ -44,6 +48,10 @@ export const CustomerTable: React.FC<CustomerTableProps> = ({
     return <AppNoDataAlert message='No customers found' />;
   }
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
   return (
     <TableContainer component={Paper} className='shadow-md rounded-lg'>
       <Table>
@@ -52,7 +60,6 @@ export const CustomerTable: React.FC<CustomerTableProps> = ({
             <TableCell className='font-bold'>Status</TableCell>
             <TableCell className='font-bold'>ID</TableCell>
             <TableCell className='font-bold'>Customer Number</TableCell>
-            <TableCell className='font-bold'>Keycloak User ID</TableCell>
             <TableCell className='font-bold'>Name</TableCell>
             <TableCell className='font-bold'>Email</TableCell>
             <TableCell className='font-bold'>Created On</TableCell>
@@ -74,9 +81,32 @@ export const CustomerTable: React.FC<CustomerTableProps> = ({
                   }
                 />
               </TableCell>
-              <TableCell>{customer.customerId}</TableCell>
-              <TableCell>{customer.customerNumber}</TableCell>
-              <TableCell>{customer.keycloakUserId}</TableCell>
+              <TableCell>
+                {customer.customerId}{' '}
+                <Tooltip title='Copy customer ID'>
+                  <IconButton
+                    aria-label='Copy customer ID'
+                    size='small'
+                    onClick={() => copyToClipboard(customer.customerId)}
+                    sx={{ ml: 1 }}
+                  >
+                    <ContentCopyIcon fontSize='small' />
+                  </IconButton>
+                </Tooltip>
+              </TableCell>
+              <TableCell>
+                {customer.customerNumber}
+                <Tooltip title='Copy customer number'>
+                  <IconButton
+                    aria-label='Copy customer number'
+                    size='small'
+                    onClick={() => copyToClipboard(customer.customerNumber)}
+                    sx={{ ml: 1 }}
+                  >
+                    <ContentCopyIcon fontSize='small' />
+                  </IconButton>
+                </Tooltip>
+              </TableCell>
               <TableCell>{`${customer.firstName} ${customer.lastName}`}</TableCell>
               <TableCell>{customer.email}</TableCell>
               <TableCell>
