@@ -1,8 +1,8 @@
 ﻿using Offgrid.Shop.Customers.Domain.Entities;
 
-namespace Offgrid.Shop.Customers.Application.Commands.UpsertCustomer;
+namespace Offgrid.Shop.Customers.Application.Commands.UpsertCustomer.Extensions;
 
-public static partial class MapExtensions
+public static partial class Extensions
 {
     public static UpsertCustomerResult ToUpsertCustomerResult(this Customer customer)
     {

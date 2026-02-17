@@ -14,6 +14,7 @@ public sealed class Customer
     public string Email { get; private set; } = string.Empty;
     public string FirstName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
+    public string FullName => $"{FirstName} {LastName}";
     public DateTimeOffset CreatedDate { get; private set; }
     public DateTimeOffset? UpdatedDate { get; private set; }
     public DateTimeOffset? DeletedDate { get; private set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Offgrid.Framework.Exceptions;
+using Offgrid.Shop.Customers.Application.Commands.UpsertCustomer.Extensions;
 using Offgrid.Shop.Customers.Domain.Repositories;
 using Offgrid.Shop.Customers.Domain.Services;
 
@@ -37,10 +38,9 @@ public sealed class UpsertCustomerCommandHandler : IUpsertCustomerCommandHandler
         var existingCustomer = await _customerRepository.GetByKeycloakUserIdAsync(command.KeycloakUserId, cancellationToken);
 
         var (email, fullName, keycloakUserId) = command;
-        if (existingCustomer != null)
+        if (existingCustomer != null && !command.EqualToCustomer(existingCustomer))
         {
             existingCustomer.Update(fullName, email, _timeProvider);
-
             try
             {
                 await _customerRepository.UpdateAsync(existingCustomer, cancellationToken);
