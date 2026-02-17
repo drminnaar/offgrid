@@ -8,13 +8,13 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { AppErrorAlert } from '../../lib/ui/alerts';
 
 export type AppPageProps = {
-  pageTitle: string;
+  title: string;
   children: React.ReactNode;
   errorFallback?: React.ReactNode;
 };
 
 export const AppPage: React.FC<AppPageProps> = ({
-  pageTitle,
+  title: pageTitle,
   children: pageContent,
   errorFallback,
 }) => {
