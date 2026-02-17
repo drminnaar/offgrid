@@ -18,13 +18,16 @@
     "@mui/material": "^7.3.7",
     "@mui/x-data-grid": "^8.27.0",
     "@reduxjs/toolkit": "^2.11.2",
+    "@tailwindcss/vite": "^4.1.18",
+    "date-fns": "^4.1.0",
     "keycloak-js": "^26.2.2",
     "lucide-react": "^0.563.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-error-boundary": "^6.1.1",
     "react-redux": "^9.2.0",
-    "react-router": "^7.13.0"
+    "react-router": "^7.13.0",
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

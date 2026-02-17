@@ -11,8 +11,7 @@ import { ProtectedRoute } from '../lib/auth/keycloak';
 // pages
 import { LoginPage } from '../features/login';
 import { DashboardPage } from '../features/dashboard';
-import { CustomerPage } from '../features/customers';
-import { CustomerDetailPage } from '../features/customers';
+import { CustomerPage, CustomerDetailPage } from '../features/customers';
 
 export const AppRouter = createBrowserRouter([
   {
