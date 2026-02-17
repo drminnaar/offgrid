@@ -14,6 +14,13 @@ import { keycloak } from '../../lib/auth/keycloak/keycloak-client';
 
 const apiBaseUrl = getPortalApiBaseUrl();
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const delayedBaseQuery: typeof baseQuery = async (args, api, extraOptions) => {
+  await delay(2000); // 2 seconds delay for testing
+  return baseQuery(args, api, extraOptions);
+};
+
 const baseQuery = fetchBaseQuery({
   baseUrl: apiBaseUrl,
   prepareHeaders: async (headers) => {
@@ -40,7 +47,7 @@ const baseQuery = fetchBaseQuery({
 
 export const customerApi = createApi({
   reducerPath: 'customerApi',
-  baseQuery,
+  baseQuery: delayedBaseQuery,
   endpoints: (builder) => ({
     getCustomerById: builder.query<CustomerDetail, string>({
       query: (customerId) => `customers/${customerId}`,
