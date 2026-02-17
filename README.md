@@ -332,9 +332,49 @@ Alternatively, use the following wrapper scripts:
 
 ```
 
+To access various infrastructure services using their respective clients, use one of the following options:
+
+- Shell scripts
+  - `keycloak cli`: [kcadm](./infra/local/scripts/kcadm.sh)
+  - `postgres cli`: [psql](./infra/local/scripts/psql.sh)
+  - `rabbitmq cli`: [rabbitmqadm](./infra/local/scripts/rabbitmqadm.sh)
+
+- Windows Terminal script:
+
+  ```pwsh
+  # open infra clients: ./scripts/wt-infra.psq
+  pwsh -file .\wt-infra.psq
+  ```
+
 ### Run Shop Services
 
-### Using Docker
+#### Local (CLI)
+
+This section explains how to run the shop services locally in the terminal. For example:
+
+- Shop Api (.NET 10)
+  
+  ```pwsh
+  dotnet watch run --project ./services/shop/src/Offgrid.Shop.Api/Offgrid.Shop.Api.csproj
+  ```
+
+- Shop App (Nextjs)
+  
+  ```pwsh
+  npm install --prefix ./apps/shop-app
+  npm run dev --prefix ./apps/shop-app
+  ```
+
+Alternatively, run a powershell script to lauch all shop apps/services in a single terminal within separate panes:
+
+```bash
+
+# open shop apps/services: ./scripts/wt-shop.ps1
+pwsh -file .\wt-shop.ps1
+
+```
+
+#### Using Docker
 
 This section explains how to run the shop services locally in Docker. For example:
 
@@ -373,6 +413,8 @@ Alternatively, use the following wrapper scripts:
 
 ### Run Portal Services
 
+#### Local (CLI)
+
 This section explains how to run the portal services locally in the terminal. For example:
 
 - Portal Api (.NET 10)
@@ -396,17 +438,16 @@ This section explains how to run the portal services locally in the terminal. Fo
 - Portal App (Reactjs)
   
   ```pwsh
+  npm install --prefix ./apps/portal-app
   npm run dev --prefix ./apps/portal-app
   ```
 
-For Windows users, open up Powershell in Windows Terminal and run the following command:
+For Windows users, open up Powershell in Windows Terminal and run the following commands to launch apps in a single terminal window within separate panes:
 
 ```pwsh
 
-# ./scripts/portal-wt.ps1
-# Update repo path in script to your local repo path
-
-pwsh -file .\portal-wt.ps1
+# open portal apps/services: ./scripts/wt-portal.ps1
+pwsh -file .\wt-portal.ps1
 
 ```
 
@@ -428,6 +469,14 @@ Access the apps and services via the following links:
 
 - [Keycloak Admin UI (http://localhost:8080)](http://localhost:8080)
 
+- [Keycloak Shop Account (http://localhost:8080/realms/offgrid-public/account)](http://localhost:8080/realms/offgrid-public/account)
+
+- [Keycloak Shop OIDC Config (http://localhost:8080/realms/offgrid-public/.well-known/openid-configuration)](http://localhost:8080/realms/offgrid-public/.well-known/openid-configuration)
+
+- [Keycloak Portal Account (http://localhost:8080/realms/offgrid-internal/account)](http://localhost:8080/realms/offgrid-internal/account)
+
+- [Keycloak Portal OIDC Config (http://localhost:8080/realms/offgrid-internal/.well-known/openid-configuration)](http://localhost:8080/realms/offgrid-internal/.well-known/openid-configuration)
+
 - [RabbitMQ Admin UI (http://localhost:15672)](http://localhost:15672)
 
 Connect to database services:
@@ -439,6 +488,8 @@ See [Infrastructure README (./infra/local/README.md)](./infra/local/README.md)
 - [Flyway (./infra/local/scripts/flyway.sh)](./infra/local/scripts/flyway.sh): `./infra/local/scripts/flyway.sh info`
 
 - [RabbitMQ Admin](./infra/local/scripts/rabbitmqadmin.sh): `./infra/local/scripts/rabbitmqadmin.sh`
+
+- [Keycloak Admin](./infra/local/scripts/kcadm.sh): `./infra/local/scripts/kcadm.sh`
 
 ### Custom Tasks
 
