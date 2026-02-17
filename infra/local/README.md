@@ -27,6 +27,7 @@ infra
     ├── scripts              # collection of bash scripts to manage stack and connect to services
     │    ├── compose.sh      # manage the stack (up, down, exec, ps, logs, recreate)
     │    ├── flyway.sh       # manage the flyway migrations (migrate, info, validate etc)
+    │    ├── kcadm.sh        # run keycloak admin cli
     │    ├── psql.sh         # open a psql session for the local Postgres
     │    ├── psql-test.sh    # test postgres connectivity
     │    ├── .env            # local environment settings (must be created based on `.env.example` file)
@@ -186,6 +187,22 @@ See [Keycloak Guide](https://github.com/drminnaar/tech-notes/tree/main/guides/ke
 As part of container initialization, the following `realm` files are imported into keycloak to provide basic realm setup with users, groups, and roles.
 
 - [offgrid-public.json](./keycloak/realms/offgrid-public-realm.json). See [below](#keycloak-realm-configuration-offgrid-public) for more details.
+
+### Access Keycloak
+
+- Access admin UI - [http://localhost:8080](http://localhost:8080)
+- Manage Account - [http://localhost:8080/realms/offgrid-public/account](http://localhost:8080/realms/offgrid-public/account)
+- OpenId Configuration - [http://localhost:8080/realms/offgrid-public/.well-known/openid-configuration](http://localhost:8080/realms/offgrid-public/.well-known/openid-configuration)
+
+Use Keycloak admin CLI:
+
+```bash
+# run script: ./infra/local/scripts/kcadm.sh
+
+bash-5.1$ ./kcadm.sh --help
+bash-5.1$ ./kcadm.sh get realms --fields id,realm,enabled
+
+```
 
 ### Keycloak Realm Configuration (offgrid-public)
 

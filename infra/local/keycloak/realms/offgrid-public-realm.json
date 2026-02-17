@@ -95,7 +95,9 @@
       ],
       "clientRoles": {
         "shop-api": [
-          "api-access"
+          "api-access",
+          "view-account",
+          "manage-account"
         ]
       }
     }
