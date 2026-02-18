@@ -479,7 +479,7 @@ Access the apps and services via the following links:
 
 - [RabbitMQ Admin UI (http://localhost:15672)](http://localhost:15672)
 
-Connect to database services:
+Connect to infrastructure services:
 
 See [Infrastructure README (./infra/local/README.md)](./infra/local/README.md)
 
@@ -542,6 +542,25 @@ I use [SemVer](http://semver.org/) for versioning. For the versions available, s
   See [the code](https://github.com/drminnaar/offgrid/tree/v1.0.0).
 
   See [design docs](./docs/shop/design/version-1).
+
+- [Version 1.0.0](https://github.com/drminnaar/offgrid/releases/tag/v1.0.0)
+  
+  The focus of this release is to establish an MVP (Minimum Viable Product) for a backoffice administration app called **_Portal_**.
+
+  Key highlights include:
+
+  - **Restructure**: A major restructure of monorepo to help simplify understanding and development.
+  - **Portal App**: Customer detail page, customer list with filters, pagination, and improved navigation.
+  - **Portal API**: Full customer management endpoints (list, detail, suspend, reinstate), outbox pattern, event processor, and robust validation.
+  - **Infrastructure**: Outbox/event processor, RabbitMQ integration, improved Flyway migrations, and enhanced local dev scripts.
+  - **Shared Libraries**: New DDD/domain abstractions, enum utilities, pagination, and messaging contracts.
+  - **Docs & Onboarding**: Comprehensive agent guidance, onboarding, and design documentation.
+  
+  See [release notes](https://github.com/drminnaar/offgrid/releases/tag/v2.0.0).
+
+  See [the code](https://github.com/drminnaar/offgrid/tree/v2.0.0).
+
+  See [design docs](./docs/portal/design/version-1).
 
 ---
 
