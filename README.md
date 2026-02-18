@@ -88,6 +88,7 @@ offgrid
 │
 ├── docs
 │   ├── design                            # Architecture and DDD docs
+│   ├── decision-registry                 # Document important project decisions
 │   ├── images                            # Diagrams and visual assets
 │   ├── portal                            # Portal app docs
 │   ├── shop                              # Shop app docs
@@ -214,6 +215,15 @@ Checking installed tools...
 - [Git Setup Guide](./docs/standards/git/git-setup.md)
   
   Provides details on the approach and standards relating to git setup and use.
+
+- [Documenting Decisions](./docs/decision-registry/README.md)
+  
+  Follow the project standard for recording important/critical project decisions. An important/critical decision, put simply, is one that once made is difficult to change after the fact. For example, decisions relating to technical, strategic, or operational concerns.
+
+  - See [README](./docs/decision-registry/README.md)
+  - See [Decision SOP](./docs/decision-registry/decision-sop.md)
+  - See [Decision Template](./docs/decision-registry/decision-template.md)
+  - See [Decision Summary](./docs/decision-registry/decision-summary.md)
 
 ---
 
