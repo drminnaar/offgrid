@@ -10,10 +10,10 @@ Welcome to **Offgrid** — a fictitious online adventure store that sells biking
 
 - [Offgrid — Monorepo Onboarding Guide](#offgrid--monorepo-onboarding-guide)
   - [Table of Contents](#table-of-contents)
-  - [Architecture Overview](#architecture-overview)
-  - [Repository Layout](#repository-layout)
-  - [Technology Stack](#technology-stack)
-  - [Local Setup](#local-setup)
+  - [📐👷🏻‍♀️ Architecture Overview](#️-architecture-overview)
+  - [🗺️ Repository Layout](#️-repository-layout)
+  - [🦾 Technology Stack](#-technology-stack)
+  - [🏗️ Local Setup](#️-local-setup)
     - [Prerequisites](#prerequisites)
     - [Step 1 — Clone \& verify tooling](#step-1--clone--verify-tooling)
     - [Step 2 — Configure environment files](#step-2--configure-environment-files)
@@ -25,21 +25,22 @@ Welcome to **Offgrid** — a fictitious online adventure store that sells biking
     - [Step 4 — Run database migrations](#step-4--run-database-migrations)
     - [Step 5 — Start apps \& APIs](#step-5--start-apps--apis)
     - [Quick-check — service URLs](#quick-check--service-urls)
-  - [Common Tasks](#common-tasks)
+  - [☑️ Common Tasks](#️-common-tasks)
     - [Manage the local infra stack](#manage-the-local-infra-stack)
     - [Connect to services](#connect-to-services)
     - [Run REST client requests](#run-rest-client-requests)
     - [Inspect the outbox table](#inspect-the-outbox-table)
-  - [VS Code Tasks \& Extensions](#vs-code-tasks--extensions)
-  - [Domain Event Flow (Portal)](#domain-event-flow-portal)
-  - [Authentication \& Keycloak](#authentication--keycloak)
-  - [Git Conventions](#git-conventions)
-  - [Gotchas \& Troubleshooting](#gotchas--troubleshooting)
-  - [Where to Go Next](#where-to-go-next)
+  - [✅ VS Code Tasks \& Extensions](#-vs-code-tasks--extensions)
+  - [🧩 Domain Event Flow (Portal)](#-domain-event-flow-portal)
+  - [🗝️ Authentication \& Keycloak](#️-authentication--keycloak)
+  - [🏛️ it Conventions](#️-it-conventions)
+  - [⚖️ Decision Making](#️-decision-making)
+  - [🐞 Gotchas \& Troubleshooting](#-gotchas--troubleshooting)
+  - [👉 Where to Go Next](#-where-to-go-next)
 
 ---
 
-## Architecture Overview
+## 📐👷🏻‍♀️ Architecture Overview
 
 Offgrid is split into two independent systems backed by shared infrastructure:
 
@@ -89,7 +90,7 @@ Both APIs follow a **Modular Monolith** architecture with Clean Architecture lay
 
 ---
 
-## Repository Layout
+## 🗺️ Repository Layout
 
 ```text
 offgrid/
@@ -145,7 +146,7 @@ graph LR
 
 ---
 
-## Technology Stack
+## 🦾 Technology Stack
 
 | Layer                 | Technology                                | Purpose                           |
 | --------------------- | ----------------------------------------- | --------------------------------- |
@@ -161,7 +162,7 @@ graph LR
 
 ---
 
-## Local Setup
+## 🏗️ Local Setup
 
 ### Prerequisites
 
@@ -348,7 +349,7 @@ dotnet watch run --project ./services/portal/src/Offgrid.Portal.Customers.EventP
 
 ---
 
-## Common Tasks
+## ☑️ Common Tasks
 
 ### Manage the local infra stack
 
@@ -395,7 +396,7 @@ FROM customers.customer_outbox_message;
 
 ---
 
-## VS Code Tasks & Extensions
+## ✅ VS Code Tasks & Extensions
 
 Press `Ctrl+Shift+B` to access pre-configured tasks:
 
@@ -426,7 +427,7 @@ Multi-root workspace files are provided at the repo root for scoped views: `port
 
 ---
 
-## Domain Event Flow (Portal)
+## 🧩 Domain Event Flow (Portal)
 
 The Portal system uses the **Transactional Outbox** pattern to reliably publish domain events:
 
@@ -465,7 +466,7 @@ sequenceDiagram
 
 ---
 
-## Authentication & Keycloak
+## 🗝️ Authentication & Keycloak
 
 Both systems use **Keycloak** for OIDC / OAuth 2.0 authentication:
 
@@ -500,7 +501,7 @@ flowchart LR
 
 ---
 
-## Git Conventions
+## 🏛️ it Conventions
 
 This project uses **[Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)**:
 
@@ -523,7 +524,20 @@ Full reference: [docs/standards/git/git-commit-convention.md](standards/git/git-
 
 ---
 
-## Gotchas & Troubleshooting
+## ⚖️ Decision Making
+
+Critical project choices/decisions are captured in a _Decision Registry_ found [here](../docs/decision-registry/decisions/).
+
+Follow the project standard for recording important/critical project decisions. An important/critical decision, put simply, is one that once made is difficult to change after the fact. For example, decisions relating to technical, strategic, or operational concerns.
+
+  - See [README](../docs/decision-registry/README.md)
+  - See [Decision SOP](../docs/decision-registry/decision-sop.md)
+  - See [Decision Template](../docs/decision-registry/decision-template.md)
+  - See [Decision Summary](../docs/decision-registry/decision-summary.md)
+
+---
+
+## 🐞 Gotchas & Troubleshooting
 
 | Issue                                        | Cause                                       | Fix                                                                         |
 | -------------------------------------------- | ------------------------------------------- | --------------------------------------------------------------------------- |
@@ -540,7 +554,7 @@ Full reference: [docs/standards/git/git-commit-convention.md](standards/git/git-
 
 ---
 
-## Where to Go Next
+## 👉 Where to Go Next
 
 | Topic                  | Link                                                                                  |
 | ---------------------- | ------------------------------------------------------------------------------------- |
