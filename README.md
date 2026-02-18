@@ -543,7 +543,7 @@ I use [SemVer](http://semver.org/) for versioning. For the versions available, s
 
   See [design docs](./docs/shop/design/version-1).
 
-- [Version 1.0.0](https://github.com/drminnaar/offgrid/releases/tag/v1.0.0)
+- [Version 2.0.0](https://github.com/drminnaar/offgrid/releases/tag/v2.0.0)
   
   The focus of this release is to establish an MVP (Minimum Viable Product) for a backoffice administration app called **_Portal_**.
 
