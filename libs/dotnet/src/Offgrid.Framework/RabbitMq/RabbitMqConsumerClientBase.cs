@@ -6,26 +6,27 @@ using RabbitMQ.Client.Events;
 
 namespace Offgrid.Framework.RabbitMq;
 
-public abstract class RabbitMqConsumerClientBase<TMessage> : RabbitMqClientBase where TMessage : class
+public abstract class RabbitMqConsumerClientBase<TEvent> : RabbitMqClientBase where TEvent : class
 {
-    private readonly IEventHandler<TMessage> _messageHandler;
+    private readonly IEventHandler<TEvent> _eventHandler;
     private const int MaxRetryCount = 5;
     private const double BaseDelaySeconds = 1;
     private CancellationToken _consumeCancellationToken = CancellationToken.None;
 
     public RabbitMqConsumerClientBase(
-        ILogger<RabbitMqConsumerClientBase<TMessage>> logger,
+        ILogger<RabbitMqConsumerClientBase<TEvent>> logger,
         IConnectionFactory connectionFactory,
         IOptions<RabbitMqClientOptions> settings,
-        IEventHandler<TMessage> messageHandler)
+        IEventHandler<TEvent> eventHandler)
         : base(logger, connectionFactory, settings)
     {
-        ArgumentNullException.ThrowIfNull(messageHandler, nameof(messageHandler));
-        _messageHandler = messageHandler;
+        ArgumentNullException.ThrowIfNull(eventHandler, nameof(eventHandler));
+        _eventHandler = eventHandler;
     }
 
     protected abstract string QueueName { get; }
     protected abstract string RoutingKey { get; }
+    protected IEventHandler<TEvent> EventHandler => _eventHandler;
 
     public async Task ConsumeAsync(CancellationToken cancellationToken)
     {
