@@ -24,31 +24,49 @@ infra
     ├── postgres             # postgres service config
     ├── flyway               # flyway service config
     ├── keycloak             # keycloak service config
+    ├── mongo                # mongodb service config
+    ├── rabbitmq             # rabbitmq service config
     ├── scripts              # collection of bash scripts to manage stack and connect to services
     │    ├── compose.sh      # manage the stack (up, down, exec, ps, logs, recreate)
     │    ├── flyway.sh       # manage the flyway migrations (migrate, info, validate etc)
     │    ├── kcadm.sh        # run keycloak admin cli
+    │    ├── mongosh.sh      # run mongo shell and open session to mongo database
     │    ├── psql.sh         # open a psql session for the local Postgres
     │    ├── psql-test.sh    # test postgres connectivity
     │    ├── .env            # local environment settings (must be created based on `.env.example` file)
     │    └── .env.example    # example environment settings that are required to correctly run the local stack
+    ├── agents.md            # markdown-based standard acting as a "README for AI agents
     └── compose.yaml         # top-level compose file that coordinates local services.
 
 ```
 
-> [!NOTE]
-> &nbsp;  
-> Postgres:
-> - [`./postgres/compose.yaml`](./postgres/compose.yaml) — Defines postgres compose service for local development.
->
-> Flyway:
-> - [`./flyway/compose.yaml`](./flyway/compose.yaml) — Define Flyway compose service to manage Flyway databse migrations.
-> - [`./flyway/migrations/*.pgsl`](./flyway/migrations) - Migrations folder that contains all database migration definitions
->
-> Keycloak:  
-> - [`./keycloak/compose.yaml`](./keycloak/compose.yaml) — Keycloak compose file and overrides.
-> - [`./keycloak/realms/offgrid-public-realm.json`](./keycloak/realms/offgrid-public-realm.json) — exported realm configuration used to initialize Keycloak.
-> - [`./keycloak/requests/auth.http`](./keycloak/requests/auth.http) — example HTTP requests demonstrating auth. 
+<br />
+
+Postgres:
+
+- [`./postgres/compose.yaml`](./postgres/compose.yaml) — Defines postgres compose service for local development.  
+
+Flyway:
+
+- [`./flyway/compose.yaml`](./flyway/compose.yaml) — Define Flyway compose service to manage Flyway databse migrations.
+- [`./flyway/migrations/*.pgsl`](./flyway/migrations) - Migrations folder that contains all database migration definitions
+
+Keycloak:  
+
+- [`./keycloak/compose.yaml`](./keycloak/compose.yaml) — Keycloak compose file and overrides.
+- [`./keycloak/realms/offgrid-public-realm.json`](./keycloak/realms/offgrid-public-realm.json) — exported realm configuration for public facing apps, used to initialize Keycloak.
+- [`./keycloak/realms/offgrid-internal-realm.json`](./keycloak/realms/offgrid-internal-realm.json) — exported realm configuration for private apps, used to initialize Keycloak.
+- [`./keycloak/requests/auth.http`](./keycloak/requests/auth.http) — example HTTP requests demonstrating auth. 
+
+RabbitMQ:
+
+- [./rabbitmq/compose.yaml](./rabbitmq/compose.yaml) - RabbitMQ compose file
+
+MongoDB:
+
+- [./mongo/compose.yaml](./mongo/compose.yaml) - MongoDB compose file that defines mongodb, mongo-express, and mongo-init services
+- [./mongo/init-service](./mongo/init-service) - .NET 10 application that is packaged into an image and runs mongo database seeding on initialization
+- [./mongo/seed](./mongo/seed) - An alternative seeding method that uses a products.json file and a bash script to seed mongo database
 
 ---
 
@@ -78,6 +96,21 @@ infra
   # keycloak environment variables
   OG_KC_BOOTSTRAP_ADMIN_USERNAME=
   OG_KC_BOOTSTRAP_ADMIN_PASSWORD=
+
+  # rabbitmq environment variables
+  OG_RABBITMQ_DEFAULT_USER=admin
+  OG_RABBITMQ_DEFAULT_PASS=password
+
+  # mongo environment variables
+  OG_MONGO_INITDB_ROOT_USERNAME=admin
+  OG_MONGO_INITDB_ROOT_PASSWORD=changeme
+
+  # mongo-express environment variables
+  OG_ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+  OG_ME_CONFIG_MONGODB_ADMINPASSWORD=changeme
+  OG_ME_CONFIG_MONGODB_SERVER=mongo
+  OG_ME_CONFIG_BASICAUTH_USERNAME=meuser
+  OG_ME_CONFIG_BASICAUTH_PASSWORD=changeme
   ```
 
 - Step 2 - Start the stack:
@@ -93,7 +126,11 @@ infra
 - Step 3 - Access services:
 
   - **Keycloak UI:** `http://localhost:8080`
-  - **Keycloak Admin CLI:** `./infra/local/scripts/kcadm.sh`
+  - **Keycloak Admin CLI (kcadmin):** `./infra/local/scripts/kcadm.sh`
+  - **Postgresql CLI (psql):** `./infra/local/scripts/psql.sh`
+  - **Rabbitmq Admin CLI (rabbitmqadmin):** `./infra/local/scripts/rabbitmqadmin.sh`
+  - **Rabbitmq Management Interface:** `http://localhost:15672`
+  - **MongoDB Shell (mongosh):** `./infra/local/scripts/mongosh.sh`
 
 ---
 
@@ -173,6 +210,22 @@ infra
   ```bash
 
   ./infra/local/scripts/kcadm.sh
+
+  ```
+
+- Use Rabbitmq admin CLI:
+
+  ```bash
+
+  ./infra/local/scripts/rabbitmqadmin.sh
+
+  ```
+
+- Use Mongo Shell:
+
+  ```bash
+
+  ./infra/local/scripts/mongosh.sh
 
   ```
 

@@ -8,3 +8,4 @@ include:
   - ./postgres/compose.yaml
   - ./keycloak/compose.yaml
   - ./rabbitmq/compose.yaml
+  - ./mongo/compose.yaml

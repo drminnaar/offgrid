@@ -59,7 +59,7 @@ fi
 # Execute the appropriate docker compose command
 case "$command" in
     "up")
-        docker compose --file "$COMPOSE_FILE" --env-file "$DIR/.env" up --detach "$@"
+        docker compose --file "$COMPOSE_FILE" --env-file "$DIR/.env" up --build --detach "$@"
         ;;
     "down")
         docker compose --file "$COMPOSE_FILE" --env-file "$DIR/.env" down --volumes --remove-orphans "$@"
@@ -74,7 +74,7 @@ case "$command" in
         docker compose --file "$COMPOSE_FILE" --env-file "$DIR/.env" exec "$@"
         ;;
     "recreate")
-        docker compose --file "$COMPOSE_FILE" --env-file "$DIR/.env" up --detach --force-recreate "$@"
+        docker compose --file "$COMPOSE_FILE" --env-file "$DIR/.env" up --build --detach --force-recreate "$@"
         ;;
 esac
 

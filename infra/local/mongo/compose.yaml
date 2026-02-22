@@ -1,0 +1,94 @@
+volumes:
+  mongo_data:
+
+services:
+  # -------------------------------------------------------------------------------------------------
+  # Mongo Database Service
+  # -------------------------------------------------------------------------------------------------
+  mongo:
+    image: mongo:8-noble
+    container_name: offgrid_mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    networks:
+      - default
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${OG_MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${OG_MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - type: volume
+        source: mongo_data
+        target: /data/db
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'mongosh --eval "db.adminCommand(''ping'')" >/dev/null 2>&1 || mongo --eval "db.adminCommand(''ping'')" >/dev/null 2>&1',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 90s
+
+  # -------------------------------------------------------------------------------------------------
+  # Mongo Database Seed Service - Does initial seeding of product collection using products.json file
+  # Uncomment this section if you want to use this service. Make sure to update the seed data in the
+  # seed/products.json file before building the container.
+  # -------------------------------------------------------------------------------------------------
+  # mongo-seed:
+  #   container_name: offgrid_mongoseed
+  #   build:
+  #     context: ./seed
+  #     dockerfile: Dockerfile
+  #   restart: "no"
+  #   networks:
+  #     - default
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=${OG_MONGO_INITDB_ROOT_USERNAME}
+  #     - MONGO_INITDB_ROOT_PASSWORD=${OG_MONGO_INITDB_ROOT_PASSWORD}
+  #   depends_on:
+  #     mongo:
+  #       condition: service_healthy
+
+  # -------------------------------------------------------------------------------------------------
+  # Mongo Database GUI Service - Web interface accessible via browser at http://localhost:8081
+  # Uncomment this section if you want to use this service. Make sure to set the required environment
+  # variables in the .env file before building the container.
+  # -------------------------------------------------------------------------------------------------
+  # mongo-express:
+  #   image: mongo-express
+  #   container_name: offgrid_mongoexpress
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: ${OG_ME_CONFIG_MONGODB_ADMINUSERNAME}
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: ${OG_ME_CONFIG_MONGODB_ADMINPASSWORD}
+  #     ME_CONFIG_MONGODB_SERVER: ${OG_ME_CONFIG_MONGODB_SERVER}
+  #     ME_CONFIG_OPTIONS_EDITORTHEME: "ambiance"
+  #     ME_CONFIG_BASICAUTH_ENABLED: true
+  #     ME_CONFIG_BASICAUTH_USERNAME: ${OG_ME_CONFIG_BASICAUTH_USERNAME}
+  #     ME_CONFIG_BASICAUTH_PASSWORD: ${OG_ME_CONFIG_BASICAUTH_PASSWORD}
+  #   networks:
+  #     - default
+  #   depends_on:
+  #     mongo:
+  #       condition: service_healthy
+
+  # -------------------------------------------------------------------------------------------------
+  # Mongo Initialization Service - Used to seed products collection
+  # -------------------------------------------------------------------------------------------------
+  mongo-init:
+    build:
+      context: ./init-service
+      dockerfile: Dockerfile
+    container_name: offgrid_mongoinit
+    restart: "no"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - default
+    environment:
+      - DOTNET_ENVIRONMENT=Docker
