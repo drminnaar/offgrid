@@ -186,6 +186,35 @@
       }
     },
     // ------------------------------------------------------------------------
+    // Mongodb Tasks
+    // ------------------------------------------------------------------------
+    {
+      "label": "bash: mongosh",
+      "type": "shell",
+      "command": "${workspaceFolder}/infra/local/scripts/mongosh.sh",
+      "windows": {
+        "options": {
+          "shell": {
+            "executable": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "args": []
+          }
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "icon": {
+        "id": "database",
+        "color": "terminal.ansiGreen"
+      }
+    },
+    // ------------------------------------------------------------------------
     // RabbitMQ Tasks
     // ------------------------------------------------------------------------
     {
