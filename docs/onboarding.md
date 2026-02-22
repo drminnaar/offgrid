@@ -28,8 +28,6 @@ Welcome to **Offgrid** — a fictitious online adventure store that sells biking
   - [☑️ Common Tasks](#️-common-tasks)
     - [Manage the local infra stack](#manage-the-local-infra-stack)
     - [Connect to services](#connect-to-services)
-    - [Run REST client requests](#run-rest-client-requests)
-    - [Inspect the outbox table](#inspect-the-outbox-table)
   - [✅ VS Code Tasks \& Extensions](#-vs-code-tasks--extensions)
   - [🧩 Domain Event Flow (Portal)](#-domain-event-flow-portal)
   - [🗝️ Authentication \& Keycloak](#️-authentication--keycloak)
@@ -116,8 +114,7 @@ offgrid/
 ├── libs/dotnet/              # Shared .NET libraries (Offgrid.Framework)
 ├── infra/local/              # Docker Compose stack & helper scripts
 ├── docs/                     # Design docs, standards, images
-├── scripts/                  # Repo-wide utility scripts
-└── *.code-workspace          # VS Code multi-root workspace files
+└── scripts/                  # Repo-wide utility scripts
 ```
 
 ```mermaid
@@ -155,6 +152,7 @@ graph LR
 | **Backend**           | .NET 10, C# 14                            | REST APIs & background workers    |
 | **Identity**          | Keycloak 26.x (OIDC / OAuth 2.0)          | Auth for apps & APIs              |
 | **Database**          | PostgreSQL 18                             | Relational data (ACID)            |
+| **Products Database** | MongoDB 8                                 | NoSQL db for products             |
 | **Migrations**        | Redgate Flyway 11.x                       | Version-controlled SQL migrations |
 | **Messaging**         | RabbitMQ 4.x                              | Async event distribution          |
 | **Containers**        | Docker Desktop, Docker Compose            | Local dev environment             |
@@ -251,11 +249,15 @@ Add a `keycloak` entry so the browser can resolve `http://keycloak:8080`:
 ./infra/local/scripts/compose.sh up
 ```
 
-This brings up **Postgres**, **Keycloak** (with realm import), and **RabbitMQ** via Docker Compose. Verify everything is healthy:
+This brings up **Postgres**, **Keycloak** (with realm import), **RabbitMQ**, and **MongoDB** via Docker Compose. Verify everything is healthy:
 
 ```bash
 ./infra/local/scripts/compose.sh ps
 ```
+
+MongoDB will be available at `localhost:27017`. If enabled, Mongo Express GUI is at `localhost:8081`.
+
+To seed the products collection, the `mongo-init` service will run automatically. You can update seed data in `infra/local/mongo/seed/products.json`.
 
 ### Step 4 — Run database migrations
 
@@ -346,6 +348,8 @@ dotnet watch run --project ./services/portal/src/Offgrid.Portal.Customers.EventP
 | Portal API          | [http://localhost:7001](http://localhost:7001)   |
 | Keycloak Admin      | [http://localhost:8080](http://localhost:8080)   |
 | RabbitMQ Management | [http://localhost:15672](http://localhost:15672) |
+| MongoDB             | `localhost:27017`                                |
+| Mongo Express GUI   | [http://localhost:8081](http://localhost:8081)   |
 
 ---
 
@@ -360,6 +364,8 @@ dotnet watch run --project ./services/portal/src/Offgrid.Portal.Customers.EventP
 ./infra/local/scripts/compose.sh logs        # all logs
 ./infra/local/scripts/compose.sh logs postgres  # single-service logs
 ./infra/local/scripts/compose.sh recreate postgres  # rebuild one service
+./infra/local/scripts/compose.sh logs mongo      # mongo logs
+./infra/local/scripts/compose.sh recreate mongo  # rebuild mongo service
 ```
 
 ### Connect to services
@@ -370,6 +376,14 @@ dotnet watch run --project ./services/portal/src/Offgrid.Portal.Customers.EventP
 ./infra/local/scripts/flyway.sh info       # migration status
 ./infra/local/scripts/flyway.sh migrate    # apply pending migrations
 ./infra/local/scripts/rabbitmqadmin.sh     # rabbitmq admin CLI
+./infra/local/scripts/mongosh.sh           # open MongoDB shell
+```
+
+To access Mongo Express GUI (if enabled):
+
+Visit [http://localhost:8081](http://localhost:8081)
+
+To seed products, update `infra/local/mongo/seed/products.json` and restart the `mongo-init` service.
 ```
 
 ### Run REST client requests
@@ -539,18 +553,21 @@ Follow the project standard for recording important/critical project decisions. 
 
 ## 🐞 Gotchas & Troubleshooting
 
-| Issue                                        | Cause                                       | Fix                                                                         |
-| -------------------------------------------- | ------------------------------------------- | --------------------------------------------------------------------------- |
-| **Bash scripts fail on Windows**             | Running from cmd.exe or PowerShell          | Use **Git Bash** or **WSL** for all `*.sh` scripts                          |
-| **`compose.sh up` fails immediately**        | Missing `.env` file                         | Copy `infra/local/scripts/.env.example` → `.env` and fill values            |
-| **API can't connect to Postgres/Keycloak**   | Infra not running or migrations not applied | Run `compose.sh ps` to check, then `flyway.sh migrate`                      |
-| **Keycloak login redirect fails in browser** | `keycloak` hostname not resolvable          | Add `127.0.0.1 keycloak` to your hosts file                                 |
-| **Shop app auth error (`AUTH_SECRET`)**      | Secret not generated                        | Run `npx auth secret` inside `apps/shop-app/`                               |
-| **Docker containers can't reach each other** | Using `localhost` instead of service names  | In container config use Compose service names (e.g. `postgres`, `keycloak`) |
-| **REST Client requests return errors**       | Wrong environment selected                  | Press `Ctrl+Alt+E` and pick the correct environment                         |
-| **Port already in use**                      | Another process on the port                 | Stop the conflicting process or check compose port mappings                 |
-| **Flyway migration fails**                   | Postgres not healthy yet                    | Wait for `compose.sh ps` to show postgres as healthy, then retry            |
-| **Scripts lack execute permission**          | Missing `+x` on Linux/Mac                   | Run `chmod +x ./scripts/*.sh ./infra/local/scripts/*.sh`                    |
+| Issue                                        | Cause                                         | Fix                                                                         |
+| -------------------------------------------- | --------------------------------------------- | --------------------------------------------------------------------------- |
+| **Bash scripts fail on Windows**             | Running from cmd.exe or PowerShell            | Use **Git Bash** or **WSL** for all `*.sh` scripts                          |
+| **`compose.sh up` fails immediately**        | Missing `.env` file                           | Copy `infra/local/scripts/.env.example` → `.env` and fill values            |
+| **API can't connect to Postgres/Keycloak**   | Infra not running or migrations not applied   | Run `compose.sh ps` to check, then `flyway.sh migrate`                      |
+| **Keycloak login redirect fails in browser** | `keycloak` hostname not resolvable            | Add `127.0.0.1 keycloak` to your hosts file                                 |
+| **Shop app auth error (`AUTH_SECRET`)**      | Secret not generated                          | Run `npx auth secret` inside `apps/shop-app/`                               |
+| **Docker containers can't reach each other** | Using `localhost` instead of service names    | In container config use Compose service names (e.g. `postgres`, `keycloak`) |
+| **REST Client requests return errors**       | Wrong environment selected                    | Press `Ctrl+Alt+E` and pick the correct environment                         |
+| **Port already in use**                      | Another process on the port                   | Stop the conflicting process or check compose port mappings                 |
+| **Flyway migration fails**                   | Postgres not healthy yet                      | Wait for `compose.sh ps` to show postgres as healthy, then retry            |
+| **Scripts lack execute permission**          | Missing `+x` on Linux/Mac                     | Run `chmod +x ./scripts/*.sh ./infra/local/scripts/*.sh`                    |
+| **MongoDB not available**                    | Service not started or unhealthy              | Check `compose.sh ps` and logs for mongo; verify env variables              |
+| **Mongo Express GUI not accessible**         | Service not enabled or env vars missing       | Uncomment in compose.yaml and set env vars; restart infra                   |
+| **Product seeding not working**              | Seed file missing or init service not running | Update `seed/products.json` and restart `mongo-init` service                |
 
 ---
 
