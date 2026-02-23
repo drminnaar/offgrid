@@ -26,6 +26,8 @@ public sealed class PagedList<T> : IPagedList<T>
     public bool HasPrevious => CurrentPageNumber > 1;
     public bool HasNext => CurrentPageNumber < PageCount;
 
+    public static PagedList<T> Empty => new([], 0, 1, 0);
+
     private static int ComputePageCount(int pageSize, long itemCount) => pageSize > 0
         ? (int)Math.Ceiling(itemCount / (double)pageSize)
         : 0;
