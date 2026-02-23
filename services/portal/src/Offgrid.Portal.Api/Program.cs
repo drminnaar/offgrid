@@ -2,6 +2,10 @@
 using Offgrid.Framework.Configuration.Extensions;
 using Offgrid.Framework.EntityFrameworkCore.Extensions;
 using Offgrid.Portal.Api.Endpoints.Customers;
+using Offgrid.Portal.Api.Endpoints.ProductBrands;
+using Offgrid.Portal.Api.Endpoints.ProductCategories;
+using Offgrid.Portal.Api.Endpoints.Products;
+using Offgrid.Portal.Api.Endpoints.ProductTypes;
 using Offgrid.Portal.Api.Endpoints.Root;
 using Offgrid.Portal.Api.Extensions;
 using Offgrid.Portal.Customers.Infrastructure.Persistence;
@@ -25,6 +29,7 @@ builder.Services.AddOffgridDbContext<IAppDbContext, AppDbContext>(
     enableDetailedErrors: !builder.Environment.IsProduction(),
     enableSensitiveDataLogging: !builder.Environment.IsProduction());
 builder.Services.AddCustomerServices();
+builder.Services.AddProductServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -40,5 +45,9 @@ app.UseAuthorization();
 // map endpoints
 app.MapRootEndpoint();
 app.MapCustomerEndpoints();
+app.MapProductEndpoints();
+app.MapProductTypesEndpoints();
+app.MapProductCategoriesEndpoints();
+app.MapProductBrandsEndpoints();
 
 app.Run();
