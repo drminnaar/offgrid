@@ -1,4 +1,4 @@
-namespace MongoInit.Data;
+﻿namespace MongoInit.Data;
 
 public static class BikeDataGenerator
 {
@@ -166,33 +166,33 @@ public static class BikeDataGenerator
 
         var specs = new Dictionary<string, string>
             {
-                { "FrameSize", frameSizes[_random.Next(frameSizes.Length)] },
-                { "WheelSize", wheelSizes[_random.Next(wheelSizes.Length)] },
-                { "FrameMaterial", frameMaterials[_random.Next(frameMaterials.Length)] },
-                { "Weight", $"{_random.Next(22, 35)} lbs" },
-                { "Gearing", _random.Next(2) == 0 ? "1x12 speed" : "2x11 speed" },
-                { "BrakeType", "Hydraulic Disc" },
-                { "MaxRiderWeight", $"{_random.Next(250, 320)} lbs" }
+                { "frameSize", frameSizes[_random.Next(frameSizes.Length)] },
+                { "wheelSize", wheelSizes[_random.Next(wheelSizes.Length)] },
+                { "frameMaterial", frameMaterials[_random.Next(frameMaterials.Length)] },
+                { "weight", $"{_random.Next(22, 35)} lbs" },
+                { "gearing", _random.Next(2) == 0 ? "1x12 speed" : "2x11 speed" },
+                { "brakeType", "Hydraulic Disc" },
+                { "maxRiderWeight", $"{_random.Next(250, 320)} lbs" }
             };
 
         if (category == "Mountain Bike")
         {
-            specs.Add("SuspensionTravel", suspensionTravel[_random.Next(suspensionTravel.Length)]);
-            specs.Add("SuspensionType", _random.Next(2) == 0 ? "Full Suspension" : "Hardtail");
+            specs.Add("suspensionTravel", suspensionTravel[_random.Next(suspensionTravel.Length)]);
+            specs.Add("suspensionType", _random.Next(2) == 0 ? "Full Suspension" : "Hardtail");
         }
 
         if (category == "Electric Bike")
         {
-            specs.Add("MotorPower", $"{_random.Next(250, 750)}W");
-            specs.Add("BatteryCapacity", $"{_random.Next(400, 700)}Wh");
-            specs.Add("MaxRange", $"{_random.Next(40, 100)} miles");
-            specs.Add("MaxSpeed", _random.Next(2) == 0 ? "20 mph (Class 1)" : "28 mph (Class 3)");
+            specs.Add("motorPower", $"{_random.Next(250, 750)}W");
+            specs.Add("batteryCapacity", $"{_random.Next(400, 700)}Wh");
+            specs.Add("maxRange", $"{_random.Next(40, 100)} miles");
+            specs.Add("maxSpeed", _random.Next(2) == 0 ? "20 mph (Class 1)" : "28 mph (Class 3)");
         }
 
         if (category == "Gravel Bike")
         {
-            specs.Add("TireClearance", _random.Next(2) == 0 ? "45mm" : "50mm");
-            specs.Add("BottleCageMounts", "3");
+            specs.Add("tireClearance", _random.Next(2) == 0 ? "45mm" : "50mm");
+            specs.Add("bottleCageMounts", "3");
         }
 
         return specs;
@@ -264,11 +264,11 @@ public static class BikeDataGenerator
                     ImageUrl = $"https://example.com/bikes/{productId:D4}/variants/{size.ToLower()}-{color.Replace(" ", "-").ToLower()}-{buildKit.ToLower()}.jpg",
                     Attributes = new Dictionary<string, string>
                     {
-                        { "FrameSize", size },
-                        { "Color", color },
-                        { "ColorHex", colorLookup[color] },
-                        { "BuildKit", buildKit },
-                        { "Components", components }
+                        { "frameSize", size },
+                        { "color", color },
+                        { "colorHex", colorLookup[color] },
+                        { "buildKit", buildKit },
+                        { "components", components }
                     },
                     StockQuantity = _random.Next(0, 12)
                 });

@@ -1,4 +1,4 @@
-namespace MongoInit.Data;
+﻿namespace MongoInit.Data;
 
 public static class KayakDataGenerator
 {
@@ -247,10 +247,10 @@ public static class KayakDataGenerator
                     ImageUrl = $"https://example.com/kayaks/{productNumber:D4}/variants/{color.Replace(" ", "-").ToLower()}-{package.ToLower()}.jpg",
                     Attributes = new Dictionary<string, string>
                         {
-                            { "Color", color },
-                            { "ColorHex", colorLookup[color] },
-                            { "Package", package },
-                            { "Includes", packageIncludes }
+                            { "color", color },
+                            { "colorHex", colorLookup[color] },
+                            { "package", package },
+                            { "includes", packageIncludes }
                         },
                     StockQuantity = _random.Next(0, 25)
                 });

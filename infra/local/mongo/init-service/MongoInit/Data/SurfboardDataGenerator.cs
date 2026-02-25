@@ -1,4 +1,4 @@
-namespace MongoInit.Data;
+﻿namespace MongoInit.Data;
 
 public static class SurfboardDataGenerator
 {
@@ -192,14 +192,14 @@ public static class SurfboardDataGenerator
 
         return new Dictionary<string, string>
             {
-                { "Length", dimensions.lengths[_random.Next(dimensions.lengths.Length)] },
-                { "Width", dimensions.widths[_random.Next(dimensions.widths.Length)] },
-                { "Thickness", dimensions.thicknesses[_random.Next(dimensions.thicknesses.Length)] },
-                { "Volume", dimensions.volumes[_random.Next(dimensions.volumes.Length)] },
-                { "FinSystem", finSystems[_random.Next(finSystems.Length)] },
-                { "Construction", constructions[_random.Next(constructions.Length)] },
-                { "TailShape", GetTailShape(category) },
-                { "RiderWeight", $"{_random.Next(120, 220) * 0.45} kg" }
+                { "length", dimensions.lengths[_random.Next(dimensions.lengths.Length)] },
+                { "width", dimensions.widths[_random.Next(dimensions.widths.Length)] },
+                { "thickness", dimensions.thicknesses[_random.Next(dimensions.thicknesses.Length)] },
+                { "volume", dimensions.volumes[_random.Next(dimensions.volumes.Length)] },
+                { "finSystem", finSystems[_random.Next(finSystems.Length)] },
+                { "construction", constructions[_random.Next(constructions.Length)] },
+                { "tailShape", GetTailShape(category) },
+                { "riderWeight", $"{_random.Next(120, 220) * 0.45} kg" }
             };
     }
 
@@ -279,10 +279,10 @@ public static class SurfboardDataGenerator
                     PriceModifier = priceModifier,
                     Attributes = new Dictionary<string, string>
                         {
-                            { "Size", size },
-                            { "Color", color },
-                            { "ColorHex", colorLookup[color] },
-                            { "FinSetup", finSetup }
+                            { "size", size },
+                            { "color", color },
+                            { "colorHex", colorLookup[color] },
+                            { "finSetup", finSetup }
                         },
                     ImageUrl = $"https://example.com/surfboards/{productNumber:D4}/variants/{variantCounter:D2}.jpg",
                     StockQuantity = _random.Next(0, 15)
