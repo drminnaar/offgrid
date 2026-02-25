@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Offgrid.Framework.MongoDb;
 using Offgrid.Portal.Products.Application.Queries.GetProductBrands;
+using Offgrid.Portal.Products.Application.Queries.GetProductById;
 using Offgrid.Portal.Products.Application.Queries.GetProductCategories;
 using Offgrid.Portal.Products.Application.Queries.GetProducts;
 using Offgrid.Portal.Products.Application.Queries.GetProductTypes;
@@ -32,6 +33,7 @@ public static partial class ApiExtensions
         services.AddScoped<IGetProductTypesHandler, GetProductTypesHandler>();
         services.AddScoped<IGetProductCategoriesHandler, GetProductCategoriesHandler>();
         services.AddScoped<IGetProductBrandsHandler, GetProductBrandsHandler>();
+        services.AddScoped<IGetProductByIdHandler, GetProductByIdHandler>();
 
         // add application services
         services.AddScoped<IProductService, ProductService>();
