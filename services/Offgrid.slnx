@@ -25,8 +25,16 @@
 
   <Folder Name="/4 - Requests/Portal/">
     <File Path="portal/requests/.env.example" />
+    <File Path="portal/requests/customers-getall.http" />
+    <File Path="portal/requests/customers-getbyid.http" />
     <File Path="portal/requests/customers-reinstate.http" />
     <File Path="portal/requests/customers-suspend.http" />
+    <File Path="portal/requests/products-getbyid.http" />
+    <File Path="portal/requests/products-getall.http" />
+    <File Path="portal/requests/products-get-brands.http" />
+    <File Path="portal/requests/products-get-categories.http" />
+    <File Path="portal/requests/products-get-types.http" />
+    <File Path="portal/requests/products-getvariants.http" />
     <File Path="portal/requests/root.http" />
   </Folder>
   

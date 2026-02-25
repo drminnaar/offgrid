@@ -10,6 +10,7 @@ public static class ProductsEndpointMap
             .MapGroup(PREFIX)
             .MapGetAllProducts()
             .MapGetProductById()
+            .MapGetProductVariants()
             .RequireAuthorization();
         return app;
     }
@@ -27,6 +28,14 @@ public static class ProductsEndpointMap
         route
             .MapGet("/{productId}", GetProductByIdActionHandler.GetProductByIdAsync)
             .WithName(GetProductByIdActionHandler.EndpointName);
+        return route;
+    }
+
+    private static RouteGroupBuilder MapGetProductVariants(this RouteGroupBuilder route)
+    {
+        route
+            .MapGet("/{productId}/variants", GetProductVariantsActionHandler.GetProductVariantsAsync)
+            .WithName(GetProductVariantsActionHandler.EndpointName);
         return route;
     }
 }

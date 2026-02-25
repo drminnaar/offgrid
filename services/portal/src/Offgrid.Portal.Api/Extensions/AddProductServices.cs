@@ -5,6 +5,7 @@ using Offgrid.Portal.Products.Application.Queries.GetProductById;
 using Offgrid.Portal.Products.Application.Queries.GetProductCategories;
 using Offgrid.Portal.Products.Application.Queries.GetProducts;
 using Offgrid.Portal.Products.Application.Queries.GetProductTypes;
+using Offgrid.Portal.Products.Application.Queries.GetProductVariants;
 using Offgrid.Portal.Products.Application.Services;
 using Offgrid.Portal.Products.Domain.Entities;
 
@@ -34,6 +35,7 @@ public static partial class ApiExtensions
         services.AddScoped<IGetProductCategoriesHandler, GetProductCategoriesHandler>();
         services.AddScoped<IGetProductBrandsHandler, GetProductBrandsHandler>();
         services.AddScoped<IGetProductByIdHandler, GetProductByIdHandler>();
+        services.AddScoped<GetProductVariantsQueryHandler, GetProductVariantsQueryHandler>();
 
         // add application services
         services.AddScoped<IProductService, ProductService>();

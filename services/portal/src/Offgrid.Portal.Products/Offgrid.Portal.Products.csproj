@@ -16,4 +16,8 @@
     <ProjectReference Include="..\..\..\..\libs\dotnet\src\Offgrid.Framework\Offgrid.Framework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\Queries\GetProductVariants\" />
+  </ItemGroup>
+
 </Project>
