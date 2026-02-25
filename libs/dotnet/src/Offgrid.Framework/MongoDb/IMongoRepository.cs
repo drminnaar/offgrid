@@ -24,9 +24,8 @@ public interface IMongoRepository<TMongoEntity> where TMongoEntity : class, IMon
         CancellationToken cancellationToken = default);
 
     Task<PagedList<TMongoEntity>> FindAsync(
-        IMongoQuery query,
+        QueryOptions<TMongoEntity> options,
         FilterDefinition<TMongoEntity> filter,
-        SortDefinition<TMongoEntity> sort,
         CancellationToken ct = default);
 
     Task<TMongoEntity?> FindByIdAsync(

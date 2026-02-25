@@ -9,8 +9,6 @@
   <Project Path="../../libs/dotnet/src/Offgrid.Framework/Offgrid.Framework.csproj" />
   <Project Path="src/Offgrid.Portal.Api/Offgrid.Portal.Api.csproj" />
   <Project Path="src/Offgrid.Portal.Customers/Offgrid.Portal.Customers.csproj" />
-  <Project Path="src/Offgrid.Portal.Customers.ConsoleEventConsumer/Offgrid.Portal.Customers.ConsoleEventConsumer.csproj" />
-  <Project Path="src/Offgrid.Portal.Customers.EventConsumer/Offgrid.Portal.Customers.EventConsumer.csproj" />
   <Project Path="src/Offgrid.Portal.Customers.Contracts/Offgrid.Portal.Customers.Contracts.csproj" />
   <Project Path="src/Offgrid.Portal.Customers.OutboxProcessor/Offgrid.Portal.Customers.OutboxProcessor.csproj" />
 </Solution>

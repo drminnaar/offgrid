@@ -12,6 +12,9 @@ public static class GetProductsActionHandler
     public static async Task<IResult> GetProductsAsync(
         [FromServices] IProductService productService,
         HttpContext httpContext,
+        [FromQuery(Name = "brands")] string brands = "",
+        [FromQuery(Name = "categories")] string categories = "",
+        [FromQuery(Name = "types")] string types = "",
         [FromQuery(Name = "page")] int pageNumber = GetProductsQuery.DefaultPageNumber,
         [FromQuery(Name = "limit")] int pageSize = GetProductsQuery.DefaultPageSize,
         CancellationToken token = default)
@@ -23,7 +26,10 @@ public static class GetProductsActionHandler
         var query = new GetProductsQuery
         {
             Page = pageNumber,
-            PageSize = pageSize
+            PageSize = pageSize,
+            Brands = brands ?? string.Empty,
+            Categories = categories ?? string.Empty,
+            Types = types ?? string.Empty
         };
 
         var result = await productService.GetProductsAsync(query, token);

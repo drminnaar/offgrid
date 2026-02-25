@@ -89,9 +89,8 @@ public class MongoRepository<TMongoEntity> : IMongoRepository<TMongoEntity> wher
     }
 
     public async Task<PagedList<TMongoEntity>> FindAsync(
-        IMongoQuery query,
+        QueryOptions<TMongoEntity> options,
         FilterDefinition<TMongoEntity> filter,
-        SortDefinition<TMongoEntity> sort,
         CancellationToken ct = default)
     {
         // Get total count first (for pagination metadata)
@@ -102,16 +101,17 @@ public class MongoRepository<TMongoEntity> : IMongoRepository<TMongoEntity> wher
             return PagedList<TMongoEntity>.Empty;
         }
 
-        var options = new FindOptions<TMongoEntity>
+        var findOptions = new FindOptions<TMongoEntity>
         {
-            Sort = sort,
-            Skip = (query.Page - 1) * query.PageSize,
-            Limit = query.PageSize
+            Collation = new Collation("en", strength: options.Collation),
+            Sort = options.SortDefinition,
+            Skip = (options.Page - 1) * options.PageSize,
+            Limit = options.PageSize
         };
 
-        using var cursor = await _collection.FindAsync(filter, options, ct);
+        using var cursor = await _collection.FindAsync(filter, findOptions, ct);
 
-        return await cursor.ToPagedListAsync(query.Page, query.PageSize, totalCount, ct);
+        return await cursor.ToPagedListAsync(options.Page, options.PageSize, totalCount, ct);
     }
 
     public async Task<TMongoEntity?> FindByIdAsync(ObjectId id, CancellationToken cancellationToken = default)

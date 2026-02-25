@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using Offgrid.Framework.Domain;
 using Offgrid.Framework.Domain.Extensions;
 using Offgrid.Framework.MongoDb;
@@ -24,8 +25,28 @@ public sealed class GetProductsHandler : IGetProductsHandler
     public async Task<PagedListResult<ProductInfo>> HandleAsync(GetProductsQuery query, CancellationToken cancellationToken)
     {
         var filter = Builders<Product>.Filter.Empty;
-        var sort = Builders<Product>.Sort.Ascending(p => p.UpdatedAtUnixTimeSeconds);
-        var products = await _repository.FindAsync(query, filter, sort, cancellationToken);
+        if (query.GetBrandList().Length > 0)
+        {
+            var brands = query.GetBrandList();
+            filter &= Builders<Product>.Filter.Regex(p => p.Brand, new BsonRegularExpression(string.Join("|", brands), "i"));
+        }
+        if (query.GetCategoryList().Length > 0)
+        {
+            var categories = query.GetCategoryList();
+            filter &= Builders<Product>.Filter.Regex(p => p.Category, new BsonRegularExpression(string.Join("|", categories), "i"));
+        }
+        if (query.GetTypeList().Length > 0)
+        {
+            var types = query.GetTypeList();
+            filter &= Builders<Product>.Filter.Regex(p => p.Type, new BsonRegularExpression(string.Join("|", types), "i"));
+        }
+        var options = new QueryOptions<Product>
+        {
+            SortDefinition = Builders<Product>.Sort.Descending(p => p.UpdatedAtUnixTimeSeconds),
+            Page = query.Page,
+            PageSize = query.PageSize
+        };
+        var products = await _repository.FindAsync(options, filter, cancellationToken);
         return products.ToPagedListResult(product => product.ToProductInfo());
     }
 }

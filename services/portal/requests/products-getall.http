@@ -70,3 +70,24 @@ GET {{base_url}}/products?page=1&limit=5
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
+
+
+### Get All Products - Valid request with brand filter
+GET {{base_url}}/products?brands=trailmaster,oceanpro
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Get All Products - Valid request with type filter (bike, kayak, surfboard)
+GET {{base_url}}/products?types=bike, kayak
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Get All Products - Valid request with category filter (recreational, mountain bike, shortboard)
+GET {{base_url}}/products?categories=mountain bike, shortboard
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
