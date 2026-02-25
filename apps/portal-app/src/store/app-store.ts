@@ -6,6 +6,7 @@ import { globalUISlice } from './global-ui-slice';
 
 // api slices
 import { customerApi } from '../services/customers/customer-api';
+import { productApi, productBrandApi, productTypeApi, productCategoryApi } from '../services/products';
 
 export const appStore = configureStore({
   reducer: {
@@ -13,9 +14,17 @@ export const appStore = configureStore({
     [globalUISlice.name]: globalUISlice.reducer,
     // api
     [customerApi.reducerPath]: customerApi.reducer,
+    [productApi.reducerPath]: productApi.reducer,
+    [productTypeApi.reducerPath]: productTypeApi.reducer,
+    [productBrandApi.reducerPath]: productBrandApi.reducer,
+    [productCategoryApi.reducerPath]: productCategoryApi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(customerApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .concat(customerApi.middleware)
+    .concat(productApi.middleware)
+    .concat(productTypeApi.middleware)
+    .concat(productBrandApi.middleware)
+    .concat(productCategoryApi.middleware),
 });
 
 /**

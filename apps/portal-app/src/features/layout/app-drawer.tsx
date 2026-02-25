@@ -13,6 +13,7 @@ import {
 import {
   Dashboard as DashboardIcon,
   People as CustomersIcon,
+  ShoppingCart as ProductsIcon,
 } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -23,6 +24,7 @@ const drawerWidth = 240;
 const menuItems = [
   { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
   { text: 'Customers', icon: <CustomersIcon />, path: '/customers' },
+  { text: 'Products', icon: <ProductsIcon />, path: '/products' },
 ];
 
 export const AppDrawer = () => {

@@ -12,6 +12,7 @@ import { ProtectedRoute } from '../lib/auth/keycloak';
 import { LoginPage } from '../features/login';
 import { DashboardPage } from '../features/dashboard';
 import { CustomerPage, CustomerDetailPage } from '../features/customers';
+import { ProductDetailsPage, ProductPage } from '../features/products';
 
 export const AppRouter = createBrowserRouter([
   {
@@ -32,6 +33,14 @@ export const AppRouter = createBrowserRouter([
           {
             path: '/customers/:customerId',
             element: <CustomerDetailPage />,
+          },
+          {
+            path: '/products',
+            element: <ProductPage />,
+          },
+          {
+            path: '/products/:productId',
+            element: <ProductDetailsPage />,
           },
         ],
       },
