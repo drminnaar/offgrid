@@ -1,7 +1,5 @@
-// packages
-import { AppPage } from '../../layout';
-
 // custom components
+import { AppPage } from '../../layout';
 import { CustomerPageContent } from './customer-page-content';
 
 export const CustomerPage = () => {

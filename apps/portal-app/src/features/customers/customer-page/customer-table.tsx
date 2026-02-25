@@ -18,7 +18,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 // custom components
 import { AppNoDataAlert } from '../../../lib/ui/alerts';
 
-export type CustomerRow = {
+type CustomerRow = {
   customerId: string;
   customerNumber: string;
   status: string;
@@ -30,11 +30,10 @@ export type CustomerRow = {
   deletedDate?: string;
 };
 
-// Props for the table component
-interface CustomerTableProps {
+type CustomerTableProps = {
   customers?: CustomerRow[];
   onViewCustomer: (customerId: string) => void;
-}
+};
 
 export const CustomerTable: React.FC<CustomerTableProps> = ({
   customers,
