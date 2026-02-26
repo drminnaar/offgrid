@@ -1,3 +1,4 @@
+// packages
 import {
   Box,
   FormControl,
@@ -7,12 +8,12 @@ import {
   Button,
   OutlinedInput,
 } from '@mui/material';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import {
+  ClearAll as ClearAllIcon,
+  Refresh as RefreshIcon,
+} from '@mui/icons-material';
 
-// type ProductCategoryOption = {
-//   category: string;
-//   subcategories: string[];
-// };
+// types
 
 type ProductFiltersProps = {
   data: {
@@ -102,6 +103,17 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
             ))}
         </Select>
       </FormControl>
+      <Button
+        variant='outlined'
+        onClick={() => {
+          onFilterChange('type', '');
+          onFilterChange('category', '');
+          onFilterChange('brand', '');
+        }}
+        startIcon={<ClearAllIcon />}
+      >
+        Clear Filters
+      </Button>
       <Button
         variant='outlined'
         onClick={onRefresh}

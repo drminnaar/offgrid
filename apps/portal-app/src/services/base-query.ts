@@ -31,6 +31,6 @@ export const baseQuery = fetchBaseQuery({
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const delayedBaseQuery: typeof baseQuery = async (args, api, extraOptions) => {
-  await delay(1500); // 1 second delay for testing
+  await delay(500); // 1 second delay for testing
   return baseQuery(args, api, extraOptions);
 };

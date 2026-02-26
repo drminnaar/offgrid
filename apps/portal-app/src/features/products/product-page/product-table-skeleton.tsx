@@ -18,6 +18,7 @@ export const ProductTableSkeleton: React.FC<{ rows?: number }> = ({
       <TableHead>
         <TableRow>
           <TableCell></TableCell>
+          <TableCell></TableCell>
           <TableCell>
             <Skeleton variant='text' />
           </TableCell>
@@ -47,6 +48,7 @@ export const ProductTableSkeleton: React.FC<{ rows?: number }> = ({
       <TableBody>
         {Array.from({ length: rows }).map((_, idx) => (
           <TableRow key={idx}>
+            <TableCell></TableCell>
             <TableCell>
               <Skeleton variant='rectangular' width={40} height={40} />
             </TableCell>

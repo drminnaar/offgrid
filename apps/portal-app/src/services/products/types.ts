@@ -83,3 +83,12 @@ export type ProductCategory = {
   category: string;
   subcategories: string[];
 };
+
+export type ProductVariantInfo = {
+  sku: string;
+  name: string;
+  priceModifier: number;
+  attributes: Record<string, string>;
+  stockQuantity: number;
+  imageUrl: string;
+};

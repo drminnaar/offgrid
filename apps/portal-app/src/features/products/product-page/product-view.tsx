@@ -5,7 +5,10 @@ import { Box } from '@mui/material';
 // api
 import { useProductFilters } from '../../../services/products';
 import { ProductFilters } from './product-filters';
-import { useGetProductsQuery } from '../../../services/products/product-api';
+import {
+  useGetProductsQuery,
+  useGetProductVariantsQuery,
+} from '../../../services/products/product-api';
 
 // custom components
 import { ProductTable } from './product-table';
@@ -31,6 +34,9 @@ const initialFilters: ProductFilters = {
 
 export const ProductView = () => {
   const [filters, setFilters] = useState<ProductFilters>(initialFilters);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null,
+  );
 
   const {
     isLoading,
@@ -54,10 +60,21 @@ export const ProductView = () => {
     types: filters.type ?? '',
   });
 
+  const {
+    data: productVariants,
+    isLoading: isProductVariantsLoading,
+    isError: isProductVariantsError,
+    error: productVariantsError,
+    isFetching: isProductVariantsFetching,
+  } = useGetProductVariantsQuery(selectedProductId!, {
+    skip: !selectedProductId,
+  });
+
   if (isLoading || isProductsLoading) return <ProductViewSkeleton />;
 
-  if (isError) throw error;
-  if (isProductsError) throw productsError;
+  const isAnyError = isError || isProductsError || isProductVariantsError;
+  const anyError = error || productsError || productVariantsError;
+  if (isAnyError) throw anyError;
 
   return (
     <Box>
@@ -78,7 +95,14 @@ export const ProductView = () => {
         onRefresh={() => refetch()}
       />
 
-      <ProductTable products={products?.items ?? []} />
+      <ProductTable
+        products={products?.items ?? []}
+        variants={productVariants ?? []}
+        onProductRowClick={(productId) => setSelectedProductId(productId)}
+        isVariantsLoading={
+          isProductVariantsLoading || isProductVariantsFetching
+        }
+      />
 
       <AppPagination
         paginationInfo={products}
