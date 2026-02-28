@@ -49,6 +49,12 @@ public static class RootEndpointMap
                         href = $"{context.Request.Scheme}://{context.Request.Host}{ProductsEndpointMap.PREFIX}/{{productId}}",
                         templated = true,
                         method = "GET"
+                    },
+                    getVariants = new
+                    {
+                        href = $"{context.Request.Scheme}://{context.Request.Host}{ProductsEndpointMap.PREFIX}/{{productId}}/variants",
+                        templated = true,
+                        method = "GET"
                     }
                 },
                 productBrands = new
