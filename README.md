@@ -80,6 +80,9 @@ offgrid
 │       ├── postgres                      # Postgres docker config
 │       │   └── compose.yaml              # Custom Postgres compose file
 │       │
+│       ├── mongodb                       # MongoDb docker config
+│       │   └── compose.yaml              # Custom MongoDb compose file
+│       │
 │       └── keycloak                      # Keycloak docker config
 │           └── compose.keycloak.yaml     # Custom Keycloak compose file
 │       
@@ -518,6 +521,7 @@ A summary of the [tasks.json](./.vscode/tasks.json) is provided as follows:
   - `bash: compose up-recreate` — Recreate a selected service (prompted).
   - `bash: psql` — Open a Postgres CLI session using the repo script.
   - `bash: rabbitmqadmin` — Run RabbitMQ admin CLI using the repo script.
+  - `bash: mongosh` — Run Mongo shell CLI using the repo script.
   - `bash: flyway` — Run Flyway command (prompted).
 - **shop apps/services**
   - `dotnet: run shop-api` — Run the Shop API with dotnet watch.
