@@ -3,6 +3,7 @@ import { Navigate, Outlet } from 'react-router';
 
 // lib
 import { useKeycloak } from './use-keycloak';
+import { EnvSetting } from '../../env';
 
 export interface ProtectedRouteProps {
   roles?: string[];
@@ -38,8 +39,16 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Check realm roles
   if (roles && roles.length > 0) {
     const hasRequiredRole = roles.some((role) => hasRealmRole(role));
+    let message = '';
     if (!hasRequiredRole) {
-      return <Navigate to='/unauthorized' replace />;
+      if (EnvSetting.APP_ENV === 'development') {
+        const missingRoles = roles.filter((role) => !hasRealmRole(role));
+        message = `You are missing one of the following required realm roles: ${missingRoles.join(
+          ', ',
+        )}`;
+        console.warn(message);
+      }
+      return <Navigate to='/not-authorized' state={{ message }} replace />;
     }
   }
 
@@ -49,7 +58,17 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       hasResourceRole(role, resourceRoles.resource),
     );
     if (!hasRequiredResourceRole) {
-      return <Navigate to='/unauthorized' replace />;
+      let message = '';
+      if (EnvSetting.APP_ENV === 'development') {
+        const missingResourceRoles = resourceRoles.roles.filter(
+          (role) => !hasResourceRole(role, resourceRoles.resource),
+        );
+        message = `You are missing one of the following required resource roles: ${missingResourceRoles.join(
+          ', ',
+        )} for resource: ${resourceRoles.resource}`;
+        console.warn(message);
+      }
+      return <Navigate to='/not-authorized' state={{ message }} replace />;
     }
   }
 

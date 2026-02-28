@@ -3,12 +3,12 @@ import { createBrowserRouter, Navigate } from 'react-router';
 
 // components
 import { App } from '../App';
-import { NotFoundErrorPage } from '../features/errors';
 
 // lib
-import { ProtectedRoute } from '../lib/auth/keycloak';
+import { ProtectedRoute, RealmRole } from '../lib/auth/keycloak';
 
 // pages
+import { NotAuthorizedErrorPage, NotFoundErrorPage } from '../features/errors';
 import { LoginPage } from '../features/login';
 import { DashboardPage } from '../features/dashboard';
 import { CustomerPage, CustomerDetailPage } from '../features/customers';
@@ -20,12 +20,21 @@ export const AppRouter = createBrowserRouter([
     element: <App />,
     children: [
       {
-        element: <ProtectedRoute />,
+        element: <ProtectedRoute roles={[...RealmRole.All]} />,
         children: [
           {
             path: '/dashboard',
             element: <DashboardPage />,
           },
+        ],
+      },
+      {
+        element: (
+          <ProtectedRoute
+            roles={[RealmRole.Admin, RealmRole.CustomerManager]}
+          />
+        ),
+        children: [
           {
             path: '/customers',
             element: <CustomerPage />,
@@ -34,6 +43,13 @@ export const AppRouter = createBrowserRouter([
             path: '/customers/:customerId',
             element: <CustomerDetailPage />,
           },
+        ],
+      },
+      {
+        element: (
+          <ProtectedRoute roles={[RealmRole.Admin, RealmRole.ProductManager]} />
+        ),
+        children: [
           {
             path: '/products',
             element: <ProductPage />,
@@ -55,6 +71,10 @@ export const AppRouter = createBrowserRouter([
       {
         path: '/not-found',
         element: <NotFoundErrorPage />,
+      },
+      {
+        path: '/not-authorized',
+        element: <NotAuthorizedErrorPage />,
       },
       {
         path: '*',

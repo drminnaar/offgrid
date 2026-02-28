@@ -10,26 +10,17 @@ import {
   ListItemText,
   Toolbar,
 } from '@mui/material';
-import {
-  Dashboard as DashboardIcon,
-  People as CustomersIcon,
-  ShoppingCart as ProductsIcon,
-} from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router';
 
-// ------------------------------------------------------------------------------------------------
+// custom hooks
+import { useAuthorizedMenuItems } from './hooks/useAuthorizedMenuItems';
 
 const drawerWidth = 240;
-
-const menuItems = [
-  { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-  { text: 'Customers', icon: <CustomersIcon />, path: '/customers' },
-  { text: 'Products', icon: <ProductsIcon />, path: '/products' },
-];
 
 export const AppDrawer = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const menuItems = useAuthorizedMenuItems();
   return (
     <Drawer
       variant='permanent'
