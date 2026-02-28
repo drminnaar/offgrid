@@ -16,7 +16,9 @@ This is the primary API used by the Portal admin app.
 
 See [design documentation](../../docs/portal/design/):
 
-- [Version 1 - README (Current)](../../docs/portal/design/version-1/README.md) - Represents `version 1` target state.
+- [Version 1 - README](../../docs/portal/design/version-1/README.md) - Represents `version 1` target state.
+- [Version 2 - README](../../docs/portal/design/version-2/README.md) - Represents `version 2` target state.
+- [Version 2.1 - README (Current)](../../docs/portal/design/version-2_1/README.md) - Represents `version 2.1` target state.
 
 ### High Level API Design
 
@@ -46,15 +48,27 @@ The following diagram illustrates the various layers of the architecture, along 
 
 #### Responsibilities
 
-- Expose customer management endpoints for the Portal web app.
-- Enforce auth and authorization for staff and Customer Team actions.
+- Expose customer and product management endpoints for the Portal web app.
+- Enforce authentication and authorization for staff and Customer Team actions.
 - Persist customer changes and emit domain events to the outbox.
 
 #### Core Capabilities
 
-- Customer lifecycle actions: view, suspend, reinstate, and group assignment.
-- Validation and error handling with consistent API responses.
-- Structured logging to support operational diagnostics.
+**Customer Endpoints:**
+- View customer by ID
+- List all customers
+- Suspend customer
+- Reinstate customer
+- (Planned) Group assignment
+
+**Product Endpoints:**
+- List all products
+- Get product by ID
+- Get product variants
+
+**General:**
+- Validation and error handling with consistent API responses
+- Structured logging to support operational diagnostics
 
 #### Integration Points
 
@@ -74,9 +88,10 @@ The outbox processor reliably publishes customer domain events to the message bu
 
 #### Responsibilities
 
-- Poll the outbox table (`customers.customer_outbox_message`) for pending records.
-- Publish each message as a CloudEvent to the message bus.
-- Mark messages as processed, failed (with a retry schedule), or dead lettered.
+- Poll the outbox table (`customers.customer_outbox_message`) for pending records
+- Publish each message as a CloudEvent to the message bus
+- Mark messages as processed, failed (with a retry schedule), or dead lettered
+- Modular command and event handler structure for extensibility
 
 #### Processing Loop
 
@@ -118,17 +133,19 @@ The event processor consumes customer CloudEvents from RabbitMQ and routes them 
 
 #### Responsibilities
 
-- Connect to RabbitMQ using configured client settings.
-- Consume CloudEvents from dedicated queues.
-- Dispatch each event to a registered handler.
+- Connect to RabbitMQ using configured client settings
+- Consume CloudEvents from dedicated queues
+- Dispatch each event to a registered handler
+- Modular event worker classes for each event type
 
 #### Processing Model
 
-- Each event type has its own worker:
+Each event type has its own worker:
   - `CustomerChangedEventWorker`
   - `CustomerSuspendedEventWorker`
   - `CustomerReinstatedEventWorker`
-- Each worker runs a `RabbitMqCloudEventConsumer<TEvent>` and blocks on `ConsumeAsync` until shutdown.
+Each worker runs a `RabbitMqCloudEventConsumer<TEvent>` and blocks on `ConsumeAsync` until shutdown.
+Event contracts are defined for each domain event type, supporting extensible payloads and metadata.
 
 #### Queue and Routing Keys
 
@@ -154,6 +171,8 @@ The following requirements must be satisfied before running Portal API:
 
 - ✅️ Postgresql service is running
 - ✅️ Keycloak service is running
+- ✅️ RabbitMQ service is running
+- ✅️ MongoDB service is running
 - ✅️ Flyway migrations applied
 
 ### 2. Start API
@@ -169,12 +188,22 @@ dotnet watch run --project ./src/Offgrid.Portal.Api
 
 The [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) VSCode extension is required to run requests.
 
-- Root:
-  - See [`./requests/root.http`](./requests/root.http)
-  - See [`./requests/customers-reinstate.http`](./requests/customers-reinstate.http)
-  - See [`./requests/customers-suspend.http`](./requests/customers-suspend.http)
+**Customer Endpoints:**
 
----
+- Get customer by ID: [`customers-getbyid.http`](./requests/customers-getbyid.http)
+- Get all customers: [`customers-getall.http`](./requests/customers-getall.http)
+- Suspend customer: [`customers-suspend.http`](./requests/customers-suspend.http)
+- Reinstate customer: [`customers-reinstate.http`](./requests/customers-reinstate.http)
+
+**Product Endpoints:**
+
+- Get all products: [`products-getall.http`](./requests/products-getall.http)
+- Get product details by product id: [`products-getbyid.http`](./requests/products-getbyid.http)
+- Get product variants by product id: [`products-getvariants.http`](./requests/products-getvariants.http)
+
+**Root Endpoint:**
+
+- See API metadata: [`root.http`](./requests/root.http)
 
 ### 4. Run Outbox Processor
 
