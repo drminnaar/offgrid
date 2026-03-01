@@ -17,6 +17,10 @@ As a Customer Manager, you will be able to:
   - suspend customer
   - reinstate customer
 
+As a Product Manager, you will be able to:
+
+- view and list products
+
 
 > [!IMPORTANT]
 > &nbsp;  
@@ -110,6 +114,11 @@ The Portal API follows a [modular monolith](https://grok.com/share/c2hhcmQtMw_f1
   - get product detail by product id
 - Integrate with mongodb to store and manage products
 
+### Version 2.1 Scope
+
+- Add advanced filtering to products endpoints
+- Add endpoints for product categories, brands, and types
+
 ---
 
 ## 📬 Customer Outbox Processor
@@ -153,5 +162,10 @@ The event processor consumes customer CloudEvents from RabbitMQ and routes them 
 
 - Define RabbitMQ Docker compose service
 - Flyway migrations for customer, outbox, and change tracking tables
+
+### Version 2.1
+
+- Define MongoDB Docker compose service
+- Implement MongoDB initialization (seed) program
 
 ---
