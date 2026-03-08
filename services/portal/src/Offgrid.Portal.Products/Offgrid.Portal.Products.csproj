@@ -9,15 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="3.6.0" />
+    <PackageReference Include="MongoDB.Driver" Version="3.7.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\libs\dotnet\src\Offgrid.Framework\Offgrid.Framework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Application\Queries\GetProductVariants\" />
   </ItemGroup>
 
 </Project>
