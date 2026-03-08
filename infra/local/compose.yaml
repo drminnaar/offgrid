@@ -9,3 +9,4 @@ include:
   - ./keycloak/compose.yaml
   - ./rabbitmq/compose.yaml
   - ./mongo/compose.yaml
+  - ./typesense/compose.yaml
