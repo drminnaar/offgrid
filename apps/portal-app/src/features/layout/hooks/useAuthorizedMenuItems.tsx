@@ -4,6 +4,7 @@ import {
   Dashboard as DashboardIcon,
   People as CustomersIcon,
   ShoppingCart as ProductsIcon,
+  Sync as SyncIcon,
 } from '@mui/icons-material';
 
 // libs
@@ -26,6 +27,12 @@ const menuConfig = [
     text: 'Products',
     icon: <ProductsIcon />,
     path: '/products',
+    requiredRoles: [RealmRole.ProductManager],
+  },
+  {
+    text: 'Product Indexing',
+    icon: <SyncIcon />,
+    path: '/products/indexing',
     requiredRoles: [RealmRole.ProductManager],
   },
 ];

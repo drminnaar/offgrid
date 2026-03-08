@@ -92,3 +92,22 @@ export type ProductVariantInfo = {
   stockQuantity: number;
   imageUrl: string;
 };
+
+export type IndexProductStatus = 'Pending' | 'InProgress' | 'Completed' | 'FailedAndRetrying' | 'Deadlettered';
+
+export type IndexProductResult = {
+  jobId: string;
+  status: IndexProductStatus;
+};
+
+export type CurrentProductIndexInfo = {
+  jobId: string | null;
+  status: IndexProductStatus | '';
+};
+
+export type IndexingJobInfo = {
+  jobId: string;
+  status: IndexProductStatus;
+  createdAt: string;
+  completedAt: string | null;
+};

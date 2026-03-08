@@ -13,6 +13,7 @@ import { LoginPage } from '../features/login';
 import { DashboardPage } from '../features/dashboard';
 import { CustomerPage, CustomerDetailPage } from '../features/customers';
 import { ProductDetailsPage, ProductPage } from '../features/products';
+import { ProductIndexingPage } from '../features/product-indexing';
 
 export const AppRouter = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ export const AppRouter = createBrowserRouter([
           {
             path: '/products/:productId',
             element: <ProductDetailsPage />,
+          },
+          {
+            path: '/products/indexing',
+            element: <ProductIndexingPage />,
           },
         ],
       },
