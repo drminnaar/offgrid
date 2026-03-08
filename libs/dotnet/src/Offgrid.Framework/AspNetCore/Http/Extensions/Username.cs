@@ -8,4 +8,15 @@ public static partial class HttpExtensions
     {
         return httpContext.User?.Identity?.Name ?? string.Empty;
     }
+
+    public static string RequiredUsername(this HttpContext httpContext)
+    {
+        var username = httpContext.User?.Identity?.Name;
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            throw new UnauthorizedAccessException("User is not authenticated.");
+        }
+
+        return username;
+    }
 }
