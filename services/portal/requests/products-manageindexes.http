@@ -65,8 +65,19 @@ Authorization: Bearer {{access_token}}
 
 
 ### Get product index by job id - Valid request with existing job id
-# GET {{base_url}}/products/indexes/{{jobId}}
-GET {{base_url}}/products/indexes/019cca40-d81b-718d-b2e9-c0a0261e25c1
+GET {{base_url}}/products/indexes/{{jobId}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+### Get current job
+GET {{base_url}}/products/indexes/current
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+### Get recent jobs
+GET {{base_url}}/products/indexes/recent?count=10
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
