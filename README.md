@@ -83,6 +83,9 @@ offgrid
 │       ├── mongodb                       # MongoDb docker config
 │       │   └── compose.yaml              # Custom MongoDb compose file
 │       │
+│       ├── typesense                     # Typesense docker config
+│       │   └── compose.yaml              # Custom Typesense compose file
+│       │
 │       └── keycloak                      # Keycloak docker config
 │           └── compose.keycloak.yaml     # Custom Keycloak compose file
 │       
