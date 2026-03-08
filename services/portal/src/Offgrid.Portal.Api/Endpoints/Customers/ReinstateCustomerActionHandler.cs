@@ -16,9 +16,7 @@ public sealed class ReinstateCustomerActionHandler
         HttpContext httpContext,
         CancellationToken token = default)
     {
-        var username = httpContext
-            .Username()
-            ?? throw new UnauthorizedAccessException("User is not authenticated.");
+        var username = httpContext.RequiredUsername();
 
         var result = await customerService.ReinstateCustomerAsync(
             customerId,
