@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Offgrid.Framework.AspNetCore.Http.Extensions;
 using Offgrid.Portal.Products.Application.Services;
 
 namespace Offgrid.Portal.Api.Endpoints.ProductTypes;
@@ -10,13 +9,8 @@ public static class GetProductTypesActionHandler
 
     public static async Task<IResult> GetProductTypesAsync(
         [FromServices] IProductService productService,
-        HttpContext httpContext,
         CancellationToken token = default)
     {
-        var _ = httpContext
-            .Username()
-            ?? throw new UnauthorizedAccessException("User is not authenticated.");
-
         var result = await productService.GetProductTypesAsync(token);
 
         return TypedResults.Ok(result);

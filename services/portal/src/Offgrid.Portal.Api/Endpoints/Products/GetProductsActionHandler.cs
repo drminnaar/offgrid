@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Offgrid.Framework.AspNetCore.Http.Extensions;
 using Offgrid.Portal.Products.Application.Queries.GetProducts;
 using Offgrid.Portal.Products.Application.Services;
 
@@ -11,7 +10,6 @@ public static class GetProductsActionHandler
 
     public static async Task<IResult> GetProductsAsync(
         [FromServices] IProductService productService,
-        HttpContext httpContext,
         [FromQuery(Name = "brands")] string brands = "",
         [FromQuery(Name = "categories")] string categories = "",
         [FromQuery(Name = "types")] string types = "",
@@ -19,10 +17,6 @@ public static class GetProductsActionHandler
         [FromQuery(Name = "limit")] int pageSize = GetProductsQuery.DefaultPageSize,
         CancellationToken token = default)
     {
-        var _ = httpContext
-            .Username()
-            ?? throw new UnauthorizedAccessException("User is not authenticated.");
-
         var query = new GetProductsQuery
         {
             Page = pageNumber,
