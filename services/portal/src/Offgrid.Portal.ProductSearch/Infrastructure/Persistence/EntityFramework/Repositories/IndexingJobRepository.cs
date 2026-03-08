@@ -70,4 +70,18 @@ public sealed class IndexingJobRepository : IIndexingJobRepository
             .OrderBy(job => job.CreatedAt)
             .FirstOrDefaultAsync(cancellationToken);
     }
+
+    public async Task<IReadOnlyList<IndexingJob>> GetRecentJobsAsync(int count, CancellationToken cancellationToken = default)
+    {
+        const int DefaultFetchCount = 10;
+        const int MaxFetchCount = 20;
+        var fetchCount = count <= 0 ? DefaultFetchCount : count > MaxFetchCount ? MaxFetchCount : count;
+        return await _dbContext
+            .IndexingJobs
+            .AsNoTracking()
+            .TagWith($"Get recent {fetchCount} indexing jobs")
+            .OrderByDescending(job => job.CreatedAt)
+            .Take(fetchCount)
+            .ToListAsync(cancellationToken);
+    }
 }

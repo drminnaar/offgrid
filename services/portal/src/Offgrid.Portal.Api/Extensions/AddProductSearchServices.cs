@@ -2,7 +2,9 @@
 using Offgrid.Framework.Domain;
 using Offgrid.Framework.EntityFrameworkCore.Extensions;
 using Offgrid.Portal.ProductSearch.Application.Commands.CreateIndexingJob;
+using Offgrid.Portal.ProductSearch.Application.Queries.GetCurrentIndexingJob;
 using Offgrid.Portal.ProductSearch.Application.Queries.GetIndexingJob;
+using Offgrid.Portal.ProductSearch.Application.Queries.GetRecentIndexingJobs;
 using Offgrid.Portal.ProductSearch.Domain.Services;
 using Offgrid.Portal.ProductSearch.Infrastructure.Persistence.EntityFramework;
 using Offgrid.Portal.ProductSearch.Infrastructure.Persistence.EntityFramework.Repositories;
@@ -28,6 +30,8 @@ public static partial class ApiExtensions
         // add application services
         services.AddScoped<ICreateIndexingJobHandler, CreateIndexingJobHandler>();
         services.AddScoped<IGetIndexingJobQueryHandler, GetIndexingJobQueryHandler>();
+        services.AddScoped<IGetCurrentIndexingJobQueryHandler, GetCurrentIndexingJobQueryHandler>();
+        services.AddScoped<IGetRecentIndexingJobsQueryHandler, GetRecentIndexingJobsQueryHandler>();
 
         return services;
     }

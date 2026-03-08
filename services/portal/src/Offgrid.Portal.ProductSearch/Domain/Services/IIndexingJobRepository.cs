@@ -8,6 +8,12 @@ namespace Offgrid.Portal.ProductSearch.Domain.Services;
 public interface IIndexingJobRepository
 {
     /// <summary>
+    /// Adds a new indexing job to the repository.
+    /// </summary>
+    /// <param name="job">The indexing job to add.</param>
+    void AddJob(IndexingJob job);
+
+    /// <summary>
     /// Gets an indexing job by its unique identifier.
     /// </summary>
     /// <param name="jobId">The unique identifier of the indexing job.</param>
@@ -30,10 +36,12 @@ public interface IIndexingJobRepository
     Task<IndexingJob?> GetNextJobAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds a new indexing job to the repository.
+    /// Gets the most recent indexing jobs from the repository.
     /// </summary>
-    /// <param name="job">The indexing job to add.</param>
-    void AddJob(IndexingJob job);
+    /// <param name="count">The number of recent jobs to retrieve.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A list of the most recent <see cref="IndexingJob"/> instances.</returns>
+    Task<IReadOnlyList<IndexingJob>> GetRecentJobsAsync(int count, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Saves changes to the repository.
