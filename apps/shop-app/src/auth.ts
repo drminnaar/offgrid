@@ -36,16 +36,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // Fetch customer data on initial sign in
         if (profile?.email) {
-          const response = await upsertCustomer(account.access_token, {
+          upsertCustomer(account.access_token, {
             keycloakUserId: profile.sub ?? '',
             email: profile.email,
             fullName: profile.name || '',
-          });
-
-          if (response.success) {
-            token.active = response.data.status.toLowerCase();
-            token.customerNumber = response.data.customerNumber;
-          }
+          })
+            .then(response => {
+              if (response.success) {
+                token.active = response.data.status.toLowerCase();
+                token.customerNumber = response.data.customerNumber;
+              }
+            })
+            .catch(error => {
+              // TODO: Replace with structured logging
+              console.error('Error upserting customer:', error);
+              token.customerProvisioningFailed = true; // Flag to indicate provisioning failure
+            });
         }
       }
       return token;
