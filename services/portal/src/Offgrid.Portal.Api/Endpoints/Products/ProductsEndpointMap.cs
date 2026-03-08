@@ -11,6 +11,8 @@ public static class ProductsEndpointMap
             .MapGetAllProducts()
             .MapGetProductById()
             .MapGetProductVariants()
+            .MapGetProductIndex()
+            .MapCreateProductIndex()
             .RequireAuthorization();
         return app;
     }
@@ -36,6 +38,22 @@ public static class ProductsEndpointMap
         route
             .MapGet("/{productId}/variants", GetProductVariantsActionHandler.GetProductVariantsAsync)
             .WithName(GetProductVariantsActionHandler.EndpointName);
+        return route;
+    }
+
+    private static RouteGroupBuilder MapCreateProductIndex(this RouteGroupBuilder route)
+    {
+        route
+            .MapPost("/indexes", CreateProductIndexActionHandler.CreateProductIndexAsync)
+            .WithName(CreateProductIndexActionHandler.EndpointName);
+        return route;
+    }
+
+    private static RouteGroupBuilder MapGetProductIndex(this RouteGroupBuilder route)
+    {
+        route
+            .MapGet("/indexes/{jobId}", GetProductIndexByJobIdActionHandler.GetProductIndexByJobIdAsync)
+            .WithName(GetProductIndexByJobIdActionHandler.EndpointName);
         return route;
     }
 }

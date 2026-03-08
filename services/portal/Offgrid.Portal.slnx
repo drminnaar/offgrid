@@ -5,6 +5,11 @@
     <File Path="portal/requests/customers-suspend.http" />
     <File Path="portal/requests/root.http" />
   </Folder>
+<Folder Name="/src/">
+<Project Path="src/Offgrid.Portal.Products.SyncJobProcessor/Offgrid.Portal.Products.SyncJobProcessor.csproj" />
+<Project Path="src/Offgrid.Portal.Products/Offgrid.Portal.Products.csproj" />
+<Project Path="src/Offgrid.Portal.ProductSearch/Offgrid.Portal.ProductSearch.csproj" />
+</Folder>
 
   <Project Path="../../libs/dotnet/src/Offgrid.Framework/Offgrid.Framework.csproj" />
   <Project Path="src/Offgrid.Portal.Api/Offgrid.Portal.Api.csproj" />

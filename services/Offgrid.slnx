@@ -12,6 +12,8 @@
     <Project Path="portal/src/Offgrid.Portal.Customers.EventProcessor/Offgrid.Portal.Customers.EventProcessor.csproj" />
     <Project Path="portal/src/Offgrid.Portal.Customers.OutboxProcessor/Offgrid.Portal.Customers.OutboxProcessor.csproj" />
     <Project Path="portal/src/Offgrid.Portal.Products/Offgrid.Portal.Products.csproj" />
+    <Project Path="portal/src/Offgrid.Portal.ProductSearch.Indexor/Offgrid.Portal.ProductSearch.Indexor.csproj" />
+    <Project Path="portal/src/Offgrid.Portal.ProductSearch/Offgrid.Portal.ProductSearch.csproj" />
   </Folder>
 
   <Folder Name="/3 - Shop/">

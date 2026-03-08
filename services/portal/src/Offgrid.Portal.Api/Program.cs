@@ -30,6 +30,7 @@ builder.Services.AddOffgridDbContext<IAppDbContext, AppDbContext>(
     enableSensitiveDataLogging: !builder.Environment.IsProduction());
 builder.Services.AddCustomerServices();
 builder.Services.AddProductServices(builder.Configuration);
+builder.Services.AddProductSearchServices(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
