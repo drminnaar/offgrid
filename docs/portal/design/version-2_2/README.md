@@ -89,6 +89,7 @@ The scope for this version is as follows:
 ### Version 2.2 Scope
 
 - Implement bulk upload of product catalog
+- Index products for product search (mongodb -> typesense)
 - Add structured logging
 
 ---
@@ -127,6 +128,7 @@ The Portal API follows a [modular monolith](https://grok.com/share/c2hhcmQtMw_f1
 ### Version 2.2 Scope
 
 - Add endpoint to bulk upload product catalog to typesense database
+- Index products for product search (mongodb -> typesense)
 
 ---
 
@@ -141,6 +143,22 @@ The outbox processor reliably publishes customer domain events to the message bu
 - Publish integration events to RabbitMQ
 - Implement basic retry and failure policies
 - Create Dockerfile to define outbox image
+
+---
+
+## 🔄 Product Search Indexor
+
+### Version 2.2 Scope
+
+Processes the indexing of products for search functionality that will be used by the Shop App. At a high level, it picks up an indexing job from the database, fetches product data from Mongo database, imports (indexes) product search documents into Typesense database.
+
+The Indexor class handles the following responsibilities:
+
+• Integrates with Offgrid.Portal.ProductSearch to maintain searchable product indexes
+• Processes product data and prepares it for efficient search operations
+• Manages index creation, updates, and maintenance to keep search results current
+• Provides indexing operations that enable fast product discovery and filtering
+• Ensures product information is properly catalogued and retrievable through the search system
 
 ---
 
