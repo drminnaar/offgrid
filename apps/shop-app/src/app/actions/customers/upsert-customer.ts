@@ -9,6 +9,6 @@ export const upsertCustomer = async (
   return shopApiClient.request<UpsertCustomerResponse>('/customers', accessToken, {
     method: 'POST',
     body: customer,
-    cache: 'force-cache',
+    cache: 'no-store',
   });
 };
