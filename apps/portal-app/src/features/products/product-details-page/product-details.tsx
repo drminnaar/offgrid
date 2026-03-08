@@ -48,8 +48,7 @@ export const ProductDetails = () => {
               },
               ...product.variants.map((v) => ({
                 url: v.imageUrl,
-                colorHex:
-                  v.attributes.ColorHex || v.attributes.colorHex || '#f0f0f0',
+                colorHex: v.attributes.colorHex || '#f0f0f0',
                 isPrimary: false,
               })),
             ]}

@@ -20,7 +20,6 @@ import {
   KeyboardArrowUp,
   Visibility,
 } from '@mui/icons-material';
-// import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // custom components
 import { AppNoDataAlert } from '../../../lib/ui/alerts';

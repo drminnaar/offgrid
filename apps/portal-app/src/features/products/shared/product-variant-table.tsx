@@ -56,7 +56,7 @@ export const ProductVariantTable: React.FC<ProductVariantTableProps> = ({
           {variants?.map((variant) => {
             const modifier = variant.priceModifier;
             const finalPrice = product.currentPrice + modifier;
-            const colorHex = variant.attributes.ColorHex || '#000000';
+            const colorHex = variant.attributes.colorHex || '#000000';
 
             return (
               <TableRow key={variant.sku} hover>
@@ -65,14 +65,14 @@ export const ProductVariantTable: React.FC<ProductVariantTableProps> = ({
                     variant='circular'
                     src={toPlaceholderImage(variant.imageUrl)}
                     sx={{
-                      backgroundColor: variant.attributes.ColorHex || '#ffffff',
+                      backgroundColor: variant.attributes.colorHex || '#ffffff',
                       width: 60,
                       height: 60,
                       alignItems: 'center',
                       fontSize: 10,
                     }}
                   >
-                    {variant.attributes.Color}
+                    {variant.attributes.color}
                   </Avatar>
                 </TableCell>
                 <TableCell>{variant.sku}</TableCell>
@@ -88,10 +88,10 @@ export const ProductVariantTable: React.FC<ProductVariantTableProps> = ({
                         borderRadius: '4px',
                       }}
                     />
-                    {variant.attributes.Color}
+                    {variant.attributes.color}
                   </Box>
                 </TableCell>
-                <TableCell>{variant.attributes.Package}</TableCell>
+                <TableCell>{variant.attributes.package}</TableCell>
                 <TableCell>
                   {variant.priceModifier > 0 ? '+' : ''}
                   {toCurrency(variant.priceModifier)}
