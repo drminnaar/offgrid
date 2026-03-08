@@ -26,6 +26,7 @@ infra
     ├── keycloak             # keycloak service config
     ├── mongo                # mongodb service config
     ├── rabbitmq             # rabbitmq service config
+    ├── typesense            # typesense service config
     ├── scripts              # collection of bash scripts to manage stack and connect to services
     │    ├── compose.sh      # manage the stack (up, down, exec, ps, logs, recreate)
     │    ├── flyway.sh       # manage the flyway migrations (migrate, info, validate etc)
@@ -68,12 +69,16 @@ MongoDB:
 - [./mongo/init-service](./mongo/init-service) - .NET 10 application that is packaged into an image and runs mongo database seeding on initialization
 - [./mongo/seed](./mongo/seed) - An alternative seeding method that uses a products.json file and a bash script to seed mongo database
 
+Typesense:
+
+- [./typesense/compose.yaml](./typesense/compose.yaml) - Typesense compose file that defines the Typesense search service for full-text search and filtering capabilities
+
 ---
 
 ## 🚀 Getting Started
 
 > [!IMPORTANT]
-> - Run these commands from a Git Bash / POSIX shell (on Windows use Git Bash or WSL).
+> - Run '.sh' commands from a Git Bash / POSIX shell (on Windows use Git Bash or WSL).
 >
 > - Ensure that all scripts have execute (`x`) permissions. Run `chmod +x my-script.sh` to add execute permissions.
 
@@ -111,6 +116,9 @@ MongoDB:
   OG_ME_CONFIG_MONGODB_SERVER=mongo
   OG_ME_CONFIG_BASICAUTH_USERNAME=meuser
   OG_ME_CONFIG_BASICAUTH_PASSWORD=changeme
+
+  # typesense environment variables
+  OG_TYPESENSE_API_KEY=ca9c494m-62df-49a5-ad86-bfb37e6392d9
   ```
 
 - Step 2 - Start the stack:
@@ -131,6 +139,7 @@ MongoDB:
   - **Rabbitmq Admin CLI (rabbitmqadmin):** `./infra/local/scripts/rabbitmqadmin.sh`
   - **Rabbitmq Management Interface:** `http://localhost:15672`
   - **MongoDB Shell (mongosh):** `./infra/local/scripts/mongosh.sh`
+  - **Typesense Dashboard:** `http://localhost:8109`
 
 ---
 
@@ -229,6 +238,30 @@ MongoDB:
 
   ```
 
+- Use Curl and Typesense API
+  
+  ```bash
+
+  TYPESENSE_HOST=http://localhost:8108
+  TYPESENSE_API_KEY=<provide_your_api_key_here>
+
+  # List all collections
+  curl --silent "${TYPESENSE_HOST}/collections" -X GET -H "Content-Type: application/json" -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" | jq
+
+  # Get products collection
+  curl --silent "${TYPESENSE_HOST}/collections/products" -X GET -H "Content-Type: application/json" -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" | jq
+
+  # Delete collection
+  curl --silent "${TYPESENSE_HOST}/collections/products" -X DELETE -H "Content-Type: application/json" -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" | jq
+
+  # Search all products
+  curl --silent "${TYPESENSE_HOST}/collections/products/documents/search?q=*&page=4&per_page=3" -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" | jq
+
+  # Search with filters - by name field
+  curl --silent "${TYPESENSE_HOST}/collections/products/documents/search?q=kayak&query_by=name" -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" | jq
+
+  ```
+
 ---
 
 ## 🗝️ About Keycloak Service
@@ -278,5 +311,15 @@ bash-5.1$ ./kcadm.sh get realms --fields id,realm,enabled
 - For debugging, inspect logs with:
   - `compose.sh logs` or `compose.sh logs <<service_name>>`
   - open DB shells with `psql.sh`
+
+- See [https://github.com/drminnaar/tech-notes](https://github.com/drminnaar/tech-notes) for guides relating to the Offgrid tech stack:
+  - [Detailed Guides](https://github.com/drminnaar/tech-notes/tree/main/detailed-guides)
+    - [Flyway](https://github.com/drminnaar/tech-notes/tree/main/detailed-guides/flyway)
+    - [RabbitMQ](https://github.com/drminnaar/dotnet-rabbitmq)
+  - [Quickstart Guides](https://github.com/drminnaar/tech-notes/tree/main/quickstart-guides)
+    - [Keycloak](https://github.com/drminnaar/tech-notes/tree/main/quickstart-guides/keycloak)
+    - [MongoDb](https://github.com/drminnaar/tech-notes/tree/main/quickstart-guides/mongodb)
+    - [Postgres](https://github.com/drminnaar/tech-notes/tree/main/quickstart-guides/postgres)
+    - [Typesense](https://github.com/drminnaar/tech-notes/tree/main/quickstart-guides/typesense)
 
 ---
