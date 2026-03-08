@@ -10,7 +10,7 @@ export type AppTopBarBrandProps = {
 
 export const AppBarBrand = ({ className }: AppTopBarBrandProps) => {
   const router = useRouter();
-  const classNames = className + ' cursor-pointer';
+  const classNames = (className ?? '') + ' cursor-pointer';
   return (
     <NavbarBrand className={classNames} onClick={() => router.push('/')}>
       <MountainSnow size={32} color='#338cf1' />
