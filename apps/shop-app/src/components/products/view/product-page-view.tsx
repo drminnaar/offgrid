@@ -299,11 +299,11 @@ export const ProductPageView = ({ initialData }: Props) => {
                 <Switch
                   isSelected={Boolean(criteria.inStockOnly)}
                   onValueChange={(isSelected) =>
-                    setCriteria((prev) => ({
-                      ...prev,
+                    navigate({
+                      ...criteriaRef.current,
                       page: 1,
                       inStockOnly: isSelected,
-                    }))
+                    })
                   }
                 >
                   In stock only
@@ -311,11 +311,11 @@ export const ProductPageView = ({ initialData }: Props) => {
                 <Switch
                   isSelected={Boolean(criteria.onSaleOnly)}
                   onValueChange={(isSelected) =>
-                    setCriteria((prev) => ({
-                      ...prev,
+                    navigate({
+                      ...criteriaRef.current,
                       page: 1,
                       onSaleOnly: isSelected,
-                    }))
+                    })
                   }
                 >
                   On sale only
@@ -411,11 +411,11 @@ export const ProductPageView = ({ initialData }: Props) => {
                       key='in-stock'
                       label='In stock'
                       onClose={() =>
-                        setCriteria((prev) => ({
-                          ...prev,
+                        navigate({
+                          ...criteriaRef.current,
                           page: 1,
                           inStockOnly: false,
-                        }))
+                        })
                       }
                     />
                   )}
@@ -424,11 +424,11 @@ export const ProductPageView = ({ initialData }: Props) => {
                       key='on-sale'
                       label='On sale'
                       onClose={() =>
-                        setCriteria((prev) => ({
-                          ...prev,
+                        navigate({
+                          ...criteriaRef.current,
                           page: 1,
                           onSaleOnly: false,
-                        }))
+                        })
                       }
                     />
                   )}
@@ -454,7 +454,7 @@ export const ProductPageView = ({ initialData }: Props) => {
               page={initialData.pageMetadata.currentPageNumber}
               totalPages={initialData.pageMetadata.pageCount}
               onChange={(newPage) =>
-                setCriteria((prev) => ({ ...prev, page: newPage }))
+                navigate({ ...criteriaRef.current, page: newPage })
               }
             />
           )}
