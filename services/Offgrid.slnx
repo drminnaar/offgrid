@@ -22,6 +22,7 @@
     <File Path="shop/README.md" />
     <Project Path="shop/src/Offgrid.Shop.Api/Offgrid.Shop.Api.csproj" />
     <Project Path="shop/src/Offgrid.Shop.Customers/Offgrid.Shop.Customers.csproj" />
+    <Project Path="shop/src/Offgrid.Shop.Products/Offgrid.Shop.Products.csproj" />
   </Folder>
   <Folder Name="/4 - Requests/" />
 

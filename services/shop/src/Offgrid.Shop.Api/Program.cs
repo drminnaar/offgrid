@@ -5,6 +5,8 @@ using Offgrid.Shop.Customers.Infrastructure.Persistence;
 using Offgrid.Shop.Api.Endpoints.Customers;
 using Offgrid.Shop.Api.Endpoints.Root;
 using Offgrid.Shop.Api.Extensions;
+using Offgrid.Shop.Api.Endpoints.Products;
+using Offgrid.Shop.Products.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,7 @@ builder.Services.AddOffgridDbContext<IAppDbContext, AppDbContext>(
     enableDetailedErrors: !builder.Environment.IsProduction(),
     enableSensitiveDataLogging: !builder.Environment.IsProduction());
 builder.Services.AddCustomerServices();
+builder.Services.AddProductModuleServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -40,5 +43,6 @@ app.UseAuthorization();
 // configure endpoints
 app.MapRootEndpoint();
 app.MapCustomerEndpoints();
+app.MapProductEndpoints();
 
 app.Run();

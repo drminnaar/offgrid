@@ -6,12 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <RootNamespace>Offgrid.Shop.Api</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\libs\dotnet\src\Offgrid.Framework\Offgrid.Framework.csproj" />
     <ProjectReference Include="..\Offgrid.Shop.Customers\Offgrid.Shop.Customers.csproj" />
+    <ProjectReference Include="..\Offgrid.Shop.Products\Offgrid.Shop.Products.csproj" />
   </ItemGroup>
 
   <ItemGroup>

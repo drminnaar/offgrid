@@ -4,6 +4,9 @@
         <File Path="requests/customers-upsert.http" />
         <File Path="requests/root.http" />
     </Folder>
+    <Folder Name="/src/">
+        <Project Path="src/Offgrid.Shop.Products/Offgrid.Shop.Products.csproj" />
+    </Folder>
     <Project Path="../../libs/dotnet/src/Offgrid.Framework/Offgrid.Framework.csproj" />
     <Project Path="src/Offgrid.Shop.Api/Offgrid.Shop.Api.csproj" />
     <Project Path="src/Offgrid.Shop.Customers/Offgrid.Shop.Customers.csproj" />
