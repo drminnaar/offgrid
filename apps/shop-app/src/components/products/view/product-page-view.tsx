@@ -18,8 +18,20 @@ import {
   ListFilter as ListFilterIcon,
   SlidersHorizontal as SlidersHorizontalIcon,
 } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState, useTransition } from 'react';
+import {
+  ReadonlyURLSearchParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
 import { SearchBar } from '../search';
 import { ProductGrid } from '../grid';
 import { PaginationBar } from '../pagination';
@@ -27,8 +39,15 @@ import { FacetSection } from '../facets';
 
 type Props = {
   initialData: SearchProductResponse;
-  initialCriteria: ProductSearchCriteria;
 };
+
+type FacetKey =
+  | 'categories'
+  | 'subcategories'
+  | 'brands'
+  | 'types'
+  | 'colors'
+  | 'sizes';
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -38,102 +57,119 @@ const SORT_OPTIONS = [
   { key: 'currentPrice:desc', label: 'Price: High to Low' },
 ] as const;
 
-type SearchState = ProductSearchCriteria;
+// ── URL ↔ Criteria helpers ──────────────────────────────────────────────────
 
-const normalizeCriteria = (criteria: ProductSearchCriteria): SearchState => ({
-  query: criteria.query ?? '',
-  page: criteria.page > 0 ? criteria.page : 1,
-  pageSize: criteria.pageSize > 0 ? criteria.pageSize : DEFAULT_PAGE_SIZE,
-  sortBy: criteria.sortBy,
-  categories: criteria.categories ?? [],
-  subcategories: criteria.subcategories ?? [],
-  brands: criteria.brands ?? [],
-  types: criteria.types ?? [],
-  colors: criteria.colors ?? [],
-  sizes: criteria.sizes ?? [],
-  minPrice: criteria.minPrice,
-  maxPrice: criteria.maxPrice,
-  inStockOnly: Boolean(criteria.inStockOnly),
-  onSaleOnly: Boolean(criteria.onSaleOnly),
-});
+const getAll = (p: ReadonlyURLSearchParams, key: string): string[] =>
+  p
+    .getAll(key)
+    .map((v) => v.trim())
+    .filter(Boolean);
 
-const toUrlSearch = (criteria: SearchState) => {
-  const queryParams = new URLSearchParams();
-
-  queryParams.set('page', String(criteria.page));
-  queryParams.set('pageSize', String(criteria.pageSize));
-
-  if (criteria.query.trim()) {
-    queryParams.set('query', criteria.query.trim());
-  }
-
-  if (criteria.sortBy && criteria.sortBy.trim()) {
-    queryParams.set('sortBy', criteria.sortBy);
-  }
-
-  const facetKeys: Array<
-    'categories' | 'subcategories' | 'brands' | 'types' | 'colors' | 'sizes'
-  > = ['categories', 'subcategories', 'brands', 'types', 'colors', 'sizes'];
-
-  facetKeys.forEach((key) => {
-    criteria[key]
-      .map((value) => value.trim())
-      .filter(Boolean)
-      .forEach((value) => queryParams.append(key, value));
-  });
-
-  if (criteria.inStockOnly) {
-    queryParams.set('inStockOnly', 'true');
-  }
-
-  if (criteria.onSaleOnly) {
-    queryParams.set('onSaleOnly', 'true');
-  }
-
-  return queryParams.toString();
+const parseCriteria = (p: ReadonlyURLSearchParams): ProductSearchCriteria => {
+  const pageRaw = Number(p.get('page'));
+  const pageSizeRaw = Number(p.get('pageSize'));
+  return {
+    query: p.get('query') ?? '',
+    page: Number.isFinite(pageRaw) && pageRaw > 0 ? pageRaw : 1,
+    pageSize:
+      Number.isFinite(pageSizeRaw) && pageSizeRaw > 0
+        ? pageSizeRaw
+        : DEFAULT_PAGE_SIZE,
+    sortBy: p.get('sortBy') ?? undefined,
+    categories: getAll(p, 'categories'),
+    subcategories: getAll(p, 'subcategories'),
+    brands: getAll(p, 'brands'),
+    types: getAll(p, 'types'),
+    colors: getAll(p, 'colors'),
+    sizes: getAll(p, 'sizes'),
+    inStockOnly: p.get('inStockOnly') === 'true',
+    onSaleOnly: p.get('onSaleOnly') === 'true',
+  };
 };
 
-export const ProductPageView = ({ initialData, initialCriteria }: Props) => {
+const buildSearch = (criteria: ProductSearchCriteria): string => {
+  const p = new URLSearchParams();
+
+  p.set('page', String(criteria.page));
+  p.set('pageSize', String(criteria.pageSize));
+
+  if (criteria.query.trim()) p.set('query', criteria.query.trim());
+  if (criteria.sortBy?.trim()) p.set('sortBy', criteria.sortBy);
+
+  const facetKeys: FacetKey[] = [
+    'categories',
+    'subcategories',
+    'brands',
+    'types',
+    'colors',
+    'sizes',
+  ];
+  facetKeys.forEach((key) =>
+    criteria[key]
+      .map((v) => v.trim())
+      .filter(Boolean)
+      .forEach((v) => p.append(key, v)),
+  );
+
+  if (criteria.inStockOnly) p.set('inStockOnly', 'true');
+  if (criteria.onSaleOnly) p.set('onSaleOnly', 'true');
+
+  return p.toString();
+};
+
+export const ProductPageView = ({ initialData }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
-  const [criteria, setCriteria] = useState<SearchState>(
-    normalizeCriteria(initialCriteria),
-  );
-  const [searchText, setSearchText] = useState(initialCriteria.query ?? '');
   const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setCriteria((prev) =>
-        prev.query === searchText
-          ? prev
-          : { ...prev, query: searchText, page: 1 },
-      );
-    }, 300);
+  // ── URL is the single source of truth for all filter/search/sort/page state ─
+  const criteria = useMemo(() => parseCriteria(searchParams), [searchParams]);
 
-    return () => window.clearTimeout(timer);
-  }, [searchText]);
-
-  useEffect(() => {
-    const nextSearch = toUrlSearch(criteria);
-    const currentSearch = searchParams.toString();
-
-    if (nextSearch === currentSearch) {
-      return;
-    }
-
-    startTransition(() => {
-      router.replace(nextSearch ? `${pathname}?${nextSearch}` : pathname, {
-        scroll: false,
+  // ── navigate: the only way to mutate state ────────────────────────────────
+  const navigate = useCallback(
+    (next: ProductSearchCriteria) => {
+      const qs = buildSearch(next);
+      startTransition(() => {
+        router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
       });
-      router.refresh();
-    });
-  }, [criteria, pathname, router, searchParams]);
+    },
+    [pathname, router],
+  );
 
-  const activeFilterCount = useMemo(() => {
-    return (
+  // ── searchText: local buffer for debounced typing ────────────────────────
+  // Local search text buffers keystrokes and debounces to the URL.
+  // prevQuery tracks the last URL query so we can detect external URL changes
+  // (back/forward) and reset the input — without using an effect for setState.
+  // See: https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
+  const [searchText, setSearchText] = useState(criteria.query);
+  const [prevQuery, setPrevQuery] = useState(criteria.query);
+  if (prevQuery !== criteria.query) {
+    setPrevQuery(criteria.query);
+    setSearchText(criteria.query);
+  }
+
+  // Keep a ref so the debounce callback always sees the latest criteria without
+  // needing it as an effect dep (which would reset the timer on every URL change).
+  // useEffect is safe here: 300 ms always elapses well after this effect runs.
+  const criteriaRef = useRef(criteria);
+  useEffect(() => {
+    criteriaRef.current = criteria;
+  }, [criteria]);
+
+  // Debounce typing → URL push..
+  useEffect(() => {
+    if (searchText === criteriaRef.current.query) return;
+    const timer = window.setTimeout(
+      () => navigate({ ...criteriaRef.current, query: searchText, page: 1 }),
+      300,
+    );
+    return () => window.clearTimeout(timer);
+  }, [searchText, navigate]);
+
+  // ── derived counts ────────────────────────────────────────────────────────
+  const activeFilterCount = useMemo(
+    () =>
       criteria.categories.length +
       criteria.subcategories.length +
       criteria.brands.length +
@@ -141,44 +177,34 @@ export const ProductPageView = ({ initialData, initialCriteria }: Props) => {
       criteria.colors.length +
       criteria.sizes.length +
       (criteria.inStockOnly ? 1 : 0) +
-      (criteria.onSaleOnly ? 1 : 0)
-    );
-  }, [criteria]);
+      (criteria.onSaleOnly ? 1 : 0),
+    [criteria],
+  );
 
-  const toggleFacet = (
-    key:
-      | 'categories'
-      | 'subcategories'
-      | 'brands'
-      | 'types'
-      | 'colors'
-      | 'sizes',
-    value: string,
-  ) => {
-    setCriteria((prev) => {
-      const hasItem = prev[key].includes(value);
-      return {
-        ...prev,
-        page: 1,
-        [key]: hasItem
-          ? prev[key].filter((entry) => entry !== value)
-          : [...prev[key], value],
-      };
+  // ── action handlers ───────────────────────────────────────────────────────
+  const toggleFacet = (key: FacetKey, value: string) => {
+    const prev = criteriaRef.current;
+    navigate({
+      ...prev,
+      page: 1,
+      [key]: prev[key].includes(value)
+        ? prev[key].filter((e) => e !== value)
+        : [...prev[key], value],
     });
   };
 
   const setSort = (value: string) => {
-    setCriteria((prev) => ({
-      ...prev,
+    navigate({
+      ...criteriaRef.current,
       page: 1,
       sortBy: value === 'relevance' ? undefined : value,
-    }));
+    });
   };
 
   const clearAll = () => {
     setSearchText('');
-    setCriteria((prev) => ({
-      ...prev,
+    navigate({
+      ...criteriaRef.current,
       page: 1,
       query: '',
       sortBy: undefined,
@@ -190,7 +216,7 @@ export const ProductPageView = ({ initialData, initialCriteria }: Props) => {
       sizes: [],
       inStockOnly: false,
       onSaleOnly: false,
-    }));
+    });
   };
 
   return (
