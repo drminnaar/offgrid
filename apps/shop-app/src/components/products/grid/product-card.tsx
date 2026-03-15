@@ -37,6 +37,7 @@ export type ProductCardData = {
 
 type Props = {
   product: ProductCardData;
+  priority?: boolean;
 };
 
 const CATEGORY_ICON: Record<string, string> = {
@@ -56,7 +57,7 @@ export const toPlaceholderImage = (url: string) => {
   return url;
 };
 
-export const ProductCard = ({ product: p }: Props) => {
+export const ProductCard = ({ product: p, priority = false }: Props) => {
   const product = { ...p, imageUrl: toPlaceholderImage(p.imageUrl ?? '') };
   const icon = CATEGORY_ICON[product.type] ?? '🏔️';
   const hasImg = Boolean(product.imageUrl);
@@ -75,8 +76,7 @@ export const ProductCard = ({ product: p }: Props) => {
             width={400}
             height={208}
             className='h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-105'
-            priority
-            unoptimized={product.imageUrl === '/placeholder.png'}
+            priority={priority}
           />
         ) : (
           <div className='flex h-full w-full items-center justify-center'>
