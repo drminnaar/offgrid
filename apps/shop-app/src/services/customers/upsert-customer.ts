@@ -1,5 +1,5 @@
-import { shopApiClient } from '@/lib/shop-api/client';
 import { ApiResponse } from '@/lib/shop-api/types';
+import { shopApiClient } from '@/lib/shop-api/client';
 import { UpsertCustomerRequest, UpsertCustomerResponse } from './types';
 
 export const upsertCustomer = async (

@@ -195,6 +195,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Step 6 - Create a client in keycloak
   
   A keycloak realm and client has already been setup as part of keycloak infrastructure setup. See [./infra/local/keycloak/realms/offgrid-public-realm.json](../../../infra/local/keycloak/realms/offgrid-public-realm.json).
+
+### Route protection
+
+The app uses middleware-based route protection for private pages.
+
+- Protected routes: `/profile`, `/cart`, `/checkout`
+- Public routes: `/`, `/products`, and product search/filter URLs
+
+Unauthenticated requests to protected routes are redirected to Auth.js sign-in and then returned to the original URL via `callbackUrl`.
   
 
 ---

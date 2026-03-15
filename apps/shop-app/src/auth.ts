@@ -2,7 +2,7 @@ import NextAuth, { DefaultSession } from "next-auth";
 import Keycloak from 'next-auth/providers/keycloak';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { JWT } from 'next-auth/jwt';
-import { upsertCustomer } from './app/actions/customers';
+import { upsertCustomer } from '@/services/customers';
 
 // Extend the Session interface to include custom properties
 // See: https://next-auth.js.org/getting-started/typescript#module-augmentation
@@ -12,8 +12,9 @@ declare module "next-auth" {
       id: string;
       active?: string;
       customerNumber?: string;
+      provisioningFailed?: boolean;
     } & DefaultSession["user"];
-    accessToken: string;
+    // accessToken: string;
   }
 }
 
@@ -23,6 +24,7 @@ declare module "next-auth/jwt" {
     userId: string;
     active?: string;
     customerNumber?: string;
+    customerProvisioningFailed?: boolean;
   }
 }
 
@@ -30,39 +32,48 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Keycloak],
   callbacks: {
     async jwt({ token, account, profile }) {
-      if (account && account.access_token) {
-        token.accessToken = account.access_token;
-        token.userId = profile?.sub ?? '';
+      // Keep prior values by default
+      const nextToken = { ...token };
 
-        // Fetch customer data on initial sign in
+      // Initial sign-in with Keycloak
+      if (account?.access_token) {
+        nextToken.accessToken = account.access_token;
+        nextToken.userId = profile?.sub ?? nextToken.userId ?? '';
+
         if (profile?.email) {
-          upsertCustomer(account.access_token, {
-            keycloakUserId: profile.sub ?? '',
-            email: profile.email,
-            fullName: profile.name || '',
-          })
-            .then(response => {
-              if (response.success) {
-                token.active = response.data.status.toLowerCase();
-                token.customerNumber = response.data.customerNumber;
-              }
-            })
-            .catch(error => {
-              // TODO: Replace with structured logging
-              console.error('Error upserting customer:', error);
-              token.customerProvisioningFailed = true; // Flag to indicate provisioning failure
+          try {
+            const response = await upsertCustomer(account.access_token, {
+              keycloakUserId: profile.sub ?? '',
+              email: profile.email,
+              fullName: profile.name || '',
             });
+
+            if (response.success) {
+              nextToken.active = response.data.status.toLowerCase();
+              nextToken.customerNumber = response.data.customerNumber;
+              nextToken.customerProvisioningFailed = false;
+            } else {
+              // Do not block sign-in if customer API is temporarily failing
+              nextToken.customerProvisioningFailed = true;
+            }
+          } catch (error) {
+            // TODO: replace with structured logging
+            console.error('Customer upsert failed during sign-in', error);
+            nextToken.customerProvisioningFailed = true;
+          }
         }
       }
-      return token;
+
+      return nextToken;
     },
+
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
-      session.user.id = token.userId;
-      // Restore customer details from token
+      // Safe fields only; never expose accessToken to client
+      session.user.id = token.userId ?? '';
       session.user.active = token.active;
       session.user.customerNumber = token.customerNumber;
+      session.user.provisioningFailed = token.customerProvisioningFailed;
       return session;
-    }
-  }
+    },
+  },
 });

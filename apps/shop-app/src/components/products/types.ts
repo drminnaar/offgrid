@@ -1,0 +1,31 @@
+// export type ProductCardData = {
+//   id: string;
+//   productId: string;
+//   productSku: string;
+//   variantSku: string;
+//   name: string;
+//   variantName: string;
+//   description: string;
+//   type: string;
+//   brand: string;
+//   category: string;
+//   subcategory: string;
+//   features: string[];
+//   // pricing
+//   isOnSale: boolean;
+//   salePercentage: number;
+//   basePrice: number;
+//   currentPrice: number;
+//   // variant
+//   color: string;
+//   colorHex: string;
+//   size?: string;
+//   package?: string;
+//   buildKit?: string;
+//   finSetup?: string;
+//   // stock
+//   totalStock: number;
+//   hasStock: boolean;
+//   // meta
+//   imageUrl?: string;
+// };

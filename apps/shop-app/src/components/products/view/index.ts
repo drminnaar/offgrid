@@ -1,0 +1,1 @@
+export { ProductPageView } from './product-page-view';
