@@ -198,7 +198,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Route protection
 
-The app uses middleware-based route protection for private pages.
+The app uses proxy-based route protection for private pages.
 
 - Protected routes: `/profile`, `/cart`, `/checkout`
 - Public routes: `/`, `/products`, and product search/filter URLs

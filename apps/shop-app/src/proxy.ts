@@ -9,7 +9,7 @@ const isProtectedPath = (pathname: string) => {
   );
 };
 
-export default auth((request) => {
+export const proxy = auth((request) => {
   const { nextUrl, auth: session } = request;
 
   if (!isProtectedPath(nextUrl.pathname) || session) {
