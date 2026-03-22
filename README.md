@@ -47,6 +47,46 @@ An accompanying guide on Domain Driven Design (DDD) is also provided as part of 
 
 ---
 
+## High Level Architecture
+
+The diagram below provides a high level overview of the architecture for Offgrid. It is intended to provide a high level overview of the various applications, services, and infrastructure components and how they interact with each other.
+
+Using the C4 model (Containers and Components) software architecture diagramming approach, the diagrams illustrate the following:
+
+- The two primary applications (Shop and Portal) and their respective API's
+- The various infrastructure components such as databases, message broker, and identity provider
+- The interactions between the applications, services, and infrastructure components
+- The use of the outbox pattern for reliable messaging between the Portal API and Shop API via RabbitMQ
+- The use of Keycloak for authentication and authorization across both applications and API's
+- The use of PostgreSQL for relational data storage, MongoDB for document storage, and Typesense for search capabilities
+
+The diagrams are not exhaustive and do not include every single component or interaction, but rather focus on the main components and interactions to provide a clear overview of the system architecture.
+
+[Structurizr](https://structurizr.com/) has been used to create the diagrams using code. The code for the diagrams can be found in the following file: [./docs/design/c4-model/c4-offgrid.dsl](./docs/design/c4-model/c4-offgrid.dsl). Copy and paste the `.dsl` code into the [Structurizr DSL Editor](https://structurizr.com/dsl) to view and interact with the diagrams.
+
+
+### System Context View: E-Commerce System
+
+![](./docs/design/c4-model/c4-1-system-context.png)
+
+### Container View: E-Commerce System
+
+![](./docs/design/c4-model/c4-2-containers.png)
+
+### Component View: Shop API (Storefront API)
+
+![](./docs/design/c4-model/c4-3-components-strorefront-api.png)
+
+### Component View: Portal API (Backoffice API)
+
+![](./docs/design/c4-model/c4-3-components-portal-api.png)
+
+### Component View: Identity Service
+
+![](./docs/design/c4-model/c4-3-components-identity-service.png)
+
+---
+
 ## 🧱 Project Structure
 
 The project structure will evolve over time. However, this section provides an example of how the project will be generally structured.
