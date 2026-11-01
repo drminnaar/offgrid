@@ -9,13 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CloudNative.CloudEvents" Version="2.8.0" />
-    <PackageReference Include="CloudNative.CloudEvents.SystemTextJson" Version="2.8.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
-    <PackageReference Include="RabbitMQ.Client" Version="7.2.0" />
-    <PackageReference Include="Spectre.Console" Version="0.54.1-alpha.0.37" />
-    <PackageReference Include="Spectre.Console.Cli" Version="1.0.0-alpha.0.12" />
-    <PackageReference Include="Spectre.Console.Json" Version="0.54.1-alpha.0.37" />
+    <PackageReference Include="CloudNative.CloudEvents" Version="2.9.0" />
+    <PackageReference Include="CloudNative.CloudEvents.SystemTextJson" Version="2.9.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.14" />
+    <PackageReference Include="RabbitMQ.Client" Version="7.2.2" />
+    <PackageReference Include="Spectre.Console" Version="0.57.2" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.57.2" />
+    <PackageReference Include="Spectre.Console.Json" Version="0.57.2" />
   </ItemGroup>
 
   <ItemGroup>
